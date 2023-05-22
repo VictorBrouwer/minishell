@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 10:30:33 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/22 13:35:32 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:06:38 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ enum token_id
 
 
 t_token	**		tokenize(const char *s);
-int				find_next_token(char *s, size_t end);
+int				find_next_token(const char *s, size_t end);
 
 #endif

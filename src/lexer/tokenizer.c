@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 10:49:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/22 13:34:21 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:11:07 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ t_token	**tokenize(const char *s)
 			start += (end - start);
 		printf("string = %s\n", token_string);
 	}
+	return (NULL);
 }
 
-int	find_next_token(char *s, size_t end)
+int	find_next_token(const char *s, size_t end)
 {
 	while(s[end])
 	{
@@ -44,7 +45,7 @@ int	find_next_token(char *s, size_t end)
 			return (end);
 		end++;
 	}
-		
+	return (end);
 }
 
 // void	add_token(t_token **token_list, t_token *token)
