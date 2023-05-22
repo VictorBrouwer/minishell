@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 10:30:33 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/22 15:06:38 by vbrouwer         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   shell.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/18 10:30:33 by vbrouwer      #+#    #+#                 */
+/*   Updated: 2023/05/22 16:26:36 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ enum token_id
 
 
 t_token	**		tokenize(const char *s);
-int				find_next_token(const char *s, size_t end);
+size_t			find_next_token(const char *s, size_t end);
 
 #endif
