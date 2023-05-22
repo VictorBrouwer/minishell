@@ -31,11 +31,12 @@ OBJS		:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 all: $(NAME)
 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
 $(OBJ_DIR):
 	mkdir -p $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ 
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C ./libft
@@ -63,4 +64,4 @@ fsan:
 resan: fclean
 	fsan
 
-.PHONY: all, clean, fclean, re, fsan, resan, debug, rebug 
+.PHONY: all, clean, fclean, re, fsan, resan, debug, rebug
