@@ -5,7 +5,7 @@ SRC_DIR 	:=	./src
 INC_DIR		:=	./include ./libft/include
 
 CFLAGS	= -Wextra -Wall -Werror -I/Users/vbrouwer/.brew/opt/readline/include
-LFLAGS	= -L/Users/vbrouwer/.brew/opt/readline/lib -lreadline -L./libft -lft
+LFLAGS	= -L/Users/mhaan/homebrew/opt/readline/lib -lreadline -L./libft -lft
 
 ifdef DEBUG
 CFLAGS +=-g
