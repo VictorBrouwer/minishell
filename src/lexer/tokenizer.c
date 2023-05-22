@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   tokenizer.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/05/19 10:49:15 by vbrouwer      #+#    #+#                 */
-/*   Updated: 2023/05/22 17:19:02 by mhaan         ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 #include "libft.h"
 
@@ -25,9 +13,9 @@ t_token	**tokenize(const char *s)
 	while (s[start])
 	{
 		end = find_next_token(s, start);
-		token_string = ft_substr(s, start, end - start);
 		if (start == end)
 			end++;
+		token_string = ft_substr(s, start, end - start);
 		start = end;
 		printf("string = %s\n", token_string);
 		free(token_string);
@@ -43,11 +31,38 @@ size_t	find_next_token(const char *s, size_t start)
 	while(s[end])
 	{
 		if (ft_strchr(TOKEN_DELIMITERS, s[end]))
+		{
+			while (ft_strchr(" ", s[end]))
+				end++;
 			return (end);
+		}
 		end++;
 	}
 	return (end);
 }
+
+// char	*token_subst(char const *s, size_t start, size_t end)
+// {
+// 	size_t	x;
+// 	size_t	s_len;
+// 	char	*ptr;
+
+// 	if (end > start)
+// 		ptr = ft_calloc((end - start + 1), sizeof(char));
+// 	else if (end == start)
+// 		ptr = ft_calloc((2), sizeof(char));
+// 	if (!ptr)				//dit afhandelen
+// 		return (NULL);
+// 	while (len > 0 && s[(start + x)] && start < s_len)
+// 	{
+// 		ptr[x] = s[(start + x)];
+// 		x++;
+// 		len--;
+// 	}
+// 	ptr[x] = '\0';
+// 	return (ptr);
+// }
+
 
 // void	add_token(t_token **token_list, t_token *token)
 // {
