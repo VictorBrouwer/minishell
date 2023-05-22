@@ -17,12 +17,12 @@ endif
 
 INCLUDE		:= $(addprefix -I,$(INC_DIR))
 
-SRC			:=	main.c \
-				lexer/tokenizer.c \
+SRC		:=	main.c \
+			lexer/tokenizer.c \
 
-SRC			:= $(SRC:%=$(SRC_DIR)/%)
+SRC		:= $(SRC:%=$(SRC_DIR)/%)
 
-OBJS		:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+OBJS	:=	$(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/$(notdir %.o), $(SRC))
 
 
 #===============================================#
@@ -31,12 +31,11 @@ OBJS		:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 all: $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-
 $(OBJ_DIR):
 	mkdir -p $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $(OBJ_DIR)/$(notdir $@)
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C ./libft
