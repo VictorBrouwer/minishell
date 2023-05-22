@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 10:49:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/22 15:11:07 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:36:20 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,50 @@ t_token	**tokenize(const char *s)
 	return (NULL);
 }
 
-int	find_next_token(const char *s, size_t end)
+size_t	find_next_token(const char *s, size_t start)
 {
+	size_t	end;
+
+	end = start;
 	while(s[end])
 	{
-		if (ft_strchr(TOKEN_DELIMITERS, s[end]) != 0 && end != 0)
-			return (end - 1);
-		else
+		if (ft_strchr(TOKEN_DELIMITERS, s[end]) != 0 && end == 0)
+		{
+			printf("del found end = %zu\n", end);
+			return (end + 1);
+		}
+		else if (ft_strchr(TOKEN_DELIMITERS, s[end]) != 0 && end != 0)
+		{
+			printf("del found end = %zu\n", end);
 			return (end);
+		}
 		end++;
 	}
 	return (end);
 }
+
+char	*token_subst(char const *s, size_t start, size_t end)
+{
+	size_t	x;
+	size_t	s_len;
+	char	*ptr;
+
+	if (end > start)
+		ptr = ft_calloc((end - start + 1), sizeof(char));
+	else if (end == start)
+		ptr = ft_calloc((2), sizeof(char));
+	if (!ptr)				//dit afhandelen
+		return (NULL);
+	while (len > 0 && s[(start + x)] && start < s_len)
+	{
+		ptr[x] = s[(start + x)];
+		x++;
+		len--;
+	}
+	ptr[x] = '\0';
+	return (ptr);
+}
+
 
 // void	add_token(t_token **token_list, t_token *token)
 // {
