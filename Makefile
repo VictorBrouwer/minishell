@@ -24,12 +24,37 @@ SRC		:= $(SRC:%=$(SRC_DIR)/%)
 
 OBJS	:=	$(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/$(notdir %.o), $(SRC))
 
+LIBFT		:= ./libft
+LIBS		:= $(LIBFT)/libft.a
 
 #===============================================#
 #=================== RECIPES ===================#
 #===============================================#
 
-all: $(NAME)
+all: submodule $(NAME)
+
+submodule:
+	git submodule update --init --recursive
+
+clean:
+	@rm -rf $(OBJ_DIR)
+	@$(MAKE) clean -C $(LIBFT) clean
+
+fclean: clean
+	@rm -rf $(NAME)
+	@$(MAKE) fclean -C $(LIBFT)
+
+re: fclean all
+
+debug:
+	$(MAKE) DEBUG=1
+
+rebug: fclean debug
+
+fsan:
+	$(MAKE) DEBUG=1 FSAN=1
+
+resan: fclean fsan
 
 $(OBJ_DIR):
 	mkdir -p $@
@@ -40,27 +65,5 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 $(NAME): $(OBJS)
 	@$(MAKE) -C ./libft
 	$(CC) $(CFLAGS) $(addprefix $(OBJ_DIR)/, $(notdir $(OBJS))) $(LFLAGS) -o $(NAME)
-
-clean:
-	@rm -rf $(OBJ_DIR)
-	@$(MAKE) -C ./libft clean
-
-fclean: clean
-	@rm -rf $(NAME)
-	@$(MAKE) -C ./libft fclean
-
-re: fclean all
-
-debug:
-	$(MAKE) DEBUG=1
-
-rebug: fclean
-	debug
-
-fsan:
-	$(MAKE) DEBUG=1 FSAN=1
-
-resan: fclean
-	fsan
 
 .PHONY: all, clean, fclean, re, fsan, resan, debug, rebug
