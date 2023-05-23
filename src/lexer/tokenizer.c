@@ -1,6 +1,9 @@
 #include "shell.h"
 #include "libft.h"
 
+static size_t	find_next_quote(const char *s, size_t start);
+static size_t	find_next_token(const char *s, size_t start);
+
 t_token	**tokenize(const char *s)
 {
 	size_t	start;
@@ -16,15 +19,20 @@ t_token	**tokenize(const char *s)
 		if (s[end] && start == end)
 			end++;
 		token_string = ft_substr(s, start, end - start);
+		if (token_string[0] != ' ')
+			token_string = ft_strtrim(token_string, " ");
 		start = end;
 		printf("string = %s\n", token_string);
+		printf("str_len = %zu\n", ft_strlen(token_string));
+		// create token_list here
+		
 		free(token_string);
 	}
 
 	return (NULL);
 }
 
-size_t	find_next_token(const char *s, size_t start)
+static size_t	find_next_token(const char *s, size_t start)
 {
 	size_t	end;
 	size_t	rep;
@@ -35,52 +43,48 @@ size_t	find_next_token(const char *s, size_t start)
 		if (ft_strchr(TOKEN_DELIMITERS, s[end]))
 		{
 			rep = 0;
-			while (ft_strchr(" ", s[end + rep]))
+			while (s[end + rep] == ' ')
 				rep++;
 			if (rep)
 				return (end + rep - 1);
+			if (s[end] == '>' && s[end + 1] == '>')
+				return (end + 2);
+			if (s[end] == '<' && s[end + 1] == '<')
+				return (end + 2);
+			if (s[end] == '\"')
+			{
+				end = find_next_quote(s, end);
+			}
 			return (end);
 		}
 		end++;
 	}
 	return (end);
+}
 
-// char	*token_subst(char const *s, size_t start, size_t end)
-// {
-// 	size_t	x;
-// 	size_t	s_len;
-// 	char	*ptr;
+size_t	find_next_quote(const char *s, size_t start)
+{
+	size_t end;
 
-// 	if (end > start)
-// 		ptr = ft_calloc((end - start + 1), sizeof(char));
-// 	else if (end == start)
-// 		ptr = ft_calloc((2), sizeof(char));
-// 	if (!ptr)				//dit afhandelen
-// 		return (NULL);
-// 	while (len > 0 && s[(start + x)] && start < s_len)
-// 	{
-// 		ptr[x] = s[(start + x)];
-// 		x++;
-// 		len--;
-// 	}
-// 	ptr[x] = '\0';
-// 	return (ptr);
-// }
+	end = start + 1;
+	while (s[end] && s[end] != '\"')
+		end++;
+	return (end + 1);
+}
 
+void	add_token(t_token **token_list, t_token *token)
+{
+	t_token	last_token;
 
-// void	add_token(t_token **token_list, t_token *token)
-// {
-// 	t_token	last_token;
-
-// 	last_token = *token_list;
-// 	if (!token)
-// 		return ;
-// 	if (!*token_list)
-// 	{
-// 		*token_list = token;
-// 		return ;
-// 	}
-// 	while (last_token->next != NULL)
-// 		last_token = last_token->next;
-// 	last_token->next = token;
-// }
+	last_token = *token_list;
+	if (!token)
+		return ;
+	if (!*token_list)
+	{
+		*token_list = token;
+		return ;
+	}
+	while (last_token->next != NULL)
+		last_token = last_token->next;
+	last_token->next = token;
+}

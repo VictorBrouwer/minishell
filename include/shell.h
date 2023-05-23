@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   shell.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/05/18 10:30:33 by vbrouwer      #+#    #+#                 */
-/*   Updated: 2023/05/22 16:26:36 by mhaan         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/18 10:30:33 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/05/23 10:54:25 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 
-# define TOKEN_DELIMITERS "|><\'\"$ "
+# define TOKEN_DELIMITERS "|><'\"$ "
 
 typedef	struct s_token
 {
@@ -42,8 +42,7 @@ enum token_id
 	WHITE_SPACE
 };
 
-
+// 					TOKENIZER.C
 t_token	**		tokenize(const char *s);
-size_t			find_next_token(const char *s, size_t end);
 
 #endif
