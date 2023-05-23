@@ -20,6 +20,7 @@ t_token	**tokenize(const char *s)
 		printf("string = %s\n", token_string);
 		free(token_string);
 	}
+
 	return (NULL);
 }
 
