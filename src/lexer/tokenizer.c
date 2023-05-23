@@ -13,9 +13,9 @@ t_token	**tokenize(const char *s)
 	while (s[start])
 	{
 		end = find_next_token(s, start);
-		token_string = ft_substr(s, start, end - start);
 		if (start == end)
 			end++;
+		token_string = ft_substr(s, start, end - start);
 		start = end;
 		printf("string = %s\n", token_string);
 		free(token_string);
@@ -31,7 +31,11 @@ size_t	find_next_token(const char *s, size_t start)
 	while(s[end])
 	{
 		if (ft_strchr(TOKEN_DELIMITERS, s[end]))
+		{
+			while (ft_strchr(" ", s[end]))
+				end++;
 			return (end);
+		}
 		end++;
 	}
 	return (end);

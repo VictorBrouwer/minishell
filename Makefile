@@ -4,7 +4,7 @@ OBJ_DIR		:=	./obj
 SRC_DIR 	:=	./src
 INC_DIR		:=	./include ./libft/include
 
-CFLAGS	= -Wextra -Wall -Werror -I/Users/vbrouwer/.brew/opt/readline/include
+CFLAGS	= -Wextra -Wall -Werror -I/Users/mhaan/homebrewbrew/opt/readline/include
 LFLAGS	= -L/Users/mhaan/homebrew/opt/readline/lib -lreadline -L./libft -lft
 
 ifdef DEBUG
@@ -39,7 +39,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) $(addprefix $(OBJ_DIR)/, $(notdir $(OBJS))) $(LFLAGS) $(HEADERS) -o $(NAME)
+	$(CC) $(CFLAGS) $(addprefix $(OBJ_DIR)/, $(notdir $(OBJS))) $(LFLAGS) -o $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)

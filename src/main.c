@@ -8,13 +8,12 @@ int	main()
 	while(true)
 	{
 		line = readline("shell-2023$>");
-		sleep(1);
 		if (line == NULL)
 		{
 			printf("No line to read.");
 			exit(EXIT_SUCCESS);
 		}
-		if (ft_strncmp(line, "exit", 5))
+		if (!ft_strncmp(line, "exit", 5))
 			exit(0);
 		printf("line = %s\n", line);
 		tokenize(line);
