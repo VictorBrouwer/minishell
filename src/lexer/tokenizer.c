@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 10:49:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/22 17:39:41 by vbrouwer         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 #include "libft.h"
 
@@ -47,7 +35,6 @@ size_t	find_next_token(const char *s, size_t start)
 		end++;
 	}
 	return (end);
-}
 
 // char	*token_subst(char const *s, size_t start, size_t end)
 // {
