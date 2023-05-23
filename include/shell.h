@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 10:30:33 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/23 10:54:25 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:46:23 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 
-# define TOKEN_DELIMITERS "|><'\"$ "
+# define TOKEN_DELIMITERS "|'\"$<> "
+# define NORMAL_DELIMITERS "|'\"$ "
+# define SPECIAL_DELIMITERS "<>" 
+
+# define SUCCESS 0 
+# define ERROR 1
 
 typedef	struct s_token
 {
@@ -44,5 +49,11 @@ enum token_id
 
 // 					TOKENIZER.C
 t_token	**		tokenize(const char *s);
+// 					TOKEN_LIST_FUNCTIONS.C
+ void		add_token(t_token **token_list, t_token *token);
+ t_token	*ft_new_token(void *content);
+ void	print_tokens(t_token *token);
+ void analyze_greater_lesser(t_token *token);
+ int analyze_quotations(t_token *token);
 
 #endif

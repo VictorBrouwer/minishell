@@ -1,4 +1,4 @@
-NAME	:= shell
+NAME	:= minishell
 
 OBJ_DIR		:=	./obj
 SRC_DIR 	:=	./src
@@ -19,6 +19,7 @@ INCLUDE		:= $(addprefix -I,$(INC_DIR))
 
 SRC		:=	main.c \
 			lexer/tokenizer.c \
+			lexer/token_list_functions.c \
 
 SRC		:= $(SRC:%=$(SRC_DIR)/%)
 

@@ -11,12 +11,12 @@ int	main()
 		if (line == NULL)
 		{
 			printf("No line to read.");
-			exit(EXIT_SUCCESS);
+			return(0);
 		}
 		if (!ft_strncmp(line, "exit", 5))
 			exit(0);
 		printf("line = %s\n", line);
 		tokenize(line);
-		exit(EXIT_SUCCESS);
+		return(0);
 	}
 }
