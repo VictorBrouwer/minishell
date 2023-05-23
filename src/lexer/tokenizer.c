@@ -13,27 +13,32 @@ t_token	**tokenize(const char *s)
 	while (s[start])
 	{
 		end = find_next_token(s, start);
-		if (start == end)
+		if (s[end] && start == end)
 			end++;
 		token_string = ft_substr(s, start, end - start);
 		start = end;
 		printf("string = %s\n", token_string);
 		free(token_string);
 	}
+
 	return (NULL);
 }
 
 size_t	find_next_token(const char *s, size_t start)
 {
 	size_t	end;
+	size_t	rep;
 
 	end = start;
 	while(s[end])
 	{
 		if (ft_strchr(TOKEN_DELIMITERS, s[end]))
 		{
-			while (ft_strchr(" ", s[end]))
-				end++;
+			rep = 0;
+			while (ft_strchr(" ", s[end + rep]))
+				rep++;
+			if (rep)
+				return (end + rep - 1);
 			return (end);
 		}
 		end++;
