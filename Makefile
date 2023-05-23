@@ -1,4 +1,4 @@
-NAME	:= shell
+NAME	:= minishell
 
 OBJ_DIR		:=	./obj
 SRC_DIR 	:=	./src
