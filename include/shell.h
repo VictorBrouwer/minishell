@@ -36,12 +36,11 @@ enum token_id
 };
 
 // 					TOKENIZER.C
-t_token	**		tokenize(const char *s);
+t_token	**		tokenize(char *s);
+size_t			find_next_token(const char *s, size_t end);
 // 					TOKEN_LIST_FUNCTIONS.C
- void		add_token(t_token **token_list, t_token *token);
- t_token	*ft_new_token(void *content);
- void	print_tokens(t_token *token);
- void analyze_greater_lesser(t_token *token);
- int analyze_quotations(t_token *token);
+void			add_token(t_token **token_list, t_token *token);
+t_token			*ft_new_token(void *content);
+void			print_tokens(t_token *token);
 
 #endif

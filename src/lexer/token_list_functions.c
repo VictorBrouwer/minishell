@@ -40,58 +40,26 @@ void	print_tokens(t_token *token)
 	}
 }
 
-void analyze_greater_lesser(t_token *token)
-{
-	t_token *node = token;
-	char 	*combined_content;
-
-	while (node)
-	{
-		if (node->next && (ft_strncmp(node->content, ">", 1) == 0 || ft_strncmp(node->content, "<", 1) == 0))
-		{
-			if (strncmp(node->content, node->next->content, 1) == 0)
-			{
-				t_token *temp = node->next->next;
-				combined_content = ft_strjoin(node->content, node->next->content);
-				free(node->content);
-				free(node->next->content);
-				free(node->next);
-				node->content = combined_content;
-				node->next = temp;
-			}
-		}
-		node = node->next;
-	}
-}
-
-// int analyze_quotations(t_token *token)
+// void analyze_greater_lesser(t_token *token)
 // {
 // 	t_token *node = token;
 // 	char 	*combined_content;
 
 // 	while (node)
 // 	{
-// 		if (ft_strncmp(node->content, "\"", 1) == 0)
+// 		if (node->next && (ft_strncmp(node->content, ">", 1) == 0 || ft_strncmp(node->content, "<", 1) == 0))
 // 		{
-// 			while (ft_strncmp(node->content, "\"", 1))
+// 			if (strncmp(node->content, node->next->content, 1) == 0)
 // 			{
-// 				if (!node->next)
-// 					return (ERROR);
-// 				node = node->next;
+// 				t_token *temp = node->next->next;
+// 				combined_content = ft_strjoin(node->content, node->next->content);
+// 				free(node->content);
+// 				free(node->next->content);
+// 				free(node->next);
+// 				node->content = combined_content;
+// 				node->next = temp;
 // 			}
-// 			if (ft_strncmp(node->content, "\"", 1) == 0)
-// 			// if (strncmp(node->content, node->next->content, 1) == 0)
-// 			// {
-// 			// 	t_token *temp = node->next->next;
-// 			// 	combined_content = ft_strjoin(node->content, node->next->content);
-// 			// 	free(node->content);
-// 			// 	free(node->next->content);
-// 			// 	free(node->next);
-// 			// 	node->content = combined_content;
-// 			// 	node->next = temp;
-// 			// }
 // 		}
 // 		node = node->next;
 // 	}
-// 	return (SUCCESS);
 // }
