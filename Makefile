@@ -1,11 +1,4 @@
-NAME	:= minishell
-
-OBJ_DIR		:=	./obj
-SRC_DIR 	:=	./src
-INC_DIR		:=	./include ./libft/include
-
-CFLAGS  = -Wextra -Wall -Werror -I/Users/vbrouwer/.brew/opt/readline/include
-LFLAGS  = -L/Users/vbrouwer/.brew/opt/readline/lib -lreadline -L./libft -lft
+NAME    := minishell
 
 ifdef DEBUG
 CFLAGS +=-g
@@ -15,18 +8,33 @@ ifdef FSAN
 CFLAGS += -fsanitize=address,undefined
 endif
 
-INCLUDE		:= $(addprefix -I,$(INC_DIR))
+#=================== DIRECTORIES ===================#
 
-SRC		:=	main.c \
+OBJ_DIR     :=  ./obj
+SRC_DIR     :=  ./src
+INC_DIR     :=  ./include ./libft/include
+
+#=================== LIBRARIES ===================#
+
+CFLAGS  = -Wextra -Wall -Werror #-I/Users/vbrouwer/.brew/opt/readline/include
+CFLAGS  += $(addprefix -I, $(shell brew --prefix readline)/include)
+
+LFLAGS  = -L$(shell brew --prefix readline)/lib -lreadline -L./libft -lft
+# LFLAGS  = -L/Users/vbrouwer/.brew/opt/readline/lib -lreadline -L./libft -lft
+
+
+INCLUDE     := $(addprefix -I,$(INC_DIR))
+
+SRC     :=  main.c \
 			lexer/tokenizer.c \
 			lexer/token_list_functions.c \
 
-SRC		:= $(SRC:%=$(SRC_DIR)/%)
+SRC     := $(SRC:%=$(SRC_DIR)/%)
 
-OBJS	:=	$(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/$(notdir %.o), $(SRC))
+OBJS    :=  $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/$(notdir %.o), $(SRC))
 
-LIBFT		:= ./libft
-LIBS		:= $(LIBFT)/libft.a
+LIBFT       := ./libft
+LIBS        := $(LIBFT)/libft.a
 
 #===============================================#
 #=================== RECIPES ===================#
