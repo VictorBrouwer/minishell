@@ -28,7 +28,7 @@ t_token	**tokenize(char *s)
 			start = end - 1;
 		else
 			start = end;
-		printf("token = %s, len = %zu\n", token_string, ft_strlen(token_string));
+		// printf("token = %s, len = %zu\n", token_string, ft_strlen(token_string));
 		token = ft_new_token(token_string);
 		add_token(token_list, token);
 		// free(token_string);
@@ -49,6 +49,12 @@ size_t	find_next_token(const char *s, size_t start)
 		while (s[end] && s[end] != s[start])
 			end++;
 		return (end + 1);
+	}
+	if (ft_strchr("$", s[start])) // hier nog ff goed naar kijken
+	{
+		while(s[end] && !(ft_strchr(SPECIAL_DELIMITERS, s[end])) && s[end] != ' ')
+			end++;
+		return (end);
 	}
 	if (ft_strchr(TOKEN_DELIMITERS, s[start]))
 		return (start + 1);

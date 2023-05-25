@@ -7,7 +7,7 @@ int	main()
 
 	while(true)
 	{
-		line = readline("shell-2023$>");
+		line = readline("ultra-shell:");
 		if (line == NULL)
 		{
 			printf("No line to read.");
