@@ -54,9 +54,9 @@ int get_token_id(char *content)
 	if (content[0] == '-' || content[0] == 'A' || content[0] == 'H')
 		return (WORD);
 	index = jumpTable[(unsigned char)content[0]];
-	if (index > 0) 
+	if (index > 0)
 		return index - 1;
-	else 
+	else
 		return WORD;
 }
 
