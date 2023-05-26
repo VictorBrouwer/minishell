@@ -9,14 +9,11 @@ int	main()
 	{
 		line = readline("ultra-shell:");
 		if (line == NULL)
-		{
 			printf("No line to read.");
-			return(0);
-		}
 		if (!ft_strncmp(line, "exit", 5))
 			exit(0);
 		printf("line = %s\n", line);
 		tokenize(line);
-		return(0);
 	}
+	return(0);
 }

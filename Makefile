@@ -40,10 +40,7 @@ LIBS        := $(LIBFT)/libft.a
 #=================== RECIPES ===================#
 #===============================================#
 
-all: submodule $(NAME)
-
-submodule:
-	git submodule update --init --recursive
+all: $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -72,6 +69,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $(OBJ_DIR)/$(notdir $@)
 
 $(NAME): $(OBJS)
+	git submodule update --init --recursive
 	@$(MAKE) -C ./libft
 	$(CC) $(CFLAGS) $(addprefix $(OBJ_DIR)/, $(notdir $(OBJS))) $(LFLAGS) -o $(NAME)
 

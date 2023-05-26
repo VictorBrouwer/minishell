@@ -54,9 +54,9 @@ int get_token_id(char *content)
 	if (content[0] == '-')
 		return (WORD);
 	index = jumpTable[(unsigned char)content[0]];
-	if (index > 0) 
+	if (index > 0)
 		return index - 1;
-	else 
+	else
 		return WORD;
 }
 
@@ -88,10 +88,13 @@ void	print_tokens(t_token *top)
 	};
 
 	size = list_token_size(top);
-	printf("\n\t-=-  TOKEN PRINT [%d] -=-\n", con);
+	printf("\n\t-=-  TOKEN PRINT, total length:%d -=-\n\n", con);
 	while (size--)
 	{
-		printf("TOKEN [%02d]\tid: %s [%d]\tstr: {%s}\n\n", (con - size), token_name[top->token_id], top->token_id, top->content);
+		if (top->token_id != 9)
+			printf("TOKEN [%02d]\tid: %s [%d]\tstr: { %s }\n\n", (con - size), token_name[top->token_id], top->token_id, top->content);
+		else
+			printf("TOKEN [%02d]\tid: %s [%d]\n\n", (con - size), token_name[top->token_id], top->token_id);
 		top = top->next;
 	}
 	return ;
