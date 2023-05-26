@@ -34,67 +34,30 @@ t_token	*ft_new_token(char *content)
 
 int get_token_id(char *content)
 {
-	const char special_chars[] = TOKEN_DELIMITER_SET;
-	const size_t num_chars = sizeof(special_chars) - 1;
+	const char meta_chars[] = TOKEN_DELIMITER_SET;
+	const size_t num_chars = sizeof(meta_chars) - 1;
 	size_t i = 0;
 	int	index;
 	int jumpTable[256] = {0};
 
 	while (i < num_chars)
 	{
-		jumpTable[(unsigned char)special_chars[i]] = i + 1;
+		jumpTable[(unsigned char)meta_chars[i]] = i + 1;
 		i++;
 	}
 	if ((content[0] == '>' || content[0] == '<') && content[1] != '\0')
 	{
-		if (content[0] == '>')
+		if (content[1] == '>')
 			return (APPEND);
 		return (HEREDOC);
 	}
-	if (content[0] == '-')
+	if (content[0] == '-' || content[0] == 'A' || content[0] == 'H')
 		return (WORD);
 	index = jumpTable[(unsigned char)content[0]];
 	if (index > 0) 
 		return index - 1;
 	else 
 		return WORD;
-}
-
-// void	print_tokens(t_token *token)
-// {
-// 	while (token)
-// 	{
-// 		printf("token content = %s\n", token->content);
-// 		token = token->next;
-// 	}
-// }
-
-void	print_tokens(t_token *top)
-{
-	int			size;
-	const int	con = list_token_size(top);
-	const char	*token_name[11] = {
-	[0] = "TOKEN",
-	[1] = "PIPE",
-	[2] = "GREAT",
-	[3] = "APPEND",
-	[4] = "LESS",
-	[5] = "HEREDOC",
-	[6] = "S_QUOTE",
-	[7] = "D_QUOTE",
-	[8] = "ENV_VAR",
-	[9] = "WHITE_SPACE",
-	[10] = "WORD"
-	};
-
-	size = list_token_size(top);
-	printf("\n\t-=-  TOKEN PRINT [%d] -=-\n", con);
-	while (size--)
-	{
-		printf("TOKEN [%02d]\tid: %s [%d]\tstr: {%s}\n\n", (con - size), token_name[top->token_id], top->token_id, top->content);
-		top = top->next;
-	}
-	return ;
 }
 
 size_t	list_token_size(t_token *t_list)
@@ -111,21 +74,6 @@ size_t	list_token_size(t_token *t_list)
 	}
 	return (ret);
 }
-
-// int analyze_tokens(t_token *token)
-// {
-// 	t_token *node;
-// 	int	index;
-
-// 	node = token;
-// 	while (node)
-// 	{
-// 		index = jump_table[node->token_id]
-// 		if (node->token_id)
-// 		node = node->next;
-// 	}
-// }
-
 
 // void analyze_greater_lesser(t_token *token)
 // {

@@ -34,7 +34,8 @@ t_token	**tokenize(char *s)
 		// free(token_string);
 	}
 	print_tokens(*token_list);
-	return (NULL);
+	analyze_tokens(*token_list);
+	return (token_list);
 }
 
 size_t	find_next_token(const char *s, size_t start)
@@ -65,4 +66,32 @@ size_t	find_next_token(const char *s, size_t start)
 		end++;
 	}
 	return (end);
+}
+
+void	print_tokens(t_token *top)
+{
+	int			size;
+	const int	con = list_token_size(top);
+	const char	*token_name[11] = {
+	[0] = "TOKEN",
+	[1] = "PIPE",
+	[2] = "GREAT",
+	[3] = "APPEND",
+	[4] = "LESS",
+	[5] = "HEREDOC",
+	[6] = "S_QUOTE",
+	[7] = "D_QUOTE",
+	[8] = "ENV_VAR",
+	[9] = "WHITE_SPACE",
+	[10] = "WORD"
+	};
+
+	size = list_token_size(top);
+	printf("\n\t-=-  TOKEN PRINT [%d] -=-\n", con);
+	while (size--)
+	{
+		printf("TOKEN [%02d]\tid: %s [%d]\tstr: {%s}\n\n", (con - size), token_name[top->token_id], top->token_id, top->content);
+		top = top->next;
+	}
+	return ;
 }
