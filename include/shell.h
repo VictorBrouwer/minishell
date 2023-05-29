@@ -50,4 +50,5 @@ int 			get_token_id(char *content);
 size_t			list_token_size(t_token *t_list);
 // 					ANALYZE_TOKENS.C
 int 			analyze_tokens(t_token *top);
+int				check_tokens(int id_1, int id_2);
 #endif
