@@ -144,5 +144,4 @@ void		env_lstadd_back(t_env_list **lst, t_env_list *new);
 t_env_list	*init_env(char *home, char *cwd, char *owd);
 void		print_env_list(t_env_list *env);
 
-
 #endif
