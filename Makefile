@@ -24,7 +24,7 @@ CFLAGS  	+= $(addprefix -I, $(shell brew --prefix readline)/include)
 
 LDFLAGS  	= -L$(shell brew --prefix readline)/lib -lreadline -L./libft -lft
 
-CRIT_FLAGS	= 	-I$(shell brew --prefix criterion)2.4.1_2/include # -I/Users/vbrouwer/.brew/Cellar/criterion/2.4.1_2/include
+CRIT_FLAGS	= -I$(shell brew --prefix criterion)2.4.1_2/include # -I/Users/vbrouwer/.brew/Cellar/criterion/2.4.1_2/include
 
 #=================== GENERAL VARIABLES ===================#
 
@@ -35,6 +35,8 @@ MAIN					:=	src/main.c
 SRC						:=  lexer/tokenizer.c \
 							lexer/token_list_functions.c \
 							lexer/token_analysis.c \
+							# builtins/echo.c \
+							# builtin/builtin_utils.c \
 
 # unit = SRC
 
@@ -75,9 +77,6 @@ UNIT_INCLUDE_FLAGS		:=	$(addprefix -I, $(sort $(dir $(UNIT_HEADERS))))
 # 	@echo $(ODIR)
 
 all: $(ODIR) $(NAME)
-
-# submodule:
-# 	git submodule update --init --recursive
 
 clean:
 	@rm -rf $(OBJ_DIR)

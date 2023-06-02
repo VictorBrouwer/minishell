@@ -43,12 +43,17 @@ enum token_id
 t_token	**		tokenize(char *s);
 size_t			find_next_token(const char *s, size_t end);
 void			print_tokens(t_token *top);
-// 					TOKEN_LIST_FUNCTIONS.C
+// 			TOKEN_LIST_FUNCTIONS.C
 void			add_token(t_token **token_list, t_token *token);
 t_token			*ft_new_token(char *content);
-int 			get_token_id(char *content);
+int				get_token_id(char *content);
 size_t			list_token_size(t_token *t_list);
-// 					ANALYZE_TOKENS.C
-int 			analyze_tokens(t_token *top);
+//			ANALYZE_TOKENS.C
+int				analyze_tokens(t_token *top);
 int				check_tokens(int id_1, int id_2);
+//			Builtins
+int				ft_echo(char **args);
+int				ft_pwd(void);
+int				ft_putstr_fd_protected(char *s, int fd, int newline);
+
 #endif
