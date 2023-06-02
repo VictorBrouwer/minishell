@@ -1,5 +1,6 @@
 export LIBRARY_PATH = $(HOME)/.brew/lib
 export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
+
 NAME    	:= minishell
 UNIT_TEST	:= test.out
 
@@ -30,6 +31,7 @@ ifdef TEST
 CRIT_FLAGS	= 	-I$(shell brew --prefix criterion)/include -lcriterion
 endif
 # CRIT_FLAGS	= 	$(addprefix -I, $(shell brew --prefix criterion)/include)
+CRIT_FLAGS	= -I$(shell brew --prefix criterion)2.4.1_2/include # -I/Users/vbrouwer/.brew/Cellar/criterion/2.4.1_2/include
 
 #=================== GENERAL VARIABLES ===================#
 
@@ -54,7 +56,14 @@ SRC						:=  shell/minishell.c \
 							executor/execute_built_in.c \
 							executor/execute_non_built_in.c \
 							executor/handle_redir.c \
-							
+							lexer/token_analysis.c \
+							# builtins/echo.c \
+							# builtin/builtin_utils.c \
+
+# unit = SRC
+
+# SRC += SRC \
+# 		main.c
 
 ODIR					:=	$(sort $(dir $(SRC:%=$(OBJ_DIR)/%)))
 SRC     				:=	$(SRC:%=$(SRC_DIR)/%)
