@@ -19,10 +19,10 @@ TEST_DIR	:=	./tests
 
 #=================== LIBRARIES ===================#
 
-CFLAGS  	= -Wextra -Wall -Werror #-I/Users/vbrouwer/.brew/opt/readline/include
-CFLAGS  	+= $(addprefix -I, $(shell brew --prefix readline)/include)
+CFLAGS  	= 	-Wextra -Wall -Werror #-I/Users/vbrouwer/.brew/opt/readline/include
+CFLAGS  	+=	 $(addprefix -I, $(shell brew --prefix readline)/include)
 
-LDFLAGS  	= -L$(shell brew --prefix readline)/lib -lreadline -L./libft -lft
+LDFLAGS  	= 	-L$(shell brew --prefix readline)/lib -lreadline -L./libft -lft
 
 CRIT_FLAGS	= 	-I$(shell brew --prefix criterion)2.4.1_2/include # -I/Users/vbrouwer/.brew/Cellar/criterion/2.4.1_2/include
 
@@ -34,7 +34,9 @@ MAIN					:=	src/main.c
 
 SRC						:=  lexer/tokenizer.c \
 							lexer/token_list_functions.c \
-							lexer/token_analysis.c \
+							parser/syntax.c \
+							parser/jumptable_funcs.c \
+							
 
 # unit = SRC
 

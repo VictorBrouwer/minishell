@@ -35,8 +35,9 @@ t_token	**tokenize(char *s)
 		add_token(token_list, token);
 		// free(token_string);
 	}
-	print_tokens(*token_list);
+	*token_list = remove_white_space(*token_list);
 	analyze_tokens(*token_list);
+	print_tokens(*token_list);
 	return (token_list);
 }
 
