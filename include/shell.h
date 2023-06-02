@@ -48,7 +48,13 @@ void			add_token(t_token **token_list, t_token *token);
 t_token			*ft_new_token(char *content);
 int 			get_token_id(char *content);
 size_t			list_token_size(t_token *t_list);
-// 					ANALYZE_TOKENS.C
+t_token 		*remove_white_space(t_token *top);
+// 					SYNTAX.C
 int 			analyze_tokens(t_token *top);
-int				check_tokens(int id_1, int id_2);
+// int				check_tokens(int id_1, int id_2);
+// 					JUMPTABLE_FUNCS.C
+bool			check_pipe(t_token *prev, t_token *curr);
+bool			check_redirection(t_token *prev, t_token *curr);
+bool			check_heredoc(t_token *prev, t_token *curr);
+bool			check_env_var(t_token *prev, t_token *curr);
 #endif

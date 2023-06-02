@@ -75,26 +75,35 @@ size_t	list_token_size(t_token *t_list)
 	return (ret);
 }
 
-// void analyze_greater_lesser(t_token *token)
-// {
-// 	t_token *node = token;
-// 	char 	*combined_content;
+t_token *remove_white_space(t_token *top)
+{
+	t_token *node;
+	t_token *temp;
 
-// 	while (node)
-// 	{
-// 		if (node->next && (ft_strncmp(node->content, ">", 1) == 0 || ft_strncmp(node->content, "<", 1) == 0))
-// 		{
-// 			if (strncmp(node->content, node->next->content, 1) == 0)
-// 			{
-// 				t_token *temp = node->next->next;
-// 				combined_content = ft_strjoin(node->content, node->next->content);
-// 				free(node->content);
-// 				free(node->next->content);
-// 				free(node->next);
-// 				node->content = combined_content;
-// 				node->next = temp;
-// 			}
-// 		}
-// 		node = node->next;
-// 	}
+	node = top;
+	temp = NULL;
+	while (node->next)
+	{
+		if (node->next->token_id == WHITE_SPACE)
+		{
+			temp = node->next->next;
+			free(node->next->content);
+			free(node->next);
+			node->next = temp;
+		}
+		node = node->next;
+	}
+	return (top);
+}
+
+
+// this function returns the next token and skips whitespace while doing so
+// t_token *get_next_token(t_token *current_token)
+// {
+// 	if (current_token == NULL)
+// 		return (NULL);
+// 	if (current_token->next->token_id == WHITE_SPACE && current_token->next->next)
+// 		return (current_token->next->next);
+// 	else
+// 		return (current_token->next);
 // }

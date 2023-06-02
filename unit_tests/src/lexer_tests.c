@@ -18,8 +18,20 @@ void	lexer_assert_func(char *readline, char **expected)
 	}
 }
 
-Test(lexer, echo_hello_with_quotes)
+Test(lexer, empty)
 {
-	char *expected[] = {"echo", "hello'", NULL};
-	lexer_assert_func("echo hello'", expected);
+	char *expected[] = {NULL};
+	lexer_assert_func("", expected);
+}
+
+Test(lexer, hello)
+{
+	char *expected[] = {"hello", NULL};
+	lexer_assert_func("hello", expected);
+}
+
+Test(lexer, append)
+{
+	char *expected[] = {">>", NULL};
+	lexer_assert_func("  >>  ", expected);
 }
