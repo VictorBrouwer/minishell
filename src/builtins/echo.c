@@ -12,16 +12,16 @@ int ft_echo(char **args)
 		args++;
 	while (*args)
 	{
-		if (ft_putstr_fd_protected(*args, 1, 0) == -1)
+		if (ft_putstr_fd_protected(*args, STDOUT_FILENO, 0) == -1)
 			return (1);
 		if (*(args + 1))
 		{
-			if (ft_putstr_fd_protected(" ", 1, 0) == -1)
+			if (ft_putstr_fd_protected(" ", STDOUT_FILENO, 0) == -1)
 				return (1);
 		}
 		args++;
 	}
-	if (ft_putstr_fd_protected("", 1, (flag == 0)) == -1)
+	if (ft_putstr_fd_protected("", STDOUT_FILENO, (flag == 0)) == -1)
 		return (1);
 	return (0);
 }
