@@ -1,6 +1,13 @@
 #include "libft.h"
 #include "shell.h"
 
+typedef struct s_env_list
+{
+    char                *name;
+    char                *content;
+    struct s_env_list   *next;
+}   t_env_list;
+
 int    ft_env(t_env_list *env)
 {
     t_env_list  *ptr;
