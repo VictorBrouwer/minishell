@@ -20,12 +20,15 @@
 
 #define READ 0
 #define WRITE 1
+
 typedef struct s_token {
   char *content;
   int token_id;
   struct s_token *next;
 } t_token;
+
 typedef struct s_redir {
+
   int redir_type;
   char *file_name;
   struct s_redir *next;
@@ -77,7 +80,6 @@ t_token *remove_white_space(t_token *top);
 // 					SYNTAX.C
 int analyze_tokens(t_token **token_list);
 int check_tokens(int id_1, int id_2);
-// int				check_tokens(int id_1, int id_2);
 // 					JUMPTABLE_FUNCS.C
 bool check_pipe(t_token *prev, t_token *curr);
 bool check_redirection(t_token *prev, t_token *curr);
@@ -128,7 +130,7 @@ void execute_non_built_in(t_shell *shell, t_command *curr);
 //			Builtins
 int ft_echo(char **args);
 int ft_pwd(void);
+int ft_cd(t_command *cmd, t_shell *shell);
 int ft_putstr_fd_protected(char *s, int fd, int newline);
 
->>>>>>> started with builtins
 #endif
