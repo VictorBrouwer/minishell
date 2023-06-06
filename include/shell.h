@@ -24,6 +24,21 @@ typedef	struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_env_list
+{
+    char                *name;
+    char                *content;
+    struct s_env_list   *next;
+}   t_env_list;
+
+typedef struct s_shell
+{
+	t_env_list	*env;
+
+
+
+} t_shell;
+
 enum token_id
 {
 	TOKEN,
@@ -54,6 +69,7 @@ int				check_tokens(int id_1, int id_2);
 //			Builtins
 int				ft_echo(char **args);
 int				ft_pwd(void);
+int				ft_cd(t_command *cmd, t_shell *shell);
 int				ft_putstr_fd_protected(char *s, int fd, int newline);
 
 #endif

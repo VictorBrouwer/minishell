@@ -35,7 +35,10 @@ MAIN					:=	src/main.c
 SRC						:=  lexer/tokenizer.c \
 							lexer/token_list_functions.c \
 							lexer/token_analysis.c \
-							# builtins/echo.c \
+							builtins/echo.c \
+							builtins/cd.c \
+							builtin/pwd.c \
+							builtins/env.c \
 							# builtin/builtin_utils.c \
 
 # unit = SRC
