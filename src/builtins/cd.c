@@ -1,41 +1,54 @@
 #include "libft.h"
 #include "shell.h"
 
-int	ft_cd(t_command *cmd, t_minishell *shell)
-{
-    char *cwd;
-    char *oldpwd;
-    int  ret;
+static char	*get_path(t_command *cmd, char *cwd, t_minishell *shell);
 
-    ret = 0;
+int	ft_cd(t_command *cmd, t_shell *shell)
+{
+	char	*cwd;
+	char	*oldpwd;
+	char	*path;
+
     cwd = getcwd(NULL, 0);
     if (!cwd)
         return (-1);
-    oldpwd = cwd;
-
-    if (!cmd[1])
-        path = shell->env->home;
-    else if (cmd[1] == ".")
-        path = cwd;
-    else if (cmd[1] == "..")
-
-    else if (cmd[1] == "-")
-        path = shell->env->oldpwd;
-    else if (cmd[1] == "~")
-        path = shell->env->home;
-    else if (ft_strncmp(cmd[1], "~/", 2) == 0)
-        path = ft_strjoin(shell->env->home, cmd[1] + 1);
-    else if (ft_strncmp(cmd[1], "/", 1) == 0)
-        path = cmd[1];
-
-    if (chdir(path) == -1)
+	path = get_path(cmd, cwd, shell);
+	if (!path)
+		return (free(cwd), -1);
+    if (chdir(path) != 0)
         return (free(cwd), -1);
-    free(cwd);
+    oldpwd = ft_strdup(cwd);
+	free(cwd);
+    cwd = getcwd(NULL, 0);
+    if (!cwd)
+        return (-1);
     return (0);
 }
 
-/*
+static char	*get_path(t_command *cmd, char *cwd, t_minishell *shell)
+{
+	char	*path;
 
+	if (!cmd[1])
+        path = ft_strdup(shell->env->home);
+    else if (cmd[1] == ".")
+        path = ft_strdup(shell->env->pwd);
+    // else if (cmd[1] == "..")
+	// 	path = ;
+    else if (cmd[1] == "-")
+        path = ft_strdup(shell->env->oldpwd);
+    else if (ft_strncmp(cmd[1], "~/", 2) == 0)
+        path = ft_strjoin(shell->env->home, cmd[1] + 1);
+    else if (cmd[1] == "~")
+        path = ft_strdup(shell->env->home);
+    else if (cmd[1][0] == '/')
+        path = ft_strdup(cmd[1]);
+	else
+		path = ft_strdup(cmd[1]);
+	return (path);
+}
+
+/*
 1. set new_working_dir:
 'cd'				: change cwd to "HOME"
 'cd -'				: change cwd to previous working directory (OLDPWD), ignore other arguments AND PRINT new cwd
@@ -53,5 +66,4 @@ int	ft_cd(t_command *cmd, t_minishell *shell)
 chdir() = 0 indicates success: the operating system updates the process's current working directory
 
 4. save new working directory into "PWD=" in envp list
-
 */

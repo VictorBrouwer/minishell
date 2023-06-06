@@ -57,7 +57,10 @@ SRC						:=  shell/minishell.c \
 							executor/execute_non_built_in.c \
 							executor/handle_redir.c \
 							lexer/token_analysis.c \
-							# builtins/echo.c \
+							builtins/echo.c \
+							builtins/cd.c \
+							builtin/pwd.c \
+							builtins/env.c \
 							# builtin/builtin_utils.c \
 
 # unit = SRC
