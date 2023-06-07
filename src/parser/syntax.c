@@ -12,28 +12,28 @@ static const syntx_jumpt_table g_syntax_func[] =
 	[GREAT] = &check_redirection,
 	[APPEND] = &check_redirection,
 	[LESS] = &check_redirection,
-	[HEREDOC] = &check_heredoc,
-	[S_QUOTE] = NULL,
-	[D_QUOTE] = NULL,
+	[HEREDOC] = &check_redirection,
+	[S_QUOTE] = &check_quotes,
+	[D_QUOTE] = &check_quotes,
 	[ENV_VAR] = &check_env_var,
 	[WHITE_SPACE] = NULL,
 	[WORD] = NULL
 };
 
-int analyze_tokens(t_token *top)
+int analyze_tokens(t_token **token_list)
 {
 	t_token *current;
 	t_token *prev;
 
 	prev = NULL;
-	current = top;
+	current = *token_list;
 	while (current)
 	{
-		printf("current token =  %d %s \n", current->token_id, current->content); // hier nog iets op verzinnen
-		if ((current->token_id > 0 && current->token_id < 6) || current->token_id == 8)
+		// printf("current token =  %d %s \n", current->token_id, current->content);
+		if (current->token_id != 0 && current->token_id != 10 && current->token_id != 11) // hier nog iets op verzinnen
 		{
 			if ((g_syntax_func[current->token_id])(prev, current))
-				return (printf(" ERROR \n"), ERROR);
+				return (clean_tokens_and_strings(token_list), ERROR);
 		}
 			// return (printf(" ERROR \n prev token = %s \n current token = %s", prev->content, current->content), ERROR);
 		prev = current;

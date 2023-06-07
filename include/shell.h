@@ -9,6 +9,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 # define TOKEN_DELIMITERS "|><\'\"$\\ "
 # define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
@@ -17,12 +18,37 @@
 # define SUCCESS 0
 # define ERROR 1
 
+# define READ 0
+# define WRITE 1
 typedef	struct s_token
 {
-	char			*content;
-	int				token_id;
-	struct s_token	*next;
-}	t_token;
+	char				*content;
+	int					token_id;
+	struct s_token		*next;
+}
+						t_token;
+typedef	struct s_redir
+{
+	int					redir_type;
+	char				*file_name;
+	struct s_redir		*next;
+}						t_redir;
+
+typedef	struct s_command
+{
+	char 				**args;
+	t_redir				*redir;
+	struct s_command	*next;
+}						t_command;
+
+typedef	struct s_shell
+{
+	char				**envp;
+	char				*input;
+	t_command			*command_node;
+	int					read_fd;
+	int					out_fd;
+}						t_shell;
 
 enum token_id
 {
@@ -39,7 +65,12 @@ enum token_id
 	WORD
 };
 
-//			TOKENIZER.C
+
+//					SHELL.C
+int				minishell(char **envp);
+int				shell_loop(t_shell *shell_str);
+int				execute_shell(t_shell *shell_str);
+//					TOKENIZER.C
 t_token	**		tokenize(char *s);
 size_t			find_next_token(const char *s, size_t end);
 void			print_tokens(t_token *top);
@@ -50,11 +81,29 @@ int 			get_token_id(char *content);
 size_t			list_token_size(t_token *t_list);
 t_token 		*remove_white_space(t_token *top);
 // 					SYNTAX.C
-int 			analyze_tokens(t_token *top);
+int 			analyze_tokens(t_token **token_list);
 // int				check_tokens(int id_1, int id_2);
 // 					JUMPTABLE_FUNCS.C
 bool			check_pipe(t_token *prev, t_token *curr);
 bool			check_redirection(t_token *prev, t_token *curr);
 bool			check_heredoc(t_token *prev, t_token *curr);
+bool			check_quotes(t_token *prev, t_token *curr);
 bool			check_env_var(t_token *prev, t_token *curr);
+// 					COMMANDS.C
+t_command		**create_commands(t_token *top);
+t_token			*fill_command(t_command *command, t_token *current);
+int				get_num_args(t_token *current);
+// 					PARSER_UTILS.C
+void			add_comm_back(t_command **command_list, t_command *command);
+t_command		*ft_new_comm(void);
+t_redir			*ft_new_redir(t_token *current);
+void			add_redir(t_redir *redir, t_command *comm);
+// 					PARSER.C
+t_command		*parser(char *line);
+// 					CLEAN_FUNCTIONS.C
+void			clean_tokens_and_strings(t_token **token_list);
+// 					HEREDOC.C
+void			check_hd_curr_cmd(t_shell *shell_str);
+void			handle_hd(t_shell *shell_str, char *hd_delm);
+bool			strings_equal(char *s1, char *s2);
 #endif
