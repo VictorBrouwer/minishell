@@ -15,8 +15,8 @@
 #define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
 #define SPECIAL_DELIMITERS "<>"
 
-#define SUCCESS 0
-#define ERROR 1
+# define SUCCESS 0
+# define ERROR -1
 
 #define READ 0
 #define WRITE 1
@@ -48,6 +48,12 @@ typedef struct s_shell {
   int write_fd;
   int exit_status;
 } t_shell;
+typedef struct s_env_list
+{
+    char				*name;
+    char				*content;
+    struct s_env_list	*next;
+}	t_env_list;
 
 enum token_id {
   TOKEN,
@@ -110,27 +116,33 @@ int executor(t_shell *shell);
 void simple_command(t_shell *shell);
 void pipe_line(t_shell *shell);
 void execute_child_without_pipe(t_shell *shell, t_command *curr);
-// 					PIPELINE.C
-void execute_child(t_command *curr, t_shell *shell, int pipefd[]);
-void execute_last_child(t_command *curr, t_shell *shell, int pipefd[2]);
-// 					EXECUTION_UTILS.C
-void redirect_std_in(int fd);
-void redirect_std_out(int fd);
-char *find_path(char **envp);
-char *get_command_path(t_shell *shell, char *command);
-// 					HANDLE_REDIR.C
-int handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
-bool redir_outfile(t_redir *curr, t_shell *shell);
-bool append_outfile(t_redir *curr, t_shell *shell);
-bool redir_infile(t_redir *curr, t_shell *shell);
-// 					EXECUTE_BUILT_IN.C
-bool check_built_in(char *cmd);
-// 					EXECUTE_NON_BUILT_IN.C
-void execute_non_built_in(t_shell *shell, t_command *curr);
-//			Builtins
-int ft_echo(char **args);
-int ft_pwd(void);
-int ft_cd(t_command *cmd, t_shell *shell);
-int ft_putstr_fd_protected(char *s, int fd, int newline);
+//	PIPELINE.C
+void		execute_child(t_command *curr, t_shell *shell, int pipefd[]);
+void		execute_last_child(t_command *curr, t_shell *shell, int pipefd[2]);
+//	EXECUTION_UTILS.C
+void		redirect_std_in(int fd);
+void		redirect_std_out(int fd);
+char		*find_path(char **envp);
+char		*get_command_path(t_shell *shell, char *command);
+//	HANDLE_REDIR.C
+int 		handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
+bool		redir_outfile(t_redir *curr, t_shell *shell);
+bool		append_outfile(t_redir *curr, t_shell *shell);
+bool		redir_infile(t_redir *curr, t_shell *shell);
+//	EXECUTE_BUILT_IN.C
+bool		check_built_in(char *cmd);
+//	EXECUTE_NON_BUILT_IN.C
+void		execute_non_built_in(t_shell *shell, t_command *curr);
+//	Builtins
+int			ft_echo(char **args);
+int			ft_pwd(void);
+int			ft_cd(t_command *cmd, t_shell *shell);
+int			ft_putstr_fd_protected(char *s, int fd, int newline);
+//	ENV funcs
+t_env_list	*new_env_var(char *name, char *content);
+void		env_lstadd_back(t_env_list **lst, t_env_list *new);
+t_env_list	*init_env(char *home, char *cwd, char *owd);
+void		print_env_list(t_env_list *env);
+
 
 #endif
