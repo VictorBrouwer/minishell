@@ -51,9 +51,9 @@ typedef struct s_shell {
 
 typedef struct s_env_list
 {
-    char                *name;
-    char                *content;
-    struct s_env_list   *next;
+    char				*name;
+    char				*content;
+    struct s_env_list	*next;
 }   t_env_list;
 
 enum token_id

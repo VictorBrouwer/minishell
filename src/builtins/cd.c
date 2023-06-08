@@ -1,51 +1,49 @@
 #include "libft.h"
 #include "shell.h"
 
-static char	*get_path(t_command *cmd, char *cwd, t_minishell *shell);
+static char *get_path(t_command *cmd, char *cwd, t_minishell *shell);
 
-int	ft_cd(t_command *cmd, t_shell *shell)
-{
-	char	*cwd;
-	char	*oldpwd;
-	char	*path;
+int ft_cd(t_command *cmd, t_shell *shell) {
+  char *cwd;
+  char *oldpwd;
+  char *path;
 
-    cwd = getcwd(NULL, 0);
-    if (!cwd)
-        return (-1);
-	path = get_path(cmd, cwd, shell);
-	if (!path)
-		return (free(cwd), -1);
-    if (chdir(path) != 0)
-        return (free(cwd), -1);
-    oldpwd = ft_strdup(cwd);
-	free(cwd);
-    cwd = getcwd(NULL, 0);
-    if (!cwd)
-        return (-1);
-    return (0);
+  cwd = getcwd(NULL, 0);
+  if (!cwd)
+    return (-1);
+  path = get_path(cmd, cwd, shell);
+  if (!path)
+    return (free(cwd), -1);
+  if (chdir(path) != 0)
+    return (free(cwd), -1);
+  oldpwd = ft_strdup(cwd);
+  free(cwd);
+  cwd = getcwd(NULL, 0);
+  if (!cwd)
+    return (-1);
+  return (0);
 }
 
-static char	*get_path(t_command *cmd, char *cwd, t_minishell *shell)
-{
-	char	*path;
+static char *get_path(t_command *cmd, char *cwd, t_minishell *shell) {
+  char *path;
 
-	if (!cmd[1])
-        path = ft_strdup(shell->env->home);
-    else if (cmd[1] == ".")
-        path = ft_strdup(shell->env->pwd);
-    // else if (cmd[1] == "..")
-	// 	path = ;
-    else if (cmd[1] == "-")
-        path = ft_strdup(shell->env->oldpwd);
-    else if (ft_strncmp(cmd[1], "~/", 2) == 0)
-        path = ft_strjoin(shell->env->home, cmd[1] + 1);
-    else if (cmd[1] == "~")
-        path = ft_strdup(shell->env->home);
-    else if (cmd[1][0] == '/')
-        path = ft_strdup(cmd[1]);
-	else
-		path = ft_strdup(cmd[1]);
-	return (path);
+  if (!cmd[1])
+    path = ft_strdup(shell->env->home);
+  else if (cmd[1] == ".")
+    path = ft_strdup(shell->env->pwd);
+  // else if (cmd[1] == "..")
+  // 	path = ;
+  else if (cmd[1] == "-")
+    path = ft_strdup(shell->env->oldpwd);
+  else if (ft_strncmp(cmd[1], "~/", 2) == 0)
+    path = ft_strjoin(shell->env->home, cmd[1] + 1);
+  else if (cmd[1] == "~")
+    path = ft_strdup(shell->env->home);
+  else if (cmd[1][0] == '/')
+    path = ft_strdup(cmd[1]);
+  else
+    path = ft_strdup(cmd[1]);
+  return (path);
 }
 
 /*
