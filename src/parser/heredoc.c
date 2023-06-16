@@ -1,24 +1,24 @@
 #include "shell.h"
 #include "libft.h"
 
-void	check_hd_curr_cmd(t_shell *shell_str)
+void	check_hd_curr_cmd(t_shell *shell, t_command *curr)
 {
 	t_redir *redir;
 
-	if (!shell_str->command_node)
+	if (!curr)
 		return ;
-	if (!shell_str->command_node->redir)
+	if (!curr->redir)
 		return ;
-	redir = shell_str->command_node->redir;
+	redir = curr->redir;
 	while (redir)
 	{
 		if (redir->redir_type == HEREDOC)
-			handle_hd(shell_str, redir->file_name);
+			handle_hd(shell, redir->file_name);
 		redir = redir->next;
 	}
 }
 
-void	handle_hd(t_shell *shell_str, char *hd_delim)
+void	handle_hd(t_shell *shell, char *hd_delim)
 {
 	char	*line;
 	int		pipefd[2];
@@ -35,7 +35,7 @@ void	handle_hd(t_shell *shell_str, char *hd_delim)
 	if (line)
 		free(line);
 	close(pipefd[WRITE]);
-	shell_str->read_fd = pipefd[READ]; // unsure if the old read needs to be closed with multiple heredocs in  single command
+	shell->read_fd = pipefd[READ]; // unsure if the old read needs to be closed with multiple heredocs in  single command
 }
 
 bool	strings_equal(char *s1, char *s2)

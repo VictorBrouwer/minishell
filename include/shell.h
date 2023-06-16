@@ -47,7 +47,7 @@ typedef	struct s_shell
 	char				*input;
 	t_command			*command_node;
 	int					read_fd;
-	int					out_fd;
+	int					write_fd;
 }						t_shell;
 
 enum token_id
@@ -69,7 +69,7 @@ enum token_id
 //					SHELL.C
 int				minishell(char **envp);
 int				shell_loop(t_shell *shell_str);
-int				execute_shell(t_shell *shell_str);
+int				initiate_shell(t_shell *shell_str);
 //					TOKENIZER.C
 t_token	**		tokenize(char *s);
 size_t			find_next_token(const char *s, size_t end);
@@ -99,11 +99,31 @@ t_command		*ft_new_comm(void);
 t_redir			*ft_new_redir(t_token *current);
 void			add_redir(t_redir *redir, t_command *comm);
 // 					PARSER.C
-t_command		*parser(char *line);
+t_command		*parser(t_shell *shell);
 // 					CLEAN_FUNCTIONS.C
 void			clean_tokens_and_strings(t_token **token_list);
 // 					HEREDOC.C
-void			check_hd_curr_cmd(t_shell *shell_str);
-void			handle_hd(t_shell *shell_str, char *hd_delm);
+void			check_hd_curr_cmd(t_shell *shell, t_command *curr);
+void			handle_hd(t_shell *shell, char *hd_delm);
 bool			strings_equal(char *s1, char *s2);
+// 					EXECUTOR.C
+int				executor(t_shell *shell);
+pid_t			simple_command(t_shell *shell);
+pid_t			pipe_line(t_shell *shell);
+// 					PIPELINE.C
+void			execute_child(t_command *curr, t_shell *shell, int pipefd[]);
+void			execute_last_child(t_command *curr, t_shell *shell, int pipefd[2]);
+// 					EXECUTION_UTILS.C
+void			redirect_std_in(int fd);
+void			redirect_std_out(int fd);
+char			*find_path(char **envp);
+char			*get_command_path(t_shell *shell, char *command);
+// 					HANDLE_REDIR.C
+int				handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
+bool			redir_outfile(t_redir *curr, t_shell *shell);
+bool			append_outfile(t_redir *curr, t_shell *shell);
+bool			redir_infile(t_redir *curr, t_shell *shell);
+// 					EXECUTE_BUILT_IN.C
+// 					EXECUTE_NON_BUILT_IN.C
+void			execute_non_built_in(t_shell *shell, t_command *curr);
 #endif

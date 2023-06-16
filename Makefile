@@ -47,6 +47,13 @@ SRC						:=  shell/minishell.c \
 							parser/command_utils.c \
 							parser/clean_functions.c \
 							parser/heredoc.c \
+							parser/expansion.c \
+							executor/executor.c \
+							executor/pipeline.c \
+							executor/execution_utils.c \
+							executor/execute_built_in.c \
+							executor/execute_non_built_in.c \
+							executor/handle_redir.c \
 							
 
 ODIR					:=	$(sort $(dir $(SRC:%=$(OBJ_DIR)/%)))

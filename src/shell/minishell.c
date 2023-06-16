@@ -3,14 +3,16 @@
 
 int	minishell(char **envp)
 {
-	t_shell		*shell_str;
+	t_shell		*shell;
 
-	shell_str = ft_calloc(1, sizeof(t_shell));
-	shell_str->envp = envp;
-	return (shell_loop(shell_str));
+	shell = ft_calloc(1, sizeof(t_shell));
+	shell->envp = envp;
+	shell->read_fd = STDIN_FILENO;
+	shell->write_fd = STDOUT_FILENO;
+	return (shell_loop(shell));
 }
 
-int	shell_loop(t_shell *shell_str)
+int	shell_loop(t_shell *shell)
 {
 	char *line;
 
@@ -18,27 +20,27 @@ int	shell_loop(t_shell *shell_str)
 	{
 		line = readline("ultra-shell:");
 		if (line == NULL)
-			printf("No line");
+			printf("No line\n");
 		else if (!ft_strncmp(line, "exit", 5))
 			exit(0);
 		else
 		{
 			printf("line = %s\n", line);
-			shell_str->input = line;
-			if (execute_shell(shell_str) == ERROR)
+			shell->input = line;
+			if (initiate_shell(shell) == ERROR)
 				return (ERROR);
 		}
 		add_history(line);
 	}
-	free(shell_str);
+	free(shell);
 	return(0);
 }
 
-int	execute_shell(t_shell *shell_str)
+int	initiate_shell(t_shell *shell)
 {
-	shell_str->command_node = parser(shell_str->input);
-	if (shell_str->command_node == NULL)
+	shell->command_node = parser(shell);
+	executor(shell);
+	if (shell->command_node == NULL)
 		return (ERROR);
-	check_hd_curr_cmd(shell_str);
 	return (SUCCESS);
 }
