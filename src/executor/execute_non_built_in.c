@@ -15,7 +15,7 @@ void	execute_non_built_in(t_shell *shell, t_command *curr)
 		redirect_std_out(shell->write_fd);
 	if (execve(command_with_path, curr->args, shell->envp) == -1)
 	{
-		shell->exit_status = 1;
+		shell->exit_status = errno;
 		clean_commands(shell->command_node);
 	}
 }
