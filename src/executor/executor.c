@@ -3,33 +3,35 @@
 
 int	executor(t_shell *shell)
 {
-	pid_t			id;
-	// int				status;
-
 	if (!shell->command_node->next)
-		id = simple_command(shell);
+		simple_command(shell);
 	else
-		id = pipe_line(shell);
-	// waitpid(id, &status, 0);
+		pipe_line(shell);
 	return (SUCCESS);
 }
 
-pid_t	simple_command(t_shell *shell)
+void	simple_command(t_shell *shell)
+{
+	check_hd_curr_cmd(shell, shell->command_node);
+	if (check_built_in(shell->command_node->args[0]))
+		return ;
+	else
+		execute_child_without_pipe(shell, shell->command_node);
+	wait(NULL);
+}
+
+void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 {
 	pid_t	pid;
 
-	check_hd_curr_cmd(shell, shell->command_node);
-	// if (check_built_in(shell->command_node->args[0]))
-		// handle built_in
 	pid = fork();
 	if (pid == -1)
-			return (ERROR) ;
+			return ;
 	if (pid == 0)
-		execute_non_built_in(shell, shell->command_node);
-	return (pid);
+		execute_non_built_in(shell, curr);
 }
 
-pid_t	pipe_line(t_shell *shell)
+void	pipe_line(t_shell *shell)
 {
 	t_command	*curr;
 	int			pipefd[2];
@@ -40,11 +42,11 @@ pid_t	pipe_line(t_shell *shell)
 	{
 		check_hd_curr_cmd(shell, curr);
 		if (pipe(pipefd) == -1)
-			return (ERROR);
+			return ;
 		// if (check_built_in(curr->args[0]))
 		pid = fork();
 		if (pid == -1)
-			return (ERROR);
+			return ;
 		if (pid == 0)
 			execute_child(curr, shell, pipefd);
 		shell->read_fd = pipefd[READ];
@@ -55,9 +57,10 @@ pid_t	pipe_line(t_shell *shell)
 		}
 		curr = curr->next;
 	}
+	waitpid(-1, &shell->exit_status, 0);
 	close(pipefd[READ]);
 	close(pipefd[WRITE]);
-	return (pid);
+	return ;
 }
 
 void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
@@ -72,8 +75,5 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 		close(pipefd[WRITE]);
 		shell->write_fd = STDOUT_FILENO; // set standard write_fd to STDOUT and handle redirs afterwards
 	}
-	handle_redirs_curr_cmd(shell, curr);
-	redirect_std_in(shell->read_fd);
-	redirect_std_out(shell->write_fd);
 	execute_non_built_in(shell, curr);
 }

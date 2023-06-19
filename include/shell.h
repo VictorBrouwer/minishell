@@ -48,6 +48,7 @@ typedef	struct s_shell
 	t_command			*command_node;
 	int					read_fd;
 	int					write_fd;
+	int					exit_status;
 }						t_shell;
 
 enum token_id
@@ -102,14 +103,17 @@ void			add_redir(t_redir *redir, t_command *comm);
 t_command		*parser(t_shell *shell);
 // 					CLEAN_FUNCTIONS.C
 void			clean_tokens_and_strings(t_token **token_list);
+void			clean_commands(t_command *command_node);
+void			clean_redirs(t_redir *redir_node);
 // 					HEREDOC.C
 void			check_hd_curr_cmd(t_shell *shell, t_command *curr);
 void			handle_hd(t_shell *shell, char *hd_delm);
 bool			strings_equal(char *s1, char *s2);
 // 					EXECUTOR.C
 int				executor(t_shell *shell);
-pid_t			simple_command(t_shell *shell);
-pid_t			pipe_line(t_shell *shell);
+void			simple_command(t_shell *shell);
+void			pipe_line(t_shell *shell);
+void			execute_child_without_pipe(t_shell *shell, t_command *curr);
 // 					PIPELINE.C
 void			execute_child(t_command *curr, t_shell *shell, int pipefd[]);
 void			execute_last_child(t_command *curr, t_shell *shell, int pipefd[2]);
@@ -124,6 +128,7 @@ bool			redir_outfile(t_redir *curr, t_shell *shell);
 bool			append_outfile(t_redir *curr, t_shell *shell);
 bool			redir_infile(t_redir *curr, t_shell *shell);
 // 					EXECUTE_BUILT_IN.C
+bool			check_built_in(char *cmd);
 // 					EXECUTE_NON_BUILT_IN.C
 void			execute_non_built_in(t_shell *shell, t_command *curr);
 #endif
