@@ -53,6 +53,13 @@ typedef struct s_env_list
     char				*name;
     char				*content;
     struct s_env_list	*next;
+}   t_env_list;
+
+enum token_id
+{
+    char				*name;
+    char				*content;
+    struct s_env_list	*next;
 }	t_env_list;
 
 enum token_id {
@@ -143,6 +150,11 @@ t_env_list	*new_env_var(char *name, char *content);
 void		env_lstadd_back(t_env_list **lst, t_env_list *new);
 t_env_list	*init_env(char *home, char *cwd, char *owd);
 void		print_env_list(t_env_list *env);
+// 			TOKEN_LIST_FUNCTIONS.C
+void		add_token(t_token **token_list, t_token *token);
+t_token		*ft_new_token(char *content);
+int			get_token_id(char *content);
+size_t		list_token_size(t_token *t_list);
 
 
 #endif

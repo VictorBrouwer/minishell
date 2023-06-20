@@ -22,7 +22,7 @@ TEST_DIR	:=	./tests
 
 #=================== LIBRARIES ===================#
 
-CFLAGS  	+= 	-Wextra -Wall -Werror 
+CFLAGS  	+= 	-Wextra -Wall -Werror
 CFLAGS  	+=	 $(addprefix -I, $(shell brew --prefix readline)/include)
 
 LDFLAGS  	= 	-L$(shell brew --prefix readline)/lib -lreadline -L./libft -lft
@@ -95,7 +95,7 @@ UNIT_INCLUDE_FLAGS		:=	-I$(UNIT_DIR)
 #===============================================#
 
 # echo:
-# 	@echo 
+# 	@echo
 
 all: $(ODIR) $(NAME)
 
