@@ -60,14 +60,6 @@ typedef struct s_env_list
 
 enum token_id
 {
-	char *name;
-	char * content;
-	struct s_env_list * next;
-}
-t_env_list;
-
-enum token_id
-{
 	TOKEN,
 	PIPE,
 	GREAT,
@@ -81,21 +73,21 @@ enum token_id
 	WORD
 };
 
-//					SHELL.C
-int minishell(char **envp);
-int shell_loop(t_shell *shell_str);
-int initiate_shell(t_shell *shell_str);
-//					TOKENIZER.C
-t_token **tokenize(char *s);
-size_t find_next_token(const char *s, size_t end);
-void print_tokens(t_token *top);
-// 			TOKEN_LIST_FUNCTIONS.C
-void add_token(t_token **token_list, t_token *token);
-t_token *ft_new_token(char *content);
-int get_token_id(char *content);
-size_t list_token_size(t_token *t_list);
-t_token *remove_white_space(t_token *top);
-// 					SYNTAX.C
+//	SHELL.C
+int		minishell(char **envp);
+int		shell_loop(t_shell *shell_str);
+int		initiate_shell(t_shell *shell_str);
+//	TOKENIZER.C
+t_token	**tokenize(char *s);
+size_t	find_next_token(const char *s, size_t end);
+void	print_tokens(t_token *top);
+//	TOKEN_LIST_FUNCTIONS.C
+void	add_token(t_token **token_list, t_token *token);
+t_token	*ft_new_token(char *content);
+int		get_token_id(char *content);
+size_t	list_token_size(t_token *t_list);
+t_token	*remove_white_space(t_token *top);
+//	SYNTAX.C
 int analyze_tokens(t_token **token_list);
 int check_tokens(int id_1, int id_2);
 // 					JUMPTABLE_FUNCS.C
