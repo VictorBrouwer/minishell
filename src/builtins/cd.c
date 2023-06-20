@@ -24,7 +24,7 @@ int ft_cd(t_command *cmd, t_shell *shell) {
   return (0);
 }
 
-static char *get_path(t_command *cmd, char *cwd, t_minishell *shell) {
+static char *get_path(t_command *cmd, char *cwd, t_shell *shell) {
   char *path;
 
   if (!cmd[1])
@@ -69,14 +69,14 @@ current working directory
 4. save new working directory into "PWD=" in envp list
 */
 
-int main(int argc, char **argv) {
-  t_env_list *env_list;
+// int main(int argc, char **argv) {
+//   t_env_list *env_list;
 
-  if (argc != 4) {
-    ft_putstr_fd("Usage: ./a.out <home_path> <cwd_path> <owd_path>\n");
-    return (1);
-  }
-  env_list = init_env(argv[1], argv[2], argv[3]);
-  print_env_list(env_list);
-  return (0);
-}
+//   if (argc != 4) {
+//     ft_putstr_fd("Usage: ./a.out <home_path> <cwd_path> <owd_path>\n");
+//     return (1);
+//   }
+//   env_list = init_env(argv[1], argv[2], argv[3]);
+//   print_env_list(env_list);
+//   return (0);
+// }
