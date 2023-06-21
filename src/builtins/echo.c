@@ -3,7 +3,7 @@
 
 static int check_flag(char **args);
 
-int ft_echo(char **args)
+int builtin_echo(char **args)
 {
 	int flag;
 

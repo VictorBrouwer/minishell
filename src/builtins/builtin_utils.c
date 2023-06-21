@@ -19,3 +19,23 @@ int	ft_putstr_fd_protected(char *s, int fd, int newline)
 	}
 	return (x);
 }
+
+int	ft_stris_x(char *s, int (*f)(int))
+{
+	if (!s || !f)
+		return (0);
+	while (*s)
+	{
+		if (f(*s) == 0)
+			return (0);
+		s++;
+	}
+	return (1);
+}
+
+// int main(int argc, char **argv)
+// {
+// 	(void) argc;
+// 	printf("%i\n", ft_stris_x(argv[1], ft_isalpha));
+// 	return (0);
+// }

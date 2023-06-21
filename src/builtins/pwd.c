@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "shell.h"
 
-int	ft_pwd(void)
+int	builtin_pwd(void)
 {
 	char	*pwd;
 

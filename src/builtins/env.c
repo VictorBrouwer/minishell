@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "shell.h"
 
-int    ft_env(t_env_list *env)
+int    builtin_env(t_env_list *env)
 {
     t_env_list  *ptr;
 

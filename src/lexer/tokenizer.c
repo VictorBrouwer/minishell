@@ -36,7 +36,7 @@ t_token	**tokenize(char *s)
 		token = ft_new_token(token_string);
 		if (!token)
 			return (clean_tokens_and_strings(token_list), NULL);
-		add_token(token_list, token);
+		add_token_back(token_list, token);
 	}
 	*token_list = remove_white_space(*token_list);
 	return (token_list);
