@@ -30,9 +30,11 @@ int	shell_loop(t_shell *shell)
 			if (initiate_shell(shell) == ERROR)
 				return (ERROR);
 		}
+		rl_on_new_line();
 		add_history(line);
 	}
 	free(shell);
+	rl_clear_history();
 	return(0);
 }
 
@@ -42,7 +44,7 @@ int	initiate_shell(t_shell *shell)
 	if (shell->command_node == NULL)
 		return (ERROR);
 	executor(shell);
-	printf("exit status = %d\n", shell->exit_status);
+	// printf("exit status = %d\n", shell->exit_status);
 	shell->read_fd = STDIN_FILENO; //after execution always set the read and write fd's back to std because they can be changed
 	shell->write_fd = STDOUT_FILENO;
 	return (SUCCESS);

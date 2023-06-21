@@ -3,9 +3,12 @@
 void	parser_assert_func_single_command(char *readline, char **expected_args, char **expected_redir)
 {
 	t_command *top;
+	t_shell		*shell;
 	int	i;
 
-	top = (*parser(readline));
+	shell = ft_calloc(1, sizeof(t_shell));
+	shell->input = readline;
+	top = parser(shell);
 	cr_assert(top != NULL, "expected a linked list of commands");
 	i = 0;
 	while (top->args[i] != NULL)
@@ -47,10 +50,13 @@ Test(parser, triple_redirection)
 void	parser_assert_func_multiple_commands(char *readline, char ***expected_args_list, char ***expected_redir_list)
 {
 	t_command *top;
+	t_shell		*shell;
 	int	i;
 	int	j;
 
-	top = (*parser(readline));
+	shell = ft_calloc(1, sizeof(t_shell));
+	shell->input = readline;
+	top = parser(shell);
 	cr_assert(top != NULL, "expected a linked list of commands");
 	j = 0;
 	while (top != NULL)
