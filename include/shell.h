@@ -156,22 +156,22 @@ void	execute_non_built_in(t_shell *shell, t_command *curr);
 //	Builtins
 int		builtin_echo(char **args);
 int		builtin_pwd(void);
-int		builtin_cd(t_command *cmd, t_shell *shell);
+int		builtin_cd(char **cmd, t_env_list *env);
 void	builtin_exit(int status);
 
 // Builint_utils
 int		putstr_fd_protected(char *s, int fd, int newline);
 int		ft_stris_x(char *s, int (*f)(int));
+char	*find_path_up(char *path, int path_len);
+
 
 //	ENV funcs
 t_env_list	*init_env_lst(char **envp);
-t_env_list	*new_env_var(char *name, char *content);
+t_env_list	*new_env_var_node(char *var_str);
 void		env_lstadd_back(t_env_list **lst, t_env_list *new);
-void		prnt_env_lst(t_env_list *env);
-char		*fnd_env_var(char *name, char **envp);
-char		*get_env_var(char *name, char **envp);
-char		*add_env_var(char *name, char *var, char **envp);
-void		prnt_env_vars(char **envp);
+void		print_env_lst(t_env_list *env);
 void 		free_env_list(t_env_list **env);
+size_t		env_len(t_env_list *env);
+
 
 #endif

@@ -3,41 +3,40 @@
 
 t_env_list	*init_env_lst(char **envp)
 {
-	t_env_list	*var_node;
+	t_env_list	*new_var_node;
 	t_env_list	*env_lst;
 	int			i;
-	char		*name;
-	char		*content;
 
 	if (!envp)
 		return (NULL);
 	env_lst = NULL;
-	while (*envp != NULL)
+	i = 0;
+	while (envp[i])
 	{
-		i = 0;
-		while ((*envp)[i] && (*envp)[i] != '=')
-			i++;
-		name = ft_substr(*envp, 0, i);
-		content = ft_substr(*envp, i + 1, ft_strlen(*envp) - i);
-		var_node = new_env_var(name, content);
-		env_lstadd_back(&env_lst, var_node);
-		printf("test_loop\n");
-		envp++;
+		new_var_node = new_env_var_node(envp[i]);
+		env_lstadd_back(&env_lst, new_var_node);
+		i++;
 	}
-	printf("test_after_loop\n");
 	return (env_lst);
-
 }
 
-t_env_list	*new_env_var(char *name, char *content)
+t_env_list	*new_env_var_node(char *var_str)
 {
 	t_env_list	*var;
+	int			i;
 
 	var = malloc(sizeof(t_env_list));
 	if (!var)
 		return (NULL);
-	var->name = name;
-	var->content = content;
+	i = 0;
+	while (var_str[i] && var_str[i] != '=')
+		i++;
+	var->name = ft_substr(var_str, 0, i);
+	if (!var->name)
+		return (free(var), NULL);
+	var->content = ft_substr(var_str, i + 1, ft_strlen(var_str) - i);
+	if (!var->content)
+		return (free(var), free(var->name), NULL);
 	var->next = NULL;
 	return (var);
 }
@@ -88,26 +87,22 @@ void	free_env_list(t_env_list **env)
 	env = NULL;
 }
 
-void f(void)
-{
-	system("leaks a.out");
-}
+// void f(void)
+// {
+// 	system("leaks a.out");
+// }
 
-int	main(void)
-{
-	// atexit(f);
-	t_env_list *env;
-	char *envp[3];
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	// atexit(f);
+// 	t_env_list *env;
+// 	(void) argc;
+// 	(void) argv;
 
-	envp[0] = "home=/Users/mhaan";
-	envp[1] = "pwd=/tmp";
-	envp[2] = "SHELL=/bin/bash";
-
-	env = init_env_lst(envp);
-	printf("test_main\n");
-	print_env_list(env);
-	// free_env_list(&env);
-	// if (!env)
-	// 	printf("Success!\n");
-	return (0);
-}
+// 	env = init_env_lst(envp);
+// 	print_env_list(env);
+// 	free_env_list(&env);
+// 	if (!env)
+// 		printf("\nEnv free: Success!\n");
+// 	return (0);
+// }

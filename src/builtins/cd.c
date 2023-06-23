@@ -1,9 +1,9 @@
 #include "libft.h"
 #include "shell.h"
 
-static char *get_path(t_command *cmd, char *cwd, t_shell *shell);
+static char	*get_path(char **cmd, char *cwd, t_env_list *env);
 
-int builtin_cd(t_command *cmd, t_shell *shell)
+int builtin_cd(char **cmd, t_env_list *env)
 {
 	char	*cwd;
 	char	*oldpwd;
@@ -12,7 +12,7 @@ int builtin_cd(t_command *cmd, t_shell *shell)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (-1);
-	path = get_path(cmd, cwd, shell);
+	path = get_path(cmd, cwd, env);
 	if (!path)
 		return (free(cwd), -1);
 	oldpwd = ft_strdup(cwd);
@@ -25,38 +25,42 @@ int builtin_cd(t_command *cmd, t_shell *shell)
 	return (0);
 }
 
-static char *get_path(t_command *cmd, char *cwd, t_shell *shell)
+static char	*get_path(char **cmd, char *cwd, t_env_list *env)
 {
 	char *path;
+	const int path_len = ft_strlen(cwd);
 
-	if (!cmd->args[1])
-    	path = ft_strdup(shell->envp->home);
+	if (!cmd[1])
+    	path = ft_strdup(get_env_var(env, "HOME"));
 	else if (cmd->args[1] == ".")
-    	path = ft_strdup(shell->env->pwd);
-	// else if (cmd[1] == "..")
-	// 	path = ;
-	else if (cmd->args[1] == "-")
-    	path = ft_strdup(shell->env->oldpwd);
-	else if (ft_strncmp(cmd->args[1], "~/", 2) == 0)
-    	path = ft_strjoin(shell->env->home, cmd->args[1] + 1);
+    	path = ft_strdup(get_env_var(env, "PWD"));
 	else if (cmd->args[1] == "~")
-    	path = ft_strdup(shell->env->home);
+    	path = ft_strdup(get_env_var(env, "HOME"));
 	else if (cmd->args[1][0] == '/')
-		path = ft_strdup(cmd->args[1]);
+		path = ft_strdup(cmd[1]);
+	else if (cmd->args[1] == "-")
+    	path = ft_strdup(get_env_var(env, "OLDPWD"));
+	else if (cmd->args[1] == "..")
+		path = find_path_up(cwd, path_len);
+	else if (ft_strncmp(cmd->args[1], "~/", 2) == 0)
+    	path = ft_strjoin(get_env_var(env, "home"), cmd[1] + 1);
 	else
-    	path = ft_strdup(cmd->args[1]);
+    	path = ft_strdup(cmd[1]);
 	return (path);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
-	(void) argc;
-	char s[256];
-
-	printf("%s\n", getcwd(s, 256));
-	chdir("..");
-	printf("%s\n", getcwd(s, 256));
-
+	(void) 		argc;
+	(void)		argv;
+	t_env_list	*env;
+	char		**cmd = {"cd", ".", "NULL"};
+	
+	env = init_env_lst(envp);
+	if (builtin_cd(cmd, env) == -1)
+		exit(1);
+	print_env_list(env);
+	free_env_list(env);
 	return (0);
 }
 

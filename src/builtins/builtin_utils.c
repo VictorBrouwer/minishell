@@ -33,6 +33,22 @@ int	ft_stris_x(char *s, int (*f)(int))
 	return (1);
 }
 
+char	*find_path_up(char *path, int path_len)
+{
+	char	*new_path;
+	while (path_len > 0)
+	{
+		if (path[path_len - 1] == '/')
+		{
+			path_len--;
+			break ;
+		}
+		path_len--;
+	}
+	new_path = ft_substr(path, 0, path_len);
+	return (free(path), new_path);
+}
+
 // int main(int argc, char **argv)
 // {
 // 	(void) argc;

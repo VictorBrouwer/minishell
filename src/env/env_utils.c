@@ -1,90 +1,64 @@
 #include "libft.h"
 #include "shell.h"
 
-static size_t	env_len(char **envp);
-
-char	*get_env_var(char *name, char **envp)
+char	*get_env_var(char *name, t_env_list *env)
 {
-	int name_len;
+	const int name_len = ft_strlen(name);
 
-	if (!name || !envp)
+	if (!name || !name_len || !env)
 		return (NULL);
-	name_len = ft_strlen(name);
-	if (name_len == 0)
-		return (NULL);
-	while (*envp)
+	while (env)
 	{
-		if (!ft_strncmp(*envp, name, name_len) && (*envp + name_len) && (*(*envp + name_len) == '='))
-			return (*envp + ft_strlen(name) + 1);
-		envp++;
+		if (ft_strncmp(env->name, name, name_len) == 0)
+			return (env->content);
+		env = env->next;
 	}
 	return (NULL);
 }
 
-static size_t	env_len(char **envp)
+size_t	env_len(t_env_list *env)
 {
 	size_t count;
 
-	if (!envp)
+	if (!env)
 		return (0);
 	count = 0;
-	while (*envp++)
+	while (env)
+	{
 		count++;
+		env = env->next
+	}
 	return (count);
 }
 
-char	*add_env_var(char *name, char *var, char **envp)
+void	print_env_lst(t_env_list *env)
 {
-	size_t count;
-
-	if (!envp || !name || !var)
-		return (NULL);
-	count = env_len(envp);
-	if (count == 0)
-		return (NULL);
-
-	printf("%zu\n", count);
-	return (NULL);
-}
-
-void	print_env_vars(char **envp)
-{
-	while (*envp)
+	while (env)
 	{
-		ft_printf("%s\n", *envp);
-		envp++;
+		ft_putstr_fd(env->name, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
+		ft_putstr_fd(env->content, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		env = env->next;
 	}
 }
 
-void free_envp(char **envp)
-{
-	// while (*envp)
-	// {
-	// 	free(*envp);
-	// 	envp++;
-	// }
-	free(envp);
-	envp = NULL;
-}
+// int main(char **envp)
+// {
+// 	// char **envp = malloc(sizeof(char *) * 3);
+// 	char *envp[4];
+// 	envp[0] = "home=/Users/mhaan";
+// 	envp[1] = "pwd=/tmp";
+// 	envp[2] = "SHELL=/bin/bash";
+
+// 	print_env_vars(envp);
+// 	add_env_var("OWD", "/bin/", envp);
+// 	print_env_vars(envp);
 
 
-
-int main(void)
-{
-	// char **envp = malloc(sizeof(char *) * 3);
-	char *envp[4];
-	envp[0] = "home=/Users/mhaan";
-	envp[1] = "pwd=/tmp";
-	envp[2] = "SHELL=/bin/bash";
-
-	print_env_vars(envp);
-	add_env_var("OWD", "/bin/", envp);
-	print_env_vars(envp);
-
-
-	// printf("%s\n", get_env_var("pwd", envp));
-	// free_envp(envp);
-	// if (!envp)
-	// 	printf("done!\n");
-	exit(0);
-}
+// 	// printf("%s\n", get_env_var("pwd", envp));
+// 	// free_envp(envp);
+// 	// if (!envp)
+// 	// 	printf("done!\n");
+// 	exit(0);
+// }
