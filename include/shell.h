@@ -172,6 +172,7 @@ void		env_lstadd_back(t_env_list **lst, t_env_list *new);
 void		print_env_lst(t_env_list *env);
 void 		free_env_list(t_env_list **env);
 size_t		env_len(t_env_list *env);
+char		*get_env_var(char *name, t_env_list *env);
 
 
 #endif

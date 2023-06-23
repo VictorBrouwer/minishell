@@ -15,6 +15,7 @@ int builtin_cd(char **cmd, t_env_list *env)
 	path = get_path(cmd, cwd, env);
 	if (!path)
 		return (free(cwd), -1);
+	printf("Path = %s\n", path);
 	oldpwd = ft_strdup(cwd);
 	if (chdir(path) != 0)
 		return (free(cwd), -1);
@@ -30,20 +31,20 @@ static char	*get_path(char **cmd, char *cwd, t_env_list *env)
 	char *path;
 	const int path_len = ft_strlen(cwd);
 
-	if (!cmd[1])
-    	path = ft_strdup(get_env_var(env, "HOME"));
-	else if (cmd->args[1] == ".")
-    	path = ft_strdup(get_env_var(env, "PWD"));
-	else if (cmd->args[1] == "~")
-    	path = ft_strdup(get_env_var(env, "HOME"));
-	else if (cmd->args[1][0] == '/')
+	if (!cmd[1] || path_len == 0)
+    	path = ft_strdup(get_env_var("HOME", env));
+	else if (ft_strncmp(cmd[1], ".", 2) == 0)
+    	path = ft_strdup(get_env_var("PWD", env));
+	else if (ft_strncmp(cmd[1],"~", 2) == 0)
+    	path = ft_strdup(get_env_var("HOME", env));
+	else if (cmd[1][0] == '/')
 		path = ft_strdup(cmd[1]);
-	else if (cmd->args[1] == "-")
-    	path = ft_strdup(get_env_var(env, "OLDPWD"));
-	else if (cmd->args[1] == "..")
+	else if (ft_strncmp(cmd[1], "-", 2) == 0)
+    	path = ft_strdup(get_env_var("OLDPWD", env));
+	else if (ft_strncmp(cmd[1], "..", 3) == 0)
 		path = find_path_up(cwd, path_len);
-	else if (ft_strncmp(cmd->args[1], "~/", 2) == 0)
-    	path = ft_strjoin(get_env_var(env, "home"), cmd[1] + 1);
+	else if (ft_strncmp(cmd[1], "~/", 2) == 0)
+    	path = ft_strjoin(get_env_var("HOME", env), cmd[1] + 1);
 	else
     	path = ft_strdup(cmd[1]);
 	return (path);
@@ -54,13 +55,14 @@ int	main(int argc, char **argv, char **envp)
 	(void) 		argc;
 	(void)		argv;
 	t_env_list	*env;
-	char		**cmd = {"cd", ".", "NULL"};
+	char		*cmd[3] = {"cd", "~", "NULL"};
 	
 	env = init_env_lst(envp);
+	printf("Before: %s\n", get_env_var("PWD", env));
 	if (builtin_cd(cmd, env) == -1)
 		exit(1);
-	print_env_list(env);
-	free_env_list(env);
+	printf("After: %s\n", get_env_var("PWD", env));
+	free_env_list(&env);
 	return (0);
 }
 

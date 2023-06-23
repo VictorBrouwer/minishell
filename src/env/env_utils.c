@@ -26,7 +26,7 @@ size_t	env_len(t_env_list *env)
 	while (env)
 	{
 		count++;
-		env = env->next
+		env = env->next;
 	}
 	return (count);
 }
