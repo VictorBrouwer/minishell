@@ -12,7 +12,7 @@ void	redirect_std_out(int fd)
 {
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		exit(1); // beter afhandelen
-	// close(fd);
+	close(fd);
 }
 
 char	*find_path(char **envp)
@@ -53,5 +53,5 @@ char	*get_command_path(t_shell *shell, char *command)
 		i++;
 	}
 	ft_free_split(sep_paths);
-	return (NULL);
+	return (command);
 }

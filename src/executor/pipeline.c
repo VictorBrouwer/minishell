@@ -5,6 +5,7 @@ void	pipe_line(t_shell *shell)
 {
 	t_command	*curr;
 	int			pipefd[2];
+	int			status;
 	pid_t		pid;
 
 	curr = shell->command_node;
@@ -20,16 +21,18 @@ void	pipe_line(t_shell *shell)
 		if (pid == 0)
 			execute_child(curr, shell, pipefd);
 		shell->read_fd = pipefd[READ];
-		if (curr->next) // bij het 1-na laatste command niet de write end sluiten anders wordt ie dubbel gesloten in execute_last_child. dit moet echter wel gebeuren als laatste command een builtin is 
-			close(pipefd[WRITE]);
+		shell->read_fd = dup(shell->read_fd);
+		close(pipefd[READ]);
+		close(pipefd[WRITE]);
 		curr = curr->next;
 	}
+	// if (check_built_in(curr->args[0]))
 	pid = fork();
 	if (pid == -1)
 		return ;
 	if (pid == 0)
 		execute_last_child(curr, shell, pipefd);
-	waitpid(-1, &shell->exit_status, 0);
+	waitpid(-1, &status, 0);
 	close(pipefd[READ]);
 	close(pipefd[WRITE]);
 	return ;
@@ -38,7 +41,8 @@ void	pipe_line(t_shell *shell)
 void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 {
 	close(pipefd[READ]);
-	shell->write_fd = pipefd[WRITE];
+	redirect_std_out(pipefd[WRITE]); // als je dit niet doet blijft de write end van de pipe open en gaat voor problem zorgen
+	// shell->write_fd = pipefd[WRITE];
 	if (!(curr->args[0]))
 	{
 		handle_redirs_curr_cmd(shell, curr);

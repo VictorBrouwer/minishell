@@ -12,6 +12,13 @@ int	minishell(char **envp)
 	return (shell_loop(shell));
 }
 
+void	clean_shell(t_shell *shell)
+{
+	clean_commands(shell->command_node);
+	// free(shell->input);
+	// free(shell);
+}
+
 int	shell_loop(t_shell *shell)
 {
 	char *line;
@@ -22,7 +29,7 @@ int	shell_loop(t_shell *shell)
 		if (line == NULL)
 			printf("No line\n");
 		else if (!ft_strncmp(line, "exit", 5))
-			exit(0);
+			break ;
 		else
 		{
 			printf("line = %s\n", line);
@@ -32,6 +39,7 @@ int	shell_loop(t_shell *shell)
 		}
 		rl_on_new_line();
 		add_history(line);
+		clean_shell(shell);
 	}
 	free(shell);
 	rl_clear_history();

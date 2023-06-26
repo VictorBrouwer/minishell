@@ -19,3 +19,8 @@ bool	check_built_in(char *cmd)
 		return (true);
 	return (false);
 }
+
+// void	execute_built_in(t_shell *shell, t_command *curr)
+// {
+
+// }

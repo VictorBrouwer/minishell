@@ -50,7 +50,6 @@ typedef	struct s_shell
 	t_command			*command_node;
 	int					read_fd;
 	int					write_fd;
-	int					exit_status;
 }						t_shell;
 
 enum token_id
@@ -71,6 +70,7 @@ enum token_id
 
 //					SHELL.C
 int				minishell(char **envp);
+void			clean_shell(t_shell *shell);
 int				shell_loop(t_shell *shell_str);
 int				initiate_shell(t_shell *shell_str);
 //					TOKENIZER.C
@@ -121,7 +121,7 @@ void			execute_child_without_pipe(t_shell *shell, t_command *curr);
 // 					PIPELINE.C
 void			pipe_line(t_shell *shell);
 void			execute_child(t_command *curr, t_shell *shell, int pipefd[]);
-void			execute_last_child(t_command *curr, t_shell *shell, int pipefd[2]);
+void			execute_last_child(t_command *curr, t_shell *shell, int pipefd[]);
 // 					EXECUTION_UTILS.C
 void			redirect_std_in(int fd);
 void			redirect_std_out(int fd);

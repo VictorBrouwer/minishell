@@ -34,7 +34,7 @@ t_token	*fill_command(t_command *command, t_token *current)
 
 	count = get_num_args(current);
 	i = 0;
-	command->args = ft_calloc(count + 1, sizeof(t_command *));
+	command->args = ft_calloc(count + 1, sizeof(char *));
 	if (!command->args)
 		return (NULL);
 	while (current != NULL && current->token_id != PIPE)

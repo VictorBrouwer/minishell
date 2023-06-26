@@ -144,6 +144,8 @@ $(UNIT_OBJS): $(UNIT_BUILD_DIR)/%.o: $(UNIT_SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< $(INCLUDE) $(UNIT_INCLUDE_FLAGS) $(INCLUDE_FLAGS) -o $@
 
+mem : $(SRC)
+	memdetect/memdetect.sh $(SRC) $(MAIN) $(INCLUDE) $(CFLAGS) $(LDFLAGS) -fail 3
 # $(TEST)/bin:
 # 	mkdir $@
 
