@@ -14,7 +14,7 @@ t_token	**tokenize(char *s)
 		return (NULL);
 	s = ft_strtrim(s, " ");
 	if (s[0] == '\0')
-		return (printf("only whitespace\n"), NULL);
+		return (free(s), NULL);
 	start = 0;
 	token = NULL;
 	token_list = ft_calloc(1, sizeof(t_token *));
@@ -25,7 +25,7 @@ t_token	**tokenize(char *s)
 		end = find_next_token(s, start);
 		token_string = ft_substr(s, start, end - start);
 		if (!token_string)
-			return (clean_tokens_and_strings(token_list), NULL);
+			return (clean_tokens(token_list), NULL);
 		while(s[end] && s[end] == ' ')
 			end++;
 		if (end - 1 > start && s[end - 1] == ' ')
@@ -35,9 +35,10 @@ t_token	**tokenize(char *s)
 		// token = ft_new_token(ft_strtrim(token_string, " "));
 		token = ft_new_token(token_string);
 		if (!token)
-			return (clean_tokens_and_strings(token_list), NULL);
-		add_token(token_list, token);
+			return (clean_tokens(token_list), NULL);
+		add_token_back(token_list, token);
 	}
+	free(s);// s is mallocced in ft_strtrim
 	*token_list = remove_white_space(*token_list);
 	return (token_list);
 }

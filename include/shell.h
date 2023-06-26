@@ -7,6 +7,8 @@
 # include <limits.h>
 # include <errno.h>
 # include <sys/time.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -48,7 +50,6 @@ typedef	struct s_shell
 	t_command			*command_node;
 	int					read_fd;
 	int					write_fd;
-	int					exit_status;
 }						t_shell;
 
 enum token_id
@@ -69,6 +70,7 @@ enum token_id
 
 //					SHELL.C
 int				minishell(char **envp);
+void			clean_shell(t_shell *shell);
 int				shell_loop(t_shell *shell_str);
 int				initiate_shell(t_shell *shell_str);
 //					TOKENIZER.C
@@ -76,7 +78,7 @@ t_token	**		tokenize(char *s);
 size_t			find_next_token(const char *s, size_t end);
 void			print_tokens(t_token *top);
 // 					TOKEN_LIST_FUNCTIONS.C
-void			add_token(t_token **token_list, t_token *token);
+void			add_token_back(t_token **token_list, t_token *token);
 t_token			*ft_new_token(char *content);
 int 			get_token_id(char *content);
 size_t			list_token_size(t_token *t_list);
@@ -91,7 +93,7 @@ bool			check_heredoc(t_token *prev, t_token *curr);
 bool			check_quotes(t_token *prev, t_token *curr);
 bool			check_env_var(t_token *prev, t_token *curr);
 // 					COMMANDS.C
-t_command		**create_commands(t_token *top);
+t_command		*create_commands(t_token **token_list);
 t_token			*fill_command(t_command *command, t_token *current);
 int				get_num_args(t_token *current);
 // 					PARSER_UTILS.C
@@ -102,7 +104,9 @@ void			add_redir(t_redir *redir, t_command *comm);
 // 					PARSER.C
 t_command		*parser(t_shell *shell);
 // 					CLEAN_FUNCTIONS.C
-void			clean_tokens_and_strings(t_token **token_list);
+void			free_tokens_and_useless_strings(t_token **token_list);
+void			clean_tokens_and_commands(t_token **token_list, t_command *command_node);
+void			clean_tokens(t_token **token_list);
 void			clean_commands(t_command *command_node);
 void			clean_redirs(t_redir *redir_node);
 // 					HEREDOC.C
@@ -111,12 +115,13 @@ void			handle_hd(t_shell *shell, char *hd_delm);
 bool			strings_equal(char *s1, char *s2);
 // 					EXECUTOR.C
 int				executor(t_shell *shell);
+// 					SIMPLE_COMMAND.C
 void			simple_command(t_shell *shell);
-void			pipe_line(t_shell *shell);
 void			execute_child_without_pipe(t_shell *shell, t_command *curr);
 // 					PIPELINE.C
+void			pipe_line(t_shell *shell);
 void			execute_child(t_command *curr, t_shell *shell, int pipefd[]);
-void			execute_last_child(t_command *curr, t_shell *shell, int pipefd[2]);
+void			execute_last_child(t_command *curr, t_shell *shell, int pipefd[]);
 // 					EXECUTION_UTILS.C
 void			redirect_std_in(int fd);
 void			redirect_std_out(int fd);
@@ -131,4 +136,9 @@ bool			redir_infile(t_redir *curr, t_shell *shell);
 bool			check_built_in(char *cmd);
 // 					EXECUTE_NON_BUILT_IN.C
 void			execute_non_built_in(t_shell *shell, t_command *curr);
+// 					EXPANSION.C
+void			expand(t_token *top, t_shell *shell);
+char			*find_env_var(char *s, char **envp);
+char 			*find_replacement(char *env_string, char *new_string);
+void			replace(t_token *token, char **envp);
 #endif

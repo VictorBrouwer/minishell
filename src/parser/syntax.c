@@ -33,7 +33,7 @@ int analyze_tokens(t_token **token_list)
 		if (current->token_id != 0 && current->token_id != 10 && current->token_id != 11) // hier nog iets op verzinnen
 		{
 			if ((g_syntax_func[current->token_id])(prev, current))
-				return (clean_tokens_and_strings(token_list), ERROR);
+				return (clean_tokens(token_list), ERROR);
 		}
 			// return (printf(" ERROR \n prev token = %s \n current token = %s", prev->content, current->content), ERROR);
 		prev = current;
@@ -41,31 +41,6 @@ int analyze_tokens(t_token **token_list)
 	}
 	return (SUCCESS);
 }
-
-// int	check_tokens(int id_prev, int id_curr)
-// {
-// 	// if (id_prev == PIPE && id_curr == PIPE)
-// 	// 	return (ERROR);
-// 	// if (id_prev == GREAT && id_curr == GREAT)
-// 	// 	return (ERROR);
-// 	// if (id_prev == LESS && id_curr == LESS)
-// 	// 	return (ERROR);
-// 	// if ((id_prev > 1 && id_prev < 6) && (id_curr > 1 && id_curr < 6))
-// 	// 	return (ERROR);
-// 	if ((id_prev == GREAT || \
-// 		id_prev == APPEND || \
-// 		id_prev == LESS || \
-// 		id_prev == HEREDOC) && \
-// 		(id_curr == GREAT || \
-// 		id_curr == APPEND || \
-// 		id_curr == LESS || \
-// 		id_curr == HEREDOC))
-// 		return (ERROR);
-	// if ((id_prev == GREAT || id_prev == APPEND || id_prev == LESS || id_prev == HEREDOC) && \
-	// 		id_curr != WORD)
-// 		return (ERROR);
-// 	return (SUCCESS);
-// }
 
 const char* getTokenString(enum token_id id)
 {

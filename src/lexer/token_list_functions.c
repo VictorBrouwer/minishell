@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-void	add_token(t_token **token_list, t_token *token)
+void	add_token_back(t_token **token_list, t_token *token)
 {
 	t_token	*last_token;
 

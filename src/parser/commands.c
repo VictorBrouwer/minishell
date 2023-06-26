@@ -1,27 +1,28 @@
 #include "shell.h"
 #include "libft.h"
 
-t_command	**create_commands(t_token *top)
+t_command	*create_commands(t_token **token_list)
 {
 	t_token 	*current;
 	t_command	*command;
-	t_command	**command_list;
+	t_command	*command_list_start;
 
-	current = top;
-	command_list = ft_calloc(1, sizeof(t_command *));
-	if (!command_list)
-		return (NULL);
+	current = *token_list;
+	command_list_start = NULL;
 	while (current)
 	{
 		command = ft_new_comm();
 		if (!command)
-			return (NULL);
+			return (clean_tokens_and_commands(token_list, command_list_start), NULL);
 		current = fill_command(command, current);
-		add_comm_back(command_list, command);
+		if (!command)
+			return (clean_tokens_and_commands(token_list, command_list_start), NULL);
+		add_comm_back(&command_list_start, command);
 		if (current && current->token_id == PIPE)
 			current = current->next;
 	}
-	return (command_list);
+	free_tokens_and_useless_strings(token_list);
+	return (command_list_start);
 }
 
 
@@ -33,7 +34,9 @@ t_token	*fill_command(t_command *command, t_token *current)
 
 	count = get_num_args(current);
 	i = 0;
-	command->args = ft_calloc(count + 1, sizeof(t_command *));
+	command->args = ft_calloc(count + 1, sizeof(char *));
+	if (!command->args)
+		return (NULL);
 	while (current != NULL && current->token_id != PIPE)
 	{
 		if (!(current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS || current->token_id == HEREDOC))
@@ -44,6 +47,8 @@ t_token	*fill_command(t_command *command, t_token *current)
 		if (current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS || current->token_id == HEREDOC)
 		{
 			temp_redir = ft_new_redir(current);
+			if (!temp_redir)
+				return (clean_commands(command), NULL);
 			add_redir(temp_redir, command);
 			current = current->next;
 		}

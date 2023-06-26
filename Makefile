@@ -49,11 +49,12 @@ SRC						:=  shell/minishell.c \
 							parser/heredoc.c \
 							parser/expansion.c \
 							executor/executor.c \
-							executor/pipeline.c \
 							executor/execution_utils.c \
 							executor/execute_built_in.c \
 							executor/execute_non_built_in.c \
 							executor/handle_redir.c \
+							executor/simple_command.c \
+							executor/pipeline.c \
 							
 
 ODIR					:=	$(sort $(dir $(SRC:%=$(OBJ_DIR)/%)))
@@ -143,6 +144,8 @@ $(UNIT_OBJS): $(UNIT_BUILD_DIR)/%.o: $(UNIT_SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< $(INCLUDE) $(UNIT_INCLUDE_FLAGS) $(INCLUDE_FLAGS) -o $@
 
+mem : $(SRC)
+	memdetect/memdetect.sh $(SRC) $(MAIN) $(INCLUDE) $(CFLAGS) $(LDFLAGS) -fail 3
 # $(TEST)/bin:
 # 	mkdir $@
 
