@@ -1,5 +1,9 @@
 export LIBRARY_PATH = $(HOME)/.brew/lib
 export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
+# export LIBRARY_PATH = $(HOME)/homebrew/lib
+# export C_INCLUDE_PATH = $(HOME)/homebrew/Cellar/criterion/2.4.1_2/include
+
+
 NAME    	:= minishell
 UNIT_TEST	:= test.out
 
@@ -21,7 +25,7 @@ TEST_DIR	:=	./tests
 
 #=================== LIBRARIES ===================#
 
-CFLAGS  	+= 	-Wextra -Wall -Werror 
+CFLAGS  	+= 	-Wextra -Wall -Werror
 CFLAGS  	+=	 $(addprefix -I, $(shell brew --prefix readline)/include)
 
 LDFLAGS  	= 	-L$(shell brew --prefix readline)/lib -lreadline -L./libft -lft
@@ -30,6 +34,7 @@ ifdef TEST
 CRIT_FLAGS	= 	-I$(shell brew --prefix criterion)/include -lcriterion
 endif
 # CRIT_FLAGS	= 	$(addprefix -I, $(shell brew --prefix criterion)/include)
+# CRIT_FLAGS	= -I$(shell brew --prefix criterion)2.4.1_2/include # -I/Users/vbrouwer/.brew/Cellar/criterion/2.4.1_2/include
 
 #=================== GENERAL VARIABLES ===================#
 
@@ -84,7 +89,7 @@ UNIT_INCLUDE_FLAGS		:=	-I$(UNIT_DIR)
 #===============================================#
 
 # echo:
-# 	@echo 
+# 	@echo
 
 all: $(ODIR) $(NAME)
 
