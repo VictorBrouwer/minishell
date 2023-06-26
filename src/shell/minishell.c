@@ -39,7 +39,7 @@ int	shell_loop(t_shell *shell)
 		}
 		rl_on_new_line();
 		add_history(line);
-		clean_shell(shell);
+		// clean_shell(shell);
 	}
 	free(shell);
 	rl_clear_history();
