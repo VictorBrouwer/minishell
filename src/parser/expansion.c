@@ -1,30 +1,57 @@
 #include "shell.h"
 #include "libft.h"
 
-// int	expand(t_token *top, t_shell *shell)
-// {
-// 	t_token	*curr;
+// there can be nothing, quotes or an empty string after a env_var
 
-// 	curr = top;
-// 	while (curr)
-// 	{
-// 		if (curr->token_id == ENV_VAR)
-// 			find_env_var(curr->content, shell->envp);
-// 		curr = curr->next;
-// 	}
-// }
+void	expand(t_token *top, t_shell *shell)
+{
+	t_token	*curr;
 
-// char	*find_env_var(char *s, char **envp)
-// {
-// 	size_t	i;
-// 	char	*str;
+	curr = top;
+	if (curr->token_id == ENV_VAR)
+		replace(curr, shell->envp);
+	while (curr->next)
+	{
+		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC) // if env_var comes after a heredoc it should not be expanded
+			replace(curr->next, shell->envp);
+		curr = curr->next;
+	}
+}
 
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-// 			return (envp[i]);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
+void	replace(t_token *token, char **envp)
+{
+	size_t	i;
+	char	*new_str;
+	char	*replacement;
+
+	i = 0;
+	new_str = ft_strjoin(token->content + 1, "=");
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], new_str, strlen(new_str)) == 0)
+		{
+			replacement = find_replacement(envp[i], new_str);
+			if (replacement != NULL)
+			{
+				free(token->content);
+				token->content = replacement;
+			}
+			return (free(new_str));
+		}
+		i++;
+	}
+	return (free(new_str));
+}
+
+char *find_replacement(char *env_string, char *new_string)
+{
+	char *replacement;
+	char *result;
+
+	replacement = env_string + ft_strlen(new_string);
+	// printf("replacement = %s\n", replacement);
+	if (!replacement)
+		return (NULL);
+	result = ft_strdup(replacement);
+	return (result);
+}

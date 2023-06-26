@@ -8,7 +8,7 @@ const char* getTokenString(enum token_id id);
 t_command	*parser(t_shell *shell)
 {
 	t_token		**token_list;
-	t_command	**command_list;
+	t_command	*command_list;
 
 	token_list = tokenize(shell->input);
 	if (token_list == NULL)
@@ -16,12 +16,12 @@ t_command	*parser(t_shell *shell)
 	// print_tokens(*token_list);
 	if (analyze_tokens(token_list) == ERROR)
 		return (printf("syntax error\n"), NULL);
-	// expand(*token_list, shell);// doe nog iets met return value
-	command_list = create_commands(*token_list);
+	expand(*token_list, shell);// doe nog iets met return value
+	command_list = create_commands(token_list);
 	if (command_list == NULL)
 		return (NULL);
-	// print_commands(*command_list);
-	return (*command_list);
+	// print_commands(command_list);
+	return (command_list);
 }
 
 size_t	list_command_size(t_command *t_list)

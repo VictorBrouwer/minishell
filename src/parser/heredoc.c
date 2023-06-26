@@ -29,6 +29,7 @@ void	handle_hd(t_shell *shell, char *hd_delim)
 	while (line && !(strings_equal(line, hd_delim)))
 	{
 		write(pipefd[WRITE], line, ft_strlen(line));
+		write(pipefd[WRITE], "\n", 1);
 		free(line);
 		line = readline("> ");
 	}

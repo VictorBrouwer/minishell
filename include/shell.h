@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #define TOKEN_DELIMITERS "|><\'\"$\\ "
 #define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
@@ -102,7 +103,7 @@ bool check_quotes(t_token *prev, t_token *curr);
 bool check_env_var(t_token *prev, t_token *curr);
 
 //	COMMANDS.C
-t_command **create_commands(t_token *top);
+t_command *create_commands(t_token **top);
 t_token *fill_command(t_command *command, t_token *current);
 int get_num_args(t_token *current);
 
@@ -112,13 +113,20 @@ t_command *ft_new_comm(void);
 t_redir *ft_new_redir(t_token *current);
 void add_redir(t_redir *redir, t_command *comm);
 
+//	EXPANSION.C
+void	expand(t_token *top, t_shell *shell);
+void	replace(t_token *token, char **envp);
+char *find_replacement(char *env_string, char *new_string);
+
 //	PARSER.C
 t_command *parser(t_shell *shell);
 
 //	CLEAN_FUNCTIONS.C
-void clean_tokens_and_strings(t_token **token_list);
+void clean_tokens(t_token **token_list);
 void clean_commands(t_command *command_node);
 void clean_redirs(t_redir *redir_node);
+void	free_tokens_and_useless_strings(t_token **token_list);
+void	clean_tokens_and_commands(t_token **token_list, t_command *command_node);
 
 //	HEREDOC.C
 void check_hd_curr_cmd(t_shell *shell, t_command *curr);
@@ -133,7 +141,7 @@ void execute_child_without_pipe(t_shell *shell, t_command *curr);
 
 //	PIPELINE.C
 void execute_child(t_command *curr, t_shell *shell, int pipefd[]);
-void execute_last_child(t_command *curr, t_shell *shell, int pipefd[2]);
+void execute_last_child(t_command *curr, t_shell *shell, int pipefd[]);
 
 //	EXECUTION_UTILS.C
 void redirect_std_in(int fd);

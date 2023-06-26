@@ -5,14 +5,14 @@ void	add_comm_back(t_command **command_list, t_command *command)
 {
 	t_command	*last_command;
 
-	last_command = *command_list;
 	if (!command)
 		return ;
-	if (!*command_list)
+	if (*command_list == NULL)
 	{
 		*command_list = command;
 		return ;
 	}
+	last_command = *command_list;
 	while (last_command->next != NULL)
 		last_command = last_command->next;
 	last_command->next = command;

@@ -1,7 +1,36 @@
 #include "shell.h"
 #include "libft.h"
 
-void	clean_tokens_and_strings(t_token **token_list)
+void	free_tokens_and_useless_strings(t_token **token_list)
+{
+	t_token *node;
+	t_token *temp;
+
+	if (!token_list)
+		return ;
+	if (!(*token_list))
+		return (free(token_list));
+	node = *token_list;
+	while (node)
+	{
+		if (!(node->token_id == WORD || node->token_id == S_QUOTE || node->token_id == D_QUOTE || node->token_id == ENV_VAR))
+		{
+			free(node->content);
+		}
+		temp = node->next;
+		free(node);
+		node = temp;
+	}
+	free(token_list);
+}
+
+void	clean_tokens_and_commands(t_token **token_list, t_command *command_node)
+{
+	clean_tokens(token_list);
+	clean_commands(command_node);
+}
+
+void	clean_tokens(t_token **token_list)
 {
 	t_token *node;
 	t_token *temp;
@@ -43,7 +72,6 @@ void	clean_commands(t_command *command_node)
 		free(node);
 		node = temp;
 	}
-	free(command_node);
 }
 
 void	clean_redirs(t_redir *redir_node)
@@ -56,6 +84,8 @@ void	clean_redirs(t_redir *redir_node)
 	node = redir_node;
 	while (node)
 	{
+		if (node->file_name)
+			free(node->file_name);
 		temp = node->next;
 		free(node);
 		node = temp;
