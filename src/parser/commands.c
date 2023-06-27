@@ -13,10 +13,11 @@ t_command	*create_commands(t_token **token_list)
 	{
 		command = ft_new_comm();
 		if (!command)
-			return (clean_tokens_and_commands(token_list, command_list_start), NULL);
+		{
+			clean_tokens(token_list);
+			return(clean_commands(command_list_start), NULL);
+		}
 		current = fill_command(command, current);
-		if (!command)
-			return (clean_tokens_and_commands(token_list, command_list_start), NULL);
 		add_comm_back(&command_list_start, command);
 		if (current && current->token_id == PIPE)
 			current = current->next;

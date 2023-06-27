@@ -127,7 +127,6 @@ void clean_tokens(t_token **token_list);
 void clean_commands(t_command *command_node);
 void clean_redirs(t_redir *redir_node);
 void	free_tokens_and_useless_strings(t_token **token_list);
-void	clean_tokens_and_commands(t_token **token_list, t_command *command_node);
 
 //	HEREDOC.C
 void check_hd_curr_cmd(t_shell *shell, t_command *curr);
@@ -158,7 +157,8 @@ bool redir_infile(t_redir *curr, t_shell *shell);
 
 //	EXECUTE_BUILT_IN.C
 bool	check_built_in(char *cmd);
-bool	execute_built_in(t_shell *shell, t_command *curr);
+bool	handle_built_in(t_shell *shell, t_command *curr);
+void	execute_built_in(t_shell *shell, t_command *curr);
 
 //	EXECUTE_NON_BUILT_IN.C
 void	execute_non_built_in(t_shell *shell, t_command *curr);

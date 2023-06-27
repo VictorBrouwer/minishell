@@ -24,12 +24,6 @@ void	free_tokens_and_useless_strings(t_token **token_list)
 	free(token_list);
 }
 
-void	clean_tokens_and_commands(t_token **token_list, t_command *command_node)
-{
-	clean_tokens(token_list);
-	clean_commands(command_node);
-}
-
 void	clean_tokens(t_token **token_list)
 {
 	t_token *node;
@@ -74,14 +68,12 @@ void	clean_commands(t_command *command_node)
 	}
 }
 
-void	clean_redirs(t_redir *redir_node)
+void	clean_redirs(t_redir *node)
 {
-	t_redir *node;
 	t_redir *temp;
 
-	if (!redir_node)
+	if (!node)
 		return ;
-	node = redir_node;
 	while (node)
 	{
 		if (node->file_name)
@@ -90,5 +82,5 @@ void	clean_redirs(t_redir *redir_node)
 		free(node);
 		node = temp;
 	}
-	free(redir_node);
+	free(node);
 }

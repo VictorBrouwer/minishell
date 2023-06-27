@@ -14,19 +14,24 @@ int	initiate_shell(char **envp)
 
 void	clean_shell(t_shell *shell)
 {
-	clean_commands(shell->command_node);
+	if (shell->command_node)
+		clean_commands(shell->command_node);
+	free_env_list(&shell->env_list);
 	// free(shell->input);
-	// free(shell);
+	free(shell);
 }
 
 int	shell_loop(t_shell *shell)
 {
 	char *line;
+	int	temp_std_in;
+	int	temp_std_out;
 
 	shell->env_list = init_env_lst(shell->envp);
 	while(true)
 	{
-		// print_env_lst(shell->env_list);
+		temp_std_in = dup(STDIN_FILENO); // make dups of stdin and stdout to refer back to if they are overwritten in the parent
+		temp_std_out = dup(STDOUT_FILENO);
 		line = readline("ultra-shell:");
 		if (line == NULL)
 			printf("No line\n");
@@ -39,11 +44,12 @@ int	shell_loop(t_shell *shell)
 			if (execute_line(shell) == ERROR)
 				return (ERROR);
 		}
+		redirect_std_in(temp_std_in);
+		redirect_std_out(temp_std_out);
 		rl_on_new_line();
 		add_history(line);
-		// clean_shell(shell);
 	}
-	free(shell);
+	clean_shell(shell);
 	rl_clear_history();
 	return(0);
 }

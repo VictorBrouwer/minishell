@@ -14,7 +14,7 @@ void	pipe_line(t_shell *shell)
 		check_hd_curr_cmd(shell, curr);
 		if (pipe(pipefd) == -1)
 			return ;
-		if (execute_built_in(shell, shell->command_node))
+		if (handle_built_in(shell, shell->command_node))
 			(void) pid;// do_nothing
 		else
 		{
@@ -31,7 +31,7 @@ void	pipe_line(t_shell *shell)
 		curr = curr->next;
 	}
 	check_hd_curr_cmd(shell, curr);
-	if (execute_built_in(shell, shell->command_node))
+	if (handle_built_in(shell, shell->command_node))
 		return ;
 	pid = fork();
 	if (pid == -1)
