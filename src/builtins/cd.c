@@ -17,6 +17,7 @@ int builtin_cd(char **cmd, t_env_list *env)
 		return (free(cwd), -1);
 	printf("Path = %s\n", path);
 	oldpwd = ft_strdup(cwd);
+	(void)oldpwd;
 	if (chdir(path) != 0)
 		return (free(cwd), -1);
 	free(cwd);
@@ -50,21 +51,21 @@ static char	*get_path(char **cmd, char *cwd, t_env_list *env)
 	return (path);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	(void) 		argc;
-	(void)		argv;
-	t_env_list	*env;
-	char		*cmd[3] = {"cd", "~", "NULL"};
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	(void) 		argc;
+// 	(void)		argv;
+// 	t_env_list	*env;
+// 	char		*cmd[3] = {"cd", "~", "NULL"};
 	
-	env = init_env_lst(envp);
-	printf("Before: %s\n", get_env_var("PWD", env));
-	if (builtin_cd(cmd, env) == -1)
-		exit(1);
-	printf("After: %s\n", get_env_var("PWD", env));
-	free_env_list(&env);
-	return (0);
-}
+// 	env = init_env_lst(envp);
+// 	printf("Before: %s\n", get_env_var("PWD", env));
+// 	if (builtin_cd(cmd, env) == -1)
+// 		exit(1);
+// 	printf("After: %s\n", get_env_var("PWD", env));
+// 	free_env_list(&env);
+// 	return (0);
+// }
 
 /*
 1. set new_working_dir:

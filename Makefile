@@ -60,6 +60,17 @@ SRC						:=  shell/minishell.c \
 							executor/handle_redir.c \
 							executor/simple_command.c \
 							executor/pipeline.c \
+							builtins/builtin_utils.c \
+							builtins/builtins.c \
+							builtins/cd.c \
+							builtins/echo.c \
+							builtins/env.c \
+							builtins/exit.c \
+							builtins/export.c \
+							builtins/pwd.c \
+							builtins/unset.c \
+							env/env_list_funcs.c \
+							env/env_utils.c \
 							
 
 ODIR					:=	$(sort $(dir $(SRC:%=$(OBJ_DIR)/%)))

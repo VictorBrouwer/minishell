@@ -43,21 +43,22 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_shell
-{
-	char **envp;
-	char *input;
-	t_command *command_node;
-	int read_fd;
-	int write_fd;
-	int exit_status;
-}	t_shell;
 typedef struct s_env_list
 {
 	char *name;
 	char *content;
 	struct s_env_list *next;
 }	t_env_list;
+
+typedef struct s_shell
+{
+	char *input;
+	t_command *command_node;
+	int read_fd;
+	int write_fd;
+	char **envp;
+	t_env_list *env_list;
+}	t_shell;
 
 enum token_id
 {
@@ -75,9 +76,9 @@ enum token_id
 };
 
 //	SHELL.C
-int		minishell(char **envp);
+int		initiate_shell(char **envp);
 int		shell_loop(t_shell *shell_str);
-int		initiate_shell(t_shell *shell_str);
+int		execute_line(t_shell *shell_str);
 
 //	TOKENIZER.C
 t_token	**tokenize(char *s);
@@ -157,6 +158,7 @@ bool redir_infile(t_redir *curr, t_shell *shell);
 
 //	EXECUTE_BUILT_IN.C
 bool	check_built_in(char *cmd);
+bool	execute_built_in(t_shell *shell, t_command *curr);
 
 //	EXECUTE_NON_BUILT_IN.C
 void	execute_non_built_in(t_shell *shell, t_command *curr);
@@ -166,9 +168,11 @@ int		builtin_echo(char **args);
 int		builtin_pwd(void);
 int		builtin_cd(char **cmd, t_env_list *env);
 void	builtin_exit(int status);
+void	builtin_env(t_env_list *env);
+void	builtin_unset(t_command *curr, t_env_list *env);
 
 // Builint_utils
-int		putstr_fd_protected(char *s, int fd, int newline);
+int		ft_putstr_fd_protected(char *s, int fd, int newline);
 int		ft_stris_x(char *s, int (*f)(int));
 char	*find_path_up(char *path, int path_len);
 
@@ -179,6 +183,7 @@ t_env_list	*new_env_var_node(char *var_str);
 void		env_lstadd_back(t_env_list **lst, t_env_list *new);
 void		print_env_lst(t_env_list *env);
 void 		free_env_list(t_env_list **env);
+void		free_env_node(t_env_list *node);
 size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
 

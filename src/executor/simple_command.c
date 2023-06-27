@@ -9,11 +9,8 @@ void	simple_command(t_shell *shell)
 		handle_redirs_curr_cmd(shell, shell->command_node);
 		return ;
 	}
-	else if (check_built_in(shell->command_node->args[0]))
-	{
-		// execute_built_in()
+	else if (execute_built_in(shell, shell->command_node))
 		return ;
-	}
 	else
 		execute_child_without_pipe(shell, shell->command_node);
 	wait(NULL);

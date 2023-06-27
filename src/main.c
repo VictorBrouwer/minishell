@@ -8,5 +8,5 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1)
 		return (printf("Program does not take arguments.\n"), 0);
 	(void) argv;// hier nog iets mee doen
-	return (minishell(envp));
+	return (initiate_shell(envp));
 }

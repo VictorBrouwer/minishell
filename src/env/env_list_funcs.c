@@ -36,7 +36,7 @@ t_env_list	*new_env_var_node(char *var_str)
 		return (free(var), NULL);
 	var->content = ft_substr(var_str, i + 1, ft_strlen(var_str) - i);
 	if (!var->content)
-		return (free(var), free(var->name), NULL);
+		return (free(var->name), free(var), NULL);
 	var->next = NULL;
 	return (var);
 }
@@ -79,12 +79,25 @@ void	free_env_list(t_env_list **env)
 	while (*env)
 	{
 		tmp = (*env)->next;
-		free((*env)->name);
-		free((*env)->content);
-		free(*env);
+		free_env_node(*env);
+		// free((*env)->name);
+		// free((*env)->content);
+		// free(*env);
 		*env = tmp;
 	}
 	env = NULL;
+}
+
+void	free_env_node(t_env_list *node)
+{
+	if (node != NULL)
+	{
+		if (node->content != NULL)
+			free(node->content);
+		if (node->name != NULL)
+			free(node->name);
+		free(node);
+	}
 }
 
 // void f(void)

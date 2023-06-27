@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-int	minishell(char **envp)
+int	initiate_shell(char **envp)
 {
 	t_shell		*shell;
 
@@ -23,8 +23,10 @@ int	shell_loop(t_shell *shell)
 {
 	char *line;
 
+	shell->env_list = init_env_lst(shell->envp);
 	while(true)
 	{
+		// print_env_lst(shell->env_list);
 		line = readline("ultra-shell:");
 		if (line == NULL)
 			printf("No line\n");
@@ -34,7 +36,7 @@ int	shell_loop(t_shell *shell)
 		{
 			printf("line = %s\n", line);
 			shell->input = line;
-			if (initiate_shell(shell) == ERROR)
+			if (execute_line(shell) == ERROR)
 				return (ERROR);
 		}
 		rl_on_new_line();
@@ -46,13 +48,12 @@ int	shell_loop(t_shell *shell)
 	return(0);
 }
 
-int	initiate_shell(t_shell *shell)
+int	execute_line(t_shell *shell)
 {
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
 		return (ERROR);
 	executor(shell);
-	// printf("exit status = %d\n", shell->exit_status);
 	shell->read_fd = STDIN_FILENO; //after execution always set the read and write fd's back to std because they can be changed
 	shell->write_fd = STDOUT_FILENO;
 	return (SUCCESS);

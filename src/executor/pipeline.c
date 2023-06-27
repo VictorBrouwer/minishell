@@ -14,19 +14,25 @@ void	pipe_line(t_shell *shell)
 		check_hd_curr_cmd(shell, curr);
 		if (pipe(pipefd) == -1)
 			return ;
-		// if (check_built_in(curr->args[0]))
-		pid = fork();
-		if (pid == -1)
-			return ;
-		if (pid == 0)
-			execute_child(curr, shell, pipefd);
+		if (execute_built_in(shell, shell->command_node))
+			(void) pid;// do_nothing
+		else
+		{
+			pid = fork();
+			if (pid == -1)
+				return ;
+			if (pid == 0)
+				execute_child(curr, shell, pipefd);
+		}
 		shell->read_fd = pipefd[READ];
 		shell->read_fd = dup(shell->read_fd);
 		close(pipefd[READ]);
 		close(pipefd[WRITE]);
 		curr = curr->next;
 	}
-	// if (check_built_in(curr->args[0]))
+	check_hd_curr_cmd(shell, curr);
+	if (execute_built_in(shell, shell->command_node))
+		return ;
 	pid = fork();
 	if (pid == -1)
 		return ;
