@@ -1,9 +1,11 @@
 #include "libft.h"
 #include "shell.h"
 
-void	builtin_env(t_env_list *env)
+int	builtin_env(t_env_list *env)
 {
-    print_env_lst(env);
+	if (print_env_lst(env) == -1)
+		return (-1);
+	return (0);
     // t_env_list  *ptr;
 
     // ptr = env;
