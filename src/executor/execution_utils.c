@@ -15,20 +15,6 @@ void	redirect_std_out(int fd)
 	close(fd);
 }
 
-// char	*find_path(char **envp)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-// 			return (envp[i]);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
-
 char	*get_command_path(t_shell *shell, char *command)
 {
 	char	*path;
@@ -40,7 +26,6 @@ char	*get_command_path(t_shell *shell, char *command)
 	if (access(command, X_OK & F_OK) == 0)
 		return (command);
 	path = get_env_var("PATH", shell->env_list);
-	// path = find_path(shell->envp);
 	if (path == NULL || !command)
 		return (NULL); // beter afhandelen
 	sep_paths = ft_split(path, ':');

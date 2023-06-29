@@ -15,7 +15,7 @@ t_command	*create_commands(t_token **token_list)
 		if (!command)
 		{
 			clean_tokens(token_list);
-			return(clean_commands(command_list_start), NULL);
+			return(clean_commands(&command_list_start), NULL);
 		}
 		current = fill_command(command, current);
 		add_comm_back(&command_list_start, command);
@@ -49,7 +49,7 @@ t_token	*fill_command(t_command *command, t_token *current)
 		{
 			temp_redir = ft_new_redir(current);
 			if (!temp_redir)
-				return (clean_commands(command), NULL);
+				return (clean_commands(&command), NULL);
 			add_redir(temp_redir, command);
 			current = current->next;
 		}

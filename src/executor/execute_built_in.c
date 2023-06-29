@@ -26,7 +26,7 @@ bool	handle_built_in(t_shell *shell, t_command *curr)
 	if (check_built_in(curr->args[0]))
 	{
 		if (handle_redirs_curr_cmd(shell, curr))
-			return (clean_commands(shell->command_node), NULL);
+			return (clean_commands(&shell->command_node), NULL);
 		if (shell->read_fd != STDIN_FILENO)
 			redirect_std_in(shell->read_fd);
 		if (shell->write_fd != STDOUT_FILENO)
