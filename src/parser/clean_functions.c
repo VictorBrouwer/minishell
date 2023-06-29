@@ -44,14 +44,14 @@ void	clean_tokens(t_token **token_list)
 	free(token_list);
 }
 
-void	clean_commands(t_command *command_node)
+void	clean_commands(t_command **command_node)
 {
 	t_command *node;
 	t_command *temp;
 
-	if (!command_node)
+	if (!command_node || !*command_node)
 		return ;
-	node = command_node;
+	node = *command_node;
 	while (node)
 	{
 		temp = node->next;
@@ -61,6 +61,7 @@ void	clean_commands(t_command *command_node)
 		free(node);
 		node = temp;
 	}
+	*command_node = NULL;
 }
 
 void	clean_redirs(t_redir *node)
