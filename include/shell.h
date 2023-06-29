@@ -131,7 +131,6 @@ void	free_tokens_and_useless_strings(t_token **token_list);
 //	HEREDOC.C
 void check_hd_curr_cmd(t_shell *shell, t_command *curr);
 void handle_hd(t_shell *shell, char *hd_delm);
-bool strings_equal(char *s1, char *s2);
 
 //	EXECUTOR.C
 int executor(t_shell *shell);
@@ -169,7 +168,7 @@ int		builtin_pwd(void);
 int		builtin_cd(char **cmd, t_env_list *env);
 void	builtin_exit(int status);
 void	builtin_env(t_env_list *env);
-void	builtin_unset(t_command *curr, t_env_list *env);
+void	builtin_unset(t_command *curr, t_env_list **env);
 
 // Builint_utils
 int		ft_putstr_fd_protected(char *s, int fd, int newline);
@@ -187,5 +186,7 @@ void		free_env_node(t_env_list *node);
 size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
 
+//	SHELL_UTILS.C
+bool strings_equal(char *s1, char *s2);
 
 #endif
