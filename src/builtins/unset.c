@@ -35,7 +35,7 @@ t_env_list	*find_preceding_env_node(char *name, t_env_list *env)
 	while (env->next)
 	{
 		// printf("node name = %s \t node content = %s\n", env->next->name, env->next->content);
-		if (ft_strncmp(env->next->content, name, name_len) == 0)
+		if (ft_strncmp(env->next->name, name, name_len) == 0)
 			return (env);
 		env = env->next;
 	}

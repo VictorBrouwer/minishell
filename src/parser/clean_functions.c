@@ -48,7 +48,6 @@ void	clean_commands(t_command *command_node)
 {
 	t_command *node;
 	t_command *temp;
-	int			i;
 
 	if (!command_node)
 		return ;
@@ -56,12 +55,8 @@ void	clean_commands(t_command *command_node)
 	while (node)
 	{
 		temp = node->next;
-		i = 0;
-		while(node->args[i])
-		{
-			free(node->args[i]);
-			i++;
-		}
+		if (node->args)
+			ft_free_split(node->args);
 		clean_redirs(node->redir);
 		free(node);
 		node = temp;

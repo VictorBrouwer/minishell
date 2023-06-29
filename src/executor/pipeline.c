@@ -14,16 +14,11 @@ void	pipe_line(t_shell *shell)
 		check_hd_curr_cmd(shell, curr);
 		if (pipe(pipefd) == -1)
 			return ;
-		if (handle_built_in(shell, shell->command_node))
-			(void) pid;// do_nothing
-		else
-		{
-			pid = fork();
-			if (pid == -1)
-				return ;
-			if (pid == 0)
-				execute_child(curr, shell, pipefd);
-		}
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+			execute_child(curr, shell, pipefd);
 		shell->read_fd = pipefd[READ];
 		shell->read_fd = dup(shell->read_fd);
 		close(pipefd[READ]);
@@ -31,14 +26,18 @@ void	pipe_line(t_shell *shell)
 		curr = curr->next;
 	}
 	check_hd_curr_cmd(shell, curr);
-	if (handle_built_in(shell, shell->command_node))
-		return ;
 	pid = fork();
 	if (pid == -1)
 		return ;
 	if (pid == 0)
 		execute_last_child(curr, shell, pipefd);
-	waitpid(-1, &status, 0);
+	while ((pid = waitpid(-1, &status, WNOHANG)) > 0) // wait functie moet beter
+	{
+		if (WIFEXITED(status))
+            printf("Child %d exited with status: %d\n", pid, WEXITSTATUS(status));
+        else
+        	printf("Child %d terminated abnormally\n", pid);	
+	}
 	close(pipefd[READ]);
 	close(pipefd[WRITE]);
 	return ;
@@ -48,7 +47,8 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 {
 	close(pipefd[READ]);
 	redirect_std_out(pipefd[WRITE]); // als je dit niet doet blijft de write end van de pipe open en gaat voor problem zorgen
-	// shell->write_fd = pipefd[WRITE];
+	if (handle_built_in(shell, curr))
+		exit(0);// if it is a built_in, the child process needs to be killed
 	if (!(curr->args[0]))
 	{
 		handle_redirs_curr_cmd(shell, curr);
@@ -62,6 +62,8 @@ void	execute_last_child(t_command *curr, t_shell *shell, int pipefd[])
 	close(pipefd[READ]);
 	close(pipefd[WRITE]);
 	shell->write_fd = STDOUT_FILENO; // set standard write_fd to STDOUT and handle redirs afterwards
+	if (handle_built_in(shell, curr))
+		exit(0);// if it is a built_in, the child process needs to be killed
 	if (!(curr->args[0]))
 	{
 		handle_redirs_curr_cmd(shell, curr);
