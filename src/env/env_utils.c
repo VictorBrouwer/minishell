@@ -74,16 +74,13 @@ char	*get_var_content(char *var_str)
 	int			i;
 	int			j;
 
-	if (varlen = 0)
-		return (NULL);
 	while (var_str[i] && var_str[i] != '=')
 		i++;
 	if (i == varlen - 1)
-		return (NULL);
+		return (ft_calloc(1, 1));
 	if (var_str[i] && var_str[i + 1])
 		content = ft_substr(var_str, i + 1, varlen - i);
-	if (!content)
-		return (NULL);
+	return (content);
 }
 
 // int main(char **envp)
