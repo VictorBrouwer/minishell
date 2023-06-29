@@ -12,12 +12,13 @@ int	initiate_shell(char **envp)
 	return (shell_loop(shell));
 }
 
-void	clean_shell(t_shell *shell)
+static void	clean_shell(t_shell *shell)
 {
 	if (shell->command_node)
-		clean_commands(shell->command_node);
+		clean_commands(&shell->command_node);
 	free_env_list(&shell->env_list);
-	// free(shell->input);
+	if (shell->input)
+		free(shell->input);
 	free(shell);
 }
 
@@ -33,6 +34,7 @@ int	shell_loop(t_shell *shell)
 		temp_std_in = dup(STDIN_FILENO); // make dups of stdin and stdout to refer back to if they are overwritten in the parent
 		temp_std_out = dup(STDOUT_FILENO);
 		line = readline("ultra-shell:");
+		shell->input = line;
 		if (line == NULL)
 			printf("No line\n");
 		else if (!ft_strncmp(line, "exit", 5))
@@ -40,7 +42,6 @@ int	shell_loop(t_shell *shell)
 		else
 		{
 			printf("line = %s\n", line);
-			shell->input = line;
 			if (execute_line(shell) == ERROR)
 				return (ERROR);
 		}
@@ -48,6 +49,8 @@ int	shell_loop(t_shell *shell)
 		redirect_std_out(temp_std_out);
 		rl_on_new_line();
 		add_history(line);
+		free(shell->input);
+		shell->input = NULL;
 	}
 	clean_shell(shell);
 	rl_clear_history();
@@ -59,8 +62,9 @@ int	execute_line(t_shell *shell)
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
 		return (ERROR);
-	executor(shell);
+	shell->exit_status = executor(shell);
 	shell->read_fd = STDIN_FILENO; //after execution always set the read and write fd's back to std because they can be changed
 	shell->write_fd = STDOUT_FILENO;
+	clean_commands(&shell->command_node);
 	return (SUCCESS);
 }

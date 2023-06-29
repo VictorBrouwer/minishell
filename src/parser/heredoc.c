@@ -39,14 +39,3 @@ void	handle_hd(t_shell *shell, char *hd_delim)
 	shell->read_fd = pipefd[READ]; // unsure if the old read needs to be closed with multiple heredocs in  single command
 }
 
-bool	strings_equal(char *s1, char *s2)
-{
-	while (*s1 && *s2)
-	{
-		if (*s1 != *s2)
-			return (false);
-		s1++;
-		s2++;
-	}
-	return (*s1 == '\0' && *s2 == '\0');
-}

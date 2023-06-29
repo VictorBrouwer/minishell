@@ -26,7 +26,7 @@ bool	handle_built_in(t_shell *shell, t_command *curr)
 	if (check_built_in(curr->args[0]))
 	{
 		if (handle_redirs_curr_cmd(shell, curr))
-			return (clean_commands(shell->command_node), NULL);
+			return (clean_commands(&shell->command_node), NULL);
 		if (shell->read_fd != STDIN_FILENO)
 			redirect_std_in(shell->read_fd);
 		if (shell->write_fd != STDOUT_FILENO)
@@ -48,7 +48,7 @@ void	execute_built_in(t_shell *shell, t_command *curr)
 	else if(ft_strncmp(curr->args[0], "env", 4) == 0)
 		builtin_env(shell->env_list);
 	else if(ft_strncmp(curr->args[0], "unset", 6) == 0)
-		builtin_unset(curr, shell->env_list);
+		builtin_unset(curr, &shell->env_list);
 	// else if(ft_strncmp(curr->args[0],  "export", 7) == 0)
 	// 	builtin_export(curr->args, shell->env_list);
 	// else if(ft_strncmp(curr->args[0],  "exit", 5) == 0)
