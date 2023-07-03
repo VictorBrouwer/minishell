@@ -48,19 +48,6 @@ int	print_env_list(t_env_list *env)
 	return (0);
 }
 
-// int	print_env_list(t_env_list *env)
-// {
-// 	while (env)
-// 	{
-// 		ft_putstr_fd(env->name, STDOUT_FILENO);
-// 		ft_putstr_fd("=", STDOUT_FILENO);
-// 		ft_putstr_fd(env->content, STDOUT_FILENO);
-// 		ft_putstr_fd("\n", STDOUT_FILENO);
-// 		env = env->next;
-// 	}
-// 	return (0);
-// }
-
 char	*split_var_name(char *var_str)
 {
 	char		*name;
@@ -74,10 +61,10 @@ char	*split_var_name(char *var_str)
 		i++;
 	if (i == 0)
 	{
-		ft_putstr_fd_protected("'=' is not a valid identifier.", STDERR_FILENO, 0);
+		ft_putstr_fd_protected("'=' is not a valid identifier.\n", STDERR_FILENO, 0);
 		return (NULL);
 	}
-	if (i == varlen - i)
+	if (i == varlen)
 		return (NULL);
 	name = ft_substr(var_str, 0, i);
 	return (name);
@@ -85,19 +72,18 @@ char	*split_var_name(char *var_str)
 
 char	*split_var_content(char *var_str)
 {
-	char		*content;
 	const int	varlen = ft_strlen(var_str);
 	int			i;
-	// int			j;
+	char		*content;
 
 	i = 0;
 	while (var_str[i] && var_str[i] != '=')
 		i++;
-	if (i == varlen - 1)
+	if (i == varlen)
 		return (NULL);
 	if (var_str[i] && var_str[i + 1])
 	{
-		content = ft_substr(var_str, i + 1, varlen - i);
+		content = ft_substr(var_str, i + 1, varlen - i - 1);
 		return (content);
 	}
 	else

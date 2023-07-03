@@ -170,6 +170,7 @@ int		builtin_cd(char **cmd, t_env_list *env);
 int		builtin_exit(int status);
 int		builtin_env(t_env_list *env);
 void	builtin_unset(t_command *curr, t_env_list **env);
+int		builtin_export(char **cmd, t_env_list **env);
 
 // Builint_utils
 int		ft_putstr_fd_protected(char *s, int fd, int newline);
