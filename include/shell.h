@@ -174,14 +174,14 @@ void	builtin_unset(t_command *curr, t_env_list **env);
 // Builint_utils
 int		ft_putstr_fd_protected(char *s, int fd, int newline);
 int		ft_stris_x(char *s, int (*f)(int));
-char	*find_path_up(char *path, int path_len);
+char	*find_path_up(char *path);
 
 
 //	ENV funcs
 t_env_list	*init_env_lst(char **envp);
 t_env_list	*new_env_var_node(char *var_str);
 void		env_lstadd_back(t_env_list **lst, t_env_list *new);
-void		print_env_lst(t_env_list *env);
+int			print_env_lst(t_env_list *env);
 void 		free_env_list(t_env_list **env);
 void		free_env_node(t_env_list *node);
 size_t		env_len(t_env_list *env);

@@ -1,7 +1,7 @@
-export LIBRARY_PATH = $(HOME)/.brew/lib
-export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
-# export LIBRARY_PATH = $(HOME)/homebrew/lib
-# export C_INCLUDE_PATH = $(HOME)/homebrew/Cellar/criterion/2.4.1_2/include
+# export LIBRARY_PATH = $(HOME)/.brew/lib
+# export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
+export LIBRARY_PATH = $(HOME)/homebrew/lib
+export C_INCLUDE_PATH = $(HOME)/homebrew/Cellar/criterion/2.4.1_2/include
 
 
 NAME    	:= minishell
@@ -72,7 +72,7 @@ SRC						:=  shell/minishell.c \
 							env/env_list_funcs.c \
 							env/env_utils.c \
 							utils/shell_utils.c \
-							
+
 
 ODIR					:=	$(sort $(dir $(SRC:%=$(OBJ_DIR)/%)))
 SRC     				:=	$(SRC:%=$(SRC_DIR)/%)

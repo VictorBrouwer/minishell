@@ -14,27 +14,31 @@ t_env_list	*init_env_lst(char **envp)
 	while (envp[i])
 	{
 		new_var_node = new_env_var_node(envp[i]);
+		if (!new_var_node && !env_lst)
+			return (NULL);
+		else if (!new_var_node && env_lst)
+			return (free_env_list(&env_lst), NULL);
 		env_lstadd_back(&env_lst, new_var_node);
 		i++;
 	}
 	return (env_lst);
 }
 
-t_env_list	*new_env_var_node(char *var_str)
+t_env_list	*new_env_var_node(char *name, char *content)
 {
 	t_env_list	*var;
 	int			i;
+	int			varlen;
 
+	if (!name)
+		return (NULL)
 	var = malloc(sizeof(t_env_list));
 	if (!var)
 		return (NULL);
-	i = 0;
-	while (var_str[i] && var_str[i] != '=')
-		i++;
-	var->name = ft_substr(var_str, 0, i);
+	var->name = name;
 	if (!var->name)
 		return (free(var), NULL);
-	var->content = ft_substr(var_str, i + 1, ft_strlen(var_str) - i);
+	var->content = content;
 	if (!var->content)
 		return (free(var->name), free(var), NULL);
 	var->next = NULL;
@@ -80,9 +84,6 @@ void	free_env_list(t_env_list **env)
 	{
 		tmp = (*env)->next;
 		free_env_node(*env);
-		// free((*env)->name);
-		// free((*env)->content);
-		// free(*env);
 		*env = tmp;
 	}
 	env = NULL;
