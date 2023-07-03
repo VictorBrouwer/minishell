@@ -52,13 +52,12 @@ typedef struct s_env_list
 
 typedef struct s_shell
 {
-	char 		*input;
-	t_command 	*command_node;
-	int 		read_fd;
-	int 		write_fd;
-	char 		**envp;
+	char *input;
+	t_command *command_node;
+	int read_fd;
+	int write_fd;
+	char **envp;
 	t_env_list *env_list;
-	int			exit_status;
 }	t_shell;
 
 enum token_id
@@ -125,13 +124,14 @@ t_command *parser(t_shell *shell);
 
 //	CLEAN_FUNCTIONS.C
 void clean_tokens(t_token **token_list);
-void clean_commands(t_command **command_node);
+void clean_commands(t_command *command_node);
 void clean_redirs(t_redir *redir_node);
 void	free_tokens_and_useless_strings(t_token **token_list);
 
 //	HEREDOC.C
 void check_hd_curr_cmd(t_shell *shell, t_command *curr);
 void handle_hd(t_shell *shell, char *hd_delm);
+bool strings_equal(char *s1, char *s2);
 
 //	EXECUTOR.C
 int executor(t_shell *shell);
@@ -181,13 +181,15 @@ char	*find_path_up(char *path);
 t_env_list	*init_env_lst(char **envp);
 t_env_list	*new_env_var_node(char *var_str);
 void		env_lstadd_back(t_env_list **lst, t_env_list *new);
-int			print_env_lst(t_env_list *env);
 void 		free_env_list(t_env_list **env);
 void		free_env_node(t_env_list *node);
+
+//	ENV_UTILS.C
+int			print_env_lst(t_env_list *env);
 size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
+char		*get_var_name(char *var_str);
+char		*get_var_content(char *var_str);
 
-//	SHELL_UTILS.C
-bool strings_equal(char *s1, char *s2);
 
 #endif

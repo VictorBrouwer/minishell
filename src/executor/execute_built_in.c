@@ -48,7 +48,7 @@ void	execute_built_in(t_shell *shell, t_command *curr)
 	else if(ft_strncmp(curr->args[0], "env", 4) == 0)
 		builtin_env(shell->env_list);
 	else if(ft_strncmp(curr->args[0], "unset", 6) == 0)
-		builtin_unset(curr, &shell->env_list);
+		builtin_unset(curr, shell->env_list);
 	// else if(ft_strncmp(curr->args[0],  "export", 7) == 0)
 	// 	builtin_export(curr->args, shell->env_list);
 	// else if(ft_strncmp(curr->args[0],  "exit", 5) == 0)

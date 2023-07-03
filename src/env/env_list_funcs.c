@@ -5,6 +5,8 @@ t_env_list	*init_env_lst(char **envp)
 {
 	t_env_list	*new_var_node;
 	t_env_list	*env_lst;
+	char		*name;
+	char		*content;
 	int			i;
 
 	if (!envp)
@@ -13,7 +15,13 @@ t_env_list	*init_env_lst(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		new_var_node = new_env_var_node(envp[i]);
+		name = get_var_name(envp[i]);
+		if (!name)
+			return (NULL);
+		content = get_var_content(envp[i]);
+		if (!content)
+			return (free(name), NULL);
+		new_var_node = new_env_var_node(name, content);
 		if (!new_var_node && !env_lst)
 			return (NULL);
 		else if (!new_var_node && env_lst)
@@ -28,7 +36,6 @@ t_env_list	*new_env_var_node(char *name, char *content)
 {
 	t_env_list	*var;
 	int			i;
-	int			varlen;
 
 	if (!name)
 		return (NULL)
