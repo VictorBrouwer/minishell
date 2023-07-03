@@ -20,7 +20,7 @@ t_env_list	*init_env_lst(char **envp)
 		{
 			content = split_var_content(envp[i]);
 			if (!content)
-				content = ft_calloc(1,1);
+				content = ft_calloc(1, 1);
 			new_var_node = new_env_var_node(name, content);
 			if (!new_var_node && !env_lst)
 				return (NULL);

@@ -3,7 +3,7 @@
 
 char	*get_env_var(char *name, t_env_list *env)
 {
-	const int name_len = ft_strlen(name);
+	const int	name_len = ft_strlen(name);
 
 	if (!name || !name_len || !env)
 		return (NULL);
@@ -18,7 +18,7 @@ char	*get_env_var(char *name, t_env_list *env)
 
 size_t	env_len(t_env_list *env)
 {
-	size_t count;
+	size_t	count;
 
 	if (!env)
 		return (0);
@@ -101,7 +101,6 @@ char	*split_var_content(char *var_str)
 // 	print_env_vars(envp);
 // 	add_env_var("OWD", "/bin/", envp);
 // 	print_env_vars(envp);
-
 
 // 	// printf("%s\n", get_env_var("pwd", envp));
 // 	// free_envp(envp);
