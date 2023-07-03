@@ -10,10 +10,8 @@ int	builtin_export(char **cmd, t_env_list *env)
 	(void)env;
 	if (!cmd[1] || varlen == 0)
 		return (builtin_env(env), 0);
-	name = get_var_name(cmd[1]);
-	content = get_var_content(cmd[1]);
-
-
+	name = split_var_name(cmd[1]);
+	content = split_var_content(cmd[1]);
 	printf("name: %s\n", name);
 	printf("content: %s\n", content);
 

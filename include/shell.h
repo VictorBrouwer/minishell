@@ -125,14 +125,13 @@ t_command *parser(t_shell *shell);
 
 //	CLEAN_FUNCTIONS.C
 void clean_tokens(t_token **token_list);
-void clean_commands(t_command *command_node);
+void clean_commands(t_command **command_node);
 void clean_redirs(t_redir *redir_node);
 void	free_tokens_and_useless_strings(t_token **token_list);
 
 //	HEREDOC.C
 void check_hd_curr_cmd(t_shell *shell, t_command *curr);
 void handle_hd(t_shell *shell, char *hd_delm);
-bool strings_equal(char *s1, char *s2);
 
 //	EXECUTOR.C
 int executor(t_shell *shell);
@@ -170,7 +169,7 @@ int		builtin_pwd(void);
 int		builtin_cd(char **cmd, t_env_list *env);
 int		builtin_exit(int status);
 int		builtin_env(t_env_list *env);
-int		builtin_unset(t_command *curr, t_env_list **env);
+void	builtin_unset(t_command *curr, t_env_list **env);
 
 // Builint_utils
 int		ft_putstr_fd_protected(char *s, int fd, int newline);
@@ -180,17 +179,17 @@ char	*find_path_up(char *path);
 
 //	ENV funcs
 t_env_list	*init_env_lst(char **envp);
-t_env_list	*new_env_var_node(char *var_str);
+t_env_list	*new_env_var_node(char *var_str, char *content);
 void		env_lstadd_back(t_env_list **lst, t_env_list *new);
 void 		free_env_list(t_env_list **env);
 void		free_env_node(t_env_list *node);
 
 //	ENV_UTILS.C
-int			print_env_lst(t_env_list *env);
+int			print_env_list(t_env_list *env);
 size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
-char		*get_var_name(char *var_str);
-char		*get_var_content(char *var_str);
+char		*split_var_name(char *var_str);
+char		*split_var_content(char *var_str);
 
 //	SHELL_UTILS.C
 bool strings_equal(const char *s1, const char *s2);

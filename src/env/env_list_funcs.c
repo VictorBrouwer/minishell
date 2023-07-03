@@ -15,18 +15,23 @@ t_env_list	*init_env_lst(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		name = get_var_name(envp[i]);
-		if (!name)
-			return (NULL);
-		content = get_var_content(envp[i]);
-		if (!content)
-			return (free(name), NULL);
-		new_var_node = new_env_var_node(name, content);
-		if (!new_var_node && !env_lst)
-			return (NULL);
-		else if (!new_var_node && env_lst)
-			return (free_env_list(&env_lst), NULL);
-		env_lstadd_back(&env_lst, new_var_node);
+		name = split_var_name(envp[i]);
+		if (name)
+		{
+			content = split_var_content(envp[i]);
+			if (!content)
+				content = ft_calloc(1,1);
+			if (content)
+			{
+				new_var_node = new_env_var_node(name, content);
+				if (!new_var_node && !env_lst)
+					return (NULL);
+				else if (!new_var_node && env_lst)
+					return (free_env_list(&env_lst), NULL);
+				env_lstadd_back(&env_lst, new_var_node);
+			}
+
+		}
 		i++;
 	}
 	return (env_lst);
@@ -35,10 +40,10 @@ t_env_list	*init_env_lst(char **envp)
 t_env_list	*new_env_var_node(char *name, char *content)
 {
 	t_env_list	*var;
-	int			i;
+	// int			i;
 
 	if (!name)
-		return (NULL)
+		return (NULL);
 	var = malloc(sizeof(t_env_list));
 	if (!var)
 		return (NULL);
@@ -67,18 +72,6 @@ void	env_lstadd_back(t_env_list **lst, t_env_list *new)
 	while (lstptr->next)
 		lstptr = lstptr->next;
 	lstptr->next = new;
-}
-
-void	print_env_list(t_env_list *env)
-{
-	while (env)
-	{
-		ft_putstr_fd(env->name, STDOUT_FILENO);
-		ft_putstr_fd("=", STDOUT_FILENO);
-		ft_putstr_fd(env->content, STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		env = env->next;
-	}
 }
 
 void	free_env_list(t_env_list **env)

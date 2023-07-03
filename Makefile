@@ -61,7 +61,6 @@ SRC						:=  shell/minishell.c \
 							executor/simple_command.c \
 							executor/pipeline.c \
 							builtins/builtin_utils.c \
-							builtins/builtins.c \
 							builtins/cd.c \
 							builtins/echo.c \
 							builtins/env.c \

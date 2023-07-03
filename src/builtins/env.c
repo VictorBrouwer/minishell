@@ -3,11 +3,11 @@
 
 int	builtin_env(t_env_list *env)
 {
-	if (print_env_lst(env) == -1)
+	if (print_env_list(env) == -1)
 		return (-1);
 	return (0);
-    // t_env_list  *ptr;
 
+    // t_env_list  *ptr;
     // ptr = env;
     // while (ptr)
     // {

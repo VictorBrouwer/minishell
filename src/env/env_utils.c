@@ -31,56 +31,77 @@ size_t	env_len(t_env_list *env)
 	return (count);
 }
 
-int	print_env_lst(t_env_list *env)
+int	print_env_list(t_env_list *env)
 {
 	while (env)
 	{
-		if (ft_putstr_fd(env->name, STDOUT_FILENO) == -1)
+		if (ft_putstr_fd_protected(env->name, STDOUT_FILENO, 0) == -1)
 			return (-1);
-		if (ft_putstr_fd("=", STDOUT_FILENO) == -1)
+		if (ft_putstr_fd_protected("=", STDOUT_FILENO, 0) == -1)
 			return (-1);
-		if (ft_putstr_fd(env->content, STDOUT_FILENO) == -1)
+		if (ft_putstr_fd_protected(env->content, STDOUT_FILENO, 0) == -1)
 			return (-1);
-		if (ft_putstr_fd("\n", STDOUT_FILENO) == -1)
+		if (ft_putstr_fd_protected("\n", STDOUT_FILENO, 0) == -1)
 			return (-1);
 		env = env->next;
 	}
 	return (0);
 }
 
-char	*get_var_name(char *var_str)
+// int	print_env_list(t_env_list *env)
+// {
+// 	while (env)
+// 	{
+// 		ft_putstr_fd(env->name, STDOUT_FILENO);
+// 		ft_putstr_fd("=", STDOUT_FILENO);
+// 		ft_putstr_fd(env->content, STDOUT_FILENO);
+// 		ft_putstr_fd("\n", STDOUT_FILENO);
+// 		env = env->next;
+// 	}
+// 	return (0);
+// }
+
+char	*split_var_name(char *var_str)
 {
 	char		*name;
 	const int	varlen = ft_strlen(var_str);
 	int			i;
 
-	if (varlen = 0)
+	if (varlen == 0)
 		return (NULL);
+	i = 0;
 	while (var_str[i] && var_str[i] != '=')
 		i++;
 	if (i == 0)
 	{
-		ft_putstr_fd_protected("'=' is not a valid identifier.", STDERR_FILENO, 0)
+		ft_putstr_fd_protected("'=' is not a valid identifier.", STDERR_FILENO, 0);
 		return (NULL);
 	}
+	if (i == varlen - i)
+		return (NULL);
 	name = ft_substr(var_str, 0, i);
 	return (name);
 }
 
-char	*get_var_content(char *var_str)
+char	*split_var_content(char *var_str)
 {
 	char		*content;
 	const int	varlen = ft_strlen(var_str);
 	int			i;
-	int			j;
+	// int			j;
 
+	i = 0;
 	while (var_str[i] && var_str[i] != '=')
 		i++;
 	if (i == varlen - 1)
-		return (ft_calloc(1, 1));
+		return (NULL);
 	if (var_str[i] && var_str[i + 1])
+	{
 		content = ft_substr(var_str, i + 1, varlen - i);
-	return (content);
+		return (content);
+	}
+	else
+		return (NULL);
 }
 
 // int main(char **envp)
