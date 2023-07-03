@@ -7,6 +7,8 @@ int builtin_echo(char **args)
 {
 	int flag;
 
+	if (args)
+		args++;
 	flag = check_flag(args);
 	if (flag)
 		args++;
@@ -28,7 +30,7 @@ int builtin_echo(char **args)
 
 static int check_flag(char **args)
 {
-	if (args[0] && ft_strncmp(*args, "-n", 3) == 0)
+	if (args && args[0] && ft_strncmp(args[0], "-n", 3) == 0)
 			return (1);
 	return	(0);
 }

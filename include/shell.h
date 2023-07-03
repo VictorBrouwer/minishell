@@ -52,12 +52,13 @@ typedef struct s_env_list
 
 typedef struct s_shell
 {
-	char *input;
-	t_command *command_node;
-	int read_fd;
-	int write_fd;
-	char **envp;
+	char 		*input;
+	t_command 	*command_node;
+	int 		read_fd;
+	int 		write_fd;
+	char 		**envp;
 	t_env_list *env_list;
+	int			exit_status;
 }	t_shell;
 
 enum token_id
@@ -191,5 +192,7 @@ char		*get_env_var(char *name, t_env_list *env);
 char		*get_var_name(char *var_str);
 char		*get_var_content(char *var_str);
 
+//	SHELL_UTILS.C
+bool strings_equal(const char *s1, const char *s2);
 
 #endif
