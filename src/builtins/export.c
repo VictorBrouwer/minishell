@@ -1,8 +1,6 @@
 #include "libft.h"
 #include "shell.h"
 
-static int	replace_env_var_content(char *name, char *content, t_env_list **env);
-
 int	builtin_export(char **cmd, t_env_list **env)
 {
 	char		*name;
@@ -29,18 +27,3 @@ int	builtin_export(char **cmd, t_env_list **env)
 	return (0);
 }
 
-static int	replace_env_var_content(char *name, char *content, t_env_list **env)
-{
-	t_env_list	*ptr;
-
-	ptr = *env;
-	while (ptr && !strings_equal(ptr->name, name))
-		ptr = ptr->next;
-	if (ptr)
-	{
-		free(ptr->content);
-		ptr->content = content;
-		return (1);
-	}
-	return (0);
-}

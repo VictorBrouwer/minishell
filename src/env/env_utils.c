@@ -90,6 +90,22 @@ char	*split_var_content(char *var_str)
 		return (NULL);
 }
 
+int	replace_env_var_content(char *name, char *content, t_env_list **env)
+{
+	t_env_list	*ptr;
+
+	ptr = *env;
+	while (ptr && !strings_equal(ptr->name, name))
+		ptr = ptr->next;
+	if (ptr)
+	{
+		free(ptr->content);
+		ptr->content = content;
+		return (1);
+	}
+	return (0);
+}
+
 // int main(char **envp)
 // {
 // 	// char **envp = malloc(sizeof(char *) * 3);

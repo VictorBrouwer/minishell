@@ -191,6 +191,7 @@ size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
 char		*split_var_name(char *var_str);
 char		*split_var_content(char *var_str);
+int			replace_env_var_content(char *name, char *content, t_env_list **env);
 
 //	SHELL_UTILS.C
 bool strings_equal(const char *s1, const char *s2);
