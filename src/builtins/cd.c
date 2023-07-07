@@ -2,8 +2,9 @@
 #include "shell.h"
 
 static char	*get_path(char **cmd, char *cwd, t_env_list *env);
-static char		*add_postfix(char *cwd, char *path);
+static char	*add_postfix(char *cwd, char *path);
 
+// TODO: valgrind leaks
 int builtin_cd(char **cmd, t_env_list *env)
 {
 	char	*cwd;
@@ -20,22 +21,21 @@ int builtin_cd(char **cmd, t_env_list *env)
 	if (chdir(path) != 0)
 	{
 		ft_putstr_fd_protected("Directory does not exist.\n", STDERR_FILENO, 1);
-		return (free(cwd), -1);
+		return (free(path), free(cwd), -1);
 	}
 	free(cwd);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (free(oldpwd), -1);
+		return (free(path), free(oldpwd), -1);
 	if (!replace_env_var_content("PWD", cwd, &env))
-		return (free(cwd), free(oldpwd), -1);
+		return (free(path), free(cwd), free(oldpwd), -1);
 	if (!replace_env_var_content("OLDPWD", oldpwd, &env))
-		return (free(cwd), free(oldpwd), -1);
+		return (free(path), free(oldpwd), -1);
 	printf("PWD = %s\n", get_env_var("PWD", env));
 	printf("OLDPWD = %s\n", get_env_var("OLDPWD", env));
-	return (0);
+	return (free(path), 0);
 }
 
-// TODO: remove trailing slash from path.
 static char	*get_path(char **cmd, char *cwd, t_env_list *env)
 {
 	char	*path;

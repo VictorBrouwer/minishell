@@ -67,6 +67,8 @@ char	*split_var_name(char *var_str)
 	if (i == varlen)
 		return (NULL);
 	name = ft_substr(var_str, 0, i);
+	if (!name)
+		return (NULL);
 	return (name);
 }
 
