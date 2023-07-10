@@ -78,6 +78,7 @@ enum token_id
 
 //	SHELL.C
 int		initiate_shell(char **envp);
+void	clean_shell(t_shell *shell);
 int		shell_loop(t_shell *shell_str);
 int		execute_line(t_shell *shell_str);
 
@@ -167,7 +168,7 @@ void		execute_non_built_in(t_shell *shell, t_command *curr);
 int			builtin_echo(char **args);
 int			builtin_pwd(void);
 int			builtin_cd(char **cmd, t_env_list *env);
-int			builtin_exit(t_command *cmd);
+int			builtin_exit(char **args, t_shell *shell);
 int			builtin_env(t_env_list *env);
 void		builtin_unset(t_command *curr, t_env_list **env);
 int			builtin_export(char **cmd, t_env_list **env);

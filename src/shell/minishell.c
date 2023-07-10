@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
+
 int	initiate_shell(char **envp)
 {
 	t_shell		*shell;
@@ -12,7 +13,7 @@ int	initiate_shell(char **envp)
 	return (shell_loop(shell));
 }
 
-static void	clean_shell(t_shell *shell)
+void	clean_shell(t_shell *shell)
 {
 	if (shell->command_node)
 		clean_commands(&shell->command_node);
