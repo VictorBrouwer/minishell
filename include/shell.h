@@ -77,33 +77,33 @@ enum token_id
 };
 
 //	SHELL.C
-int		initiate_shell(char **envp);
-void	clean_shell(t_shell *shell);
-int		shell_loop(t_shell *shell_str);
-int		execute_line(t_shell *shell_str);
+int			initiate_shell(char **envp);
+void		clean_shell(t_shell *shell);
+int			shell_loop(t_shell *shell_str);
+int			execute_line(t_shell *shell_str);
 
 //	TOKENIZER.C
-t_token	**tokenize(char *s);
-size_t	find_next_token(const char *s, size_t end);
-void	print_tokens(t_token *top);
+t_token		**tokenize(char *s);
+size_t		find_next_token(const char *s, size_t end);
+void		print_tokens(t_token *top);
 
 //	TOKEN_LIST_FUNCTIONS.C
-void	add_token_back(t_token **token_list, t_token *token);
-t_token	*ft_new_token(char *content);
-int		get_token_id(char *content);
-size_t	list_token_size(t_token *t_list);
-t_token	*remove_white_space(t_token *top);
+void		add_token_back(t_token **token_list, t_token *token);
+t_token		*ft_new_token(char *content);
+int			get_token_id(char *content);
+size_t		list_token_size(t_token *t_list);
+t_token		*remove_white_space(t_token *top);
 
 //	SYNTAX.C
-int		analyze_tokens(t_token **token_list);
-int 	check_tokens(int id_1, int id_2);
+int			analyze_tokens(t_token **token_list);
+int 		check_tokens(int id_1, int id_2);
 
 //	JUMPTABLE_FUNCS.C
-bool	check_pipe(t_token *prev, t_token *curr);
-bool	check_redirection(t_token *prev, t_token *curr);
-bool	check_heredoc(t_token *prev, t_token *curr);
-bool	check_quotes(t_token *prev, t_token *curr);
-bool	check_env_var(t_token *prev, t_token *curr);
+bool		check_pipe(t_token *prev, t_token *curr);
+bool		check_redirection(t_token *prev, t_token *curr);
+bool		check_heredoc(t_token *prev, t_token *curr);
+bool		check_quotes(t_token *prev, t_token *curr);
+bool		check_env_var(t_token *prev, t_token *curr);
 
 //	COMMANDS.C
 t_command	*create_commands(t_token **top);
@@ -170,7 +170,7 @@ int			builtin_pwd(void);
 int			builtin_cd(char **cmd, t_env_list *env);
 int			builtin_exit(char **args, t_shell *shell);
 int			builtin_env(t_env_list *env);
-void		builtin_unset(t_command *curr, t_env_list **env);
+int			builtin_unset(t_command *curr, t_env_list **env);
 int			builtin_export(char **cmd, t_env_list **env);
 
 // Builint_utils
