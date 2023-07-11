@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <signal.h>
 #include <sys/wait.h>
 
 #define TOKEN_DELIMITERS "|><\'\"$\\ "
@@ -178,7 +179,6 @@ int			ft_putstr_fd_protected(char *s, int fd, int newline);
 int			ft_stris_x(char *s, int (*f)(int));
 char		*find_path_up(char *path);
 
-
 //	ENV funcs
 t_env_list	*init_env_lst(char **envp);
 t_env_list	*new_env_var_node(char *var_str, char *content);
@@ -196,5 +196,8 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
+
+//	SIGNAL_HANDLER.C
+void		signal_handler(int sig);
 
 #endif

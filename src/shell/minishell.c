@@ -29,16 +29,24 @@ int	shell_loop(t_shell *shell)
 	int	temp_std_in;
 	int	temp_std_out;
 
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(EOF, signal_handler);
 	shell->env_list = init_env_lst(shell->envp);
 	while(true)
 	{
 		temp_std_in = dup(STDIN_FILENO); // make dups of stdin and stdout to refer back to if they are overwritten in the parent
 		temp_std_out = dup(STDOUT_FILENO);
 		line = readline("ultra-shell:");
-		shell->input = line;
 		if (line == NULL)
+		{
+			line = ft_calloc(1, sizeof(char));
+			if (!line)
+				return (ERROR);
 			printf("No line\n");
-		else if (!ft_strncmp(line, "exit", 5))
+		}
+		shell->input = line;
+		if (!ft_strncmp(line, "exit", 5))
 			break ;
 		else
 		{
@@ -51,7 +59,7 @@ int	shell_loop(t_shell *shell)
 		rl_on_new_line();
 		add_history(line);
 		free(shell->input);
-		shell->input = NULL;
+		/* shell->input = NULL; */
 	}
 	clean_shell(shell);
 	rl_clear_history();
