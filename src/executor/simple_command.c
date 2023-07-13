@@ -1,6 +1,8 @@
 #include "shell.h"
 #include "libft.h"
 
+static void	execute_child_without_pipe(t_shell *shell, t_command *curr);
+
 void	simple_command(t_shell *shell)
 {
 	check_hd_curr_cmd(shell, shell->command_node);
@@ -16,7 +18,7 @@ void	simple_command(t_shell *shell)
 	wait(NULL);
 }
 
-void	execute_child_without_pipe(t_shell *shell, t_command *curr)
+static void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 {
 	pid_t	pid;
 
@@ -26,3 +28,4 @@ void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 	if (pid == 0)
 		execute_non_built_in(shell, curr);
 }
+

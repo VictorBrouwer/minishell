@@ -20,3 +20,4 @@ void	signal_handler(int sig)
 		printf("SIGQUIT\n");
 	}
 }
+

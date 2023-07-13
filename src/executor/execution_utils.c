@@ -47,3 +47,4 @@ char	*get_command_path(t_shell *shell, char *command)
 	}
 	return (free(end_part_command), ft_free_split(sep_paths), NULL);
 }
+

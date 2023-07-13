@@ -1,10 +1,13 @@
 #include "shell.h"
 #include "libft.h"
 
+static int	execute_line(t_shell *shell);
+static int	shell_loop(t_shell *shell);
+
 
 int	initiate_shell(char **envp)
 {
-	t_shell		*shell;
+	t_shell	*shell;
 
 	shell = ft_calloc(1, sizeof(t_shell));
 	shell->envp = envp;
@@ -23,7 +26,7 @@ void	clean_shell(t_shell *shell)
 	free(shell);
 }
 
-int	shell_loop(t_shell *shell)
+static int	shell_loop(t_shell *shell)
 {
 	char *line;
 	int	temp_std_in;
@@ -73,7 +76,7 @@ int	shell_loop(t_shell *shell)
 	return(0);
 }
 
-int	execute_line(t_shell *shell)
+static int	execute_line(t_shell *shell)
 {
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
@@ -84,3 +87,4 @@ int	execute_line(t_shell *shell)
 	clean_commands(&shell->command_node);
 	return (SUCCESS);
 }
+

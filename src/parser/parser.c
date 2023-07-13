@@ -70,3 +70,4 @@ void	print_commands(t_command *top)
 	}
 	return ;
 }
+

@@ -80,8 +80,6 @@ enum token_id
 //	SHELL.C
 int			initiate_shell(char **envp);
 void		clean_shell(t_shell *shell);
-int			shell_loop(t_shell *shell_str);
-int			execute_line(t_shell *shell_str);
 
 //	TOKENIZER.C
 t_token		**tokenize(char *s);
@@ -139,7 +137,6 @@ void		handle_hd(t_shell *shell, char *hd_delm);
 int			executor(t_shell *shell);
 void		simple_command(t_shell *shell);
 void		pipe_line(t_shell *shell);
-void		execute_child_without_pipe(t_shell *shell, t_command *curr);
 
 //	PIPELINE.C
 void		execute_child(t_command *curr, t_shell *shell, int pipefd[]);
