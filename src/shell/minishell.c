@@ -37,29 +37,36 @@ int	shell_loop(t_shell *shell)
 	{
 		temp_std_in = dup(STDIN_FILENO); // make dups of stdin and stdout to refer back to if they are overwritten in the parent
 		temp_std_out = dup(STDOUT_FILENO);
-		line = readline("ultra-shell:");
+		line = readline("nutshell:");
 		if (line == NULL)
 		{
-			line = ft_calloc(1, sizeof(char));
+			printf("readline error\n");
 			if (!line)
 				return (ERROR);
-			printf("No line\n");
 		}
-		shell->input = line;
-		if (!ft_strncmp(line, "exit", 5))
-			break ;
+		if (ft_strlen(line) == 0)
+		{
+			free(line);
+			continue ;
+		}
 		else
 		{
-			printf("line = %s\n", line);
-			if (execute_line(shell) == ERROR)
-				return (ERROR);
+			shell->input = line;
+			if (!ft_strncmp(line, "exit", 5))
+				break ;
+			else
+			{
+				/* printf("line = %s\n", line); */
+				if (execute_line(shell) == ERROR)
+					return (ERROR);
+			}
+			redirect_std_in(temp_std_in);
+			redirect_std_out(temp_std_out);
+			rl_on_new_line();
+			add_history(line);
+			free(shell->input);
+			/* shell->input = NULL; */
 		}
-		redirect_std_in(temp_std_in);
-		redirect_std_out(temp_std_out);
-		rl_on_new_line();
-		add_history(line);
-		free(shell->input);
-		/* shell->input = NULL; */
 	}
 	clean_shell(shell);
 	rl_clear_history();

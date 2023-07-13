@@ -13,10 +13,8 @@ t_token	**tokenize(char *s)
 
 	trimmed = ft_strtrim(s, " ");
 	if (!trimmed)
-	{
-		return (free(s), NULL);
-	}
-	free(s);
+		return (NULL);
+	/* free(s); */
 	/* if (s[0] == '\0') */
 	/* 	return (free(s), NULL); */
 	/* token = NULL; */
@@ -43,13 +41,7 @@ t_token	**tokenize(char *s)
 		add_token_back(token_list, token);
 	}
 	if (start == 0)
-	{
-		token = ft_new_token(trimmed);
-		if (!token)
-			return (free(trimmed), NULL);
-		add_token_back(token_list, token);
-	}
-	printf("test tokenize\n");
+		return (free(trimmed), NULL);
 	*token_list = remove_white_space(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
