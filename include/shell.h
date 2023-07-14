@@ -195,6 +195,7 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 bool		strings_equal(const char *s1, const char *s2);
 
 //	SIGNAL_HANDLER.C
+void		init_signals(void);
 void		signal_handler(int sig);
 
 #endif
