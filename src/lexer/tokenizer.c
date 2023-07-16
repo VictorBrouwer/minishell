@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
+// TODO: empty line should not end the program-loop
 t_token	**tokenize(char *s)
 {
 	size_t	start;
@@ -8,39 +9,41 @@ t_token	**tokenize(char *s)
 	char	*token_string;
 	t_token	*token;
 	t_token	**token_list;
+	char	*trimmed;
 
-
-	if (!s)
+	trimmed = ft_strtrim(s, " ");
+	if (!trimmed)
 		return (NULL);
-	s = ft_strtrim(s, " ");
-	if (s[0] == '\0')
-		return (free(s), NULL);
+	/* free(s); */
+	/* if (s[0] == '\0') */
+	/* 	return (free(s), NULL); */
+	/* token = NULL; */
 	start = 0;
-	token = NULL;
 	token_list = ft_calloc(1, sizeof(t_token *));
 	if (!token_list)
-		return (NULL);
-	while (s[start])
+		return (free(trimmed), NULL);
+	while (trimmed[start])
 	{
-		end = find_next_token(s, start);
-		token_string = ft_substr(s, start, end - start);
+		end = find_next_token(trimmed, start);
+		token_string = ft_substr(trimmed, start, end - start);
 		if (!token_string)
-			return (clean_tokens(token_list), NULL);
-		while(s[end] && s[end] == ' ')
+			return (clean_tokens(token_list), free(trimmed), NULL);
+		while(trimmed[end] && trimmed[end] == ' ')
 			end++;
-		if (end - 1 > start && s[end - 1] == ' ')
+		if (end - 1 > start && trimmed[end - 1] == ' ')
 			start = end - 1;
 		else
 			start = end;
 		// token = ft_new_token(ft_strtrim(token_string, " "));
 		token = ft_new_token(token_string);
 		if (!token)
-			return (clean_tokens(token_list), NULL);
+			return (clean_tokens(token_list), free(trimmed), NULL);
 		add_token_back(token_list, token);
 	}
-	free(s);// s is mallocced in ft_strtrim
+	if (start == 0)
+		return (free(trimmed), NULL);
 	*token_list = remove_white_space(*token_list);
-	return (token_list);
+	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
 
 size_t	find_next_token(const char *s, size_t start)
@@ -110,3 +113,4 @@ void	print_tokens(t_token *top)
 	}
 	return ;
 }
+

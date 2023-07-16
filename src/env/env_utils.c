@@ -3,7 +3,7 @@
 
 char	*get_env_var(char *name, t_env_list *env)
 {
-	const int name_len = ft_strlen(name);
+	const int	name_len = ft_strlen(name);
 
 	if (!name || !name_len || !env)
 		return (NULL);
@@ -18,7 +18,7 @@ char	*get_env_var(char *name, t_env_list *env)
 
 size_t	env_len(t_env_list *env)
 {
-	size_t count;
+	size_t	count;
 
 	if (!env)
 		return (0);
@@ -48,19 +48,6 @@ int	print_env_list(t_env_list *env)
 	return (0);
 }
 
-// int	print_env_list(t_env_list *env)
-// {
-// 	while (env)
-// 	{
-// 		ft_putstr_fd(env->name, STDOUT_FILENO);
-// 		ft_putstr_fd("=", STDOUT_FILENO);
-// 		ft_putstr_fd(env->content, STDOUT_FILENO);
-// 		ft_putstr_fd("\n", STDOUT_FILENO);
-// 		env = env->next;
-// 	}
-// 	return (0);
-// }
-
 char	*split_var_name(char *var_str)
 {
 	char		*name;
@@ -74,34 +61,51 @@ char	*split_var_name(char *var_str)
 		i++;
 	if (i == 0)
 	{
-		ft_putstr_fd_protected("'=' is not a valid identifier.", STDERR_FILENO, 0);
+		ft_putstr_fd_protected("'=' is not a valid identifier.\n", STDERR_FILENO, 0);
 		return (NULL);
 	}
-	if (i == varlen - i)
+	if (i == varlen)
 		return (NULL);
 	name = ft_substr(var_str, 0, i);
+	if (!name)
+		return (NULL);
 	return (name);
 }
 
 char	*split_var_content(char *var_str)
 {
-	char		*content;
 	const int	varlen = ft_strlen(var_str);
 	int			i;
-	// int			j;
+	char		*content;
 
 	i = 0;
 	while (var_str[i] && var_str[i] != '=')
 		i++;
-	if (i == varlen - 1)
+	if (i == varlen)
 		return (NULL);
 	if (var_str[i] && var_str[i + 1])
 	{
-		content = ft_substr(var_str, i + 1, varlen - i);
+		content = ft_substr(var_str, i + 1, varlen - i - 1);
 		return (content);
 	}
 	else
 		return (NULL);
+}
+
+int	replace_env_var_content(char *name, char *content, t_env_list **env)
+{
+	t_env_list	*ptr;
+
+	ptr = *env;
+	while (ptr && !strings_equal(ptr->name, name))
+		ptr = ptr->next;
+	if (ptr)
+	{
+		free(ptr->content);
+		ptr->content = content;
+		return (1);
+	}
+	return (0);
 }
 
 // int main(char **envp)
@@ -115,7 +119,6 @@ char	*split_var_content(char *var_str)
 // 	print_env_vars(envp);
 // 	add_env_var("OWD", "/bin/", envp);
 // 	print_env_vars(envp);
-
 
 // 	// printf("%s\n", get_env_var("pwd", envp));
 // 	// free_envp(envp);

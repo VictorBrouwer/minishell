@@ -29,15 +29,22 @@ char	*get_command_path(t_shell *shell, char *command)
 	if (path == NULL || !command)
 		return (NULL); // beter afhandelen
 	sep_paths = ft_split(path, ':');
+	if (!sep_paths)
+		return (NULL); // beter afhandelen
 	end_part_command = ft_strjoin("/", command);
+	if (!end_part_command)
+		return (ft_free_split(sep_paths), NULL);
 	i = 0;
 	while (sep_paths[i] != NULL)
 	{
 		total_command = ft_strjoin(sep_paths[i], end_part_command);
+		if (!total_command)
+			return (ft_free_split(sep_paths), free(end_part_command), NULL);
 		if (access(total_command, X_OK & F_OK) == 0)
-			return (ft_free_split(sep_paths), total_command);
+			return (ft_free_split(sep_paths), free(end_part_command), total_command);
+		free(total_command);
 		i++;
 	}
-	ft_free_split(sep_paths);
-	return (command);
+	return (free(end_part_command), ft_free_split(sep_paths), NULL);
 }
+

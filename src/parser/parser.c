@@ -13,7 +13,7 @@ t_command	*parser(t_shell *shell)
 	token_list = tokenize(shell->input);
 	if (token_list == NULL)
 		return (NULL);
-	// print_tokens(*token_list);
+	/* print_tokens(*token_list); */
 	if (analyze_tokens(token_list) == ERROR)
 		return (printf("syntax error\n"), NULL);
 	expand(*token_list, shell);// doe nog iets met return value
@@ -70,3 +70,4 @@ void	print_commands(t_command *top)
 	}
 	return ;
 }
+

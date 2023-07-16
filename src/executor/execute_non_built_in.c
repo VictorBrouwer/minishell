@@ -22,3 +22,4 @@ void	execute_non_built_in(t_shell *shell, t_command *curr)
 		exit(ERROR);
 	}
 }
+

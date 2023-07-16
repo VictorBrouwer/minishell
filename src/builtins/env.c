@@ -6,24 +6,28 @@ int	builtin_env(t_env_list *env)
 	if (print_env_list(env) == -1)
 		return (-1);
 	return (0);
-
-    // t_env_list  *ptr;
-    // ptr = env;
-    // while (ptr)
-    // {
-    //     if (ptr->name && ptr->content)
-    //     {
-    //         if(ft_putstr_fd_protected(ptr->name, STDOUT_FILENO, 0) == -1)
-    //             return (1);
-    //         if(ft_putstr_fd_protected("=", STDOUT_FILENO, 0) == -1)
-    //             return (1);
-    //         if(ft_putstr_fd_protected(ptr->content, STDOUT_FILENO, 1) == -1)
-    //             return (1);
-    //     }
-    //     ptr = ptr->next;
-    // }
-    // return (0);
 }
+
+// int	builtin_env(t_env_list *env)
+// {
+//     t_env_list  *ptr;
+
+//     ptr = env;
+//     while (ptr)
+//     {
+//         if (ptr->name && ptr->content)
+//         {
+//             if(ft_putstr_fd_protected(ptr->name, STDOUT_FILENO, 0) == -1)
+//                 return (1);
+//             if(ft_putstr_fd_protected("=", STDOUT_FILENO, 0) == -1)
+//                 return (1);
+//             if(ft_putstr_fd_protected(ptr->content, STDOUT_FILENO, 1) == -1)
+//                 return (1);
+//         }
+//         ptr = ptr->next;
+//     }
+//     return (0);
+// }
 
 // int main(void)
 // {
