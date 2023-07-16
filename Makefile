@@ -71,6 +71,7 @@ SRC						:=  shell/minishell.c \
 							env/env_list_funcs.c \
 							env/env_utils.c \
 							utils/minishell_utils.c \
+							signals/signal_handler.c \
 
 
 ODIR					:=	$(sort $(dir $(SRC:%=$(OBJ_DIR)/%)))
