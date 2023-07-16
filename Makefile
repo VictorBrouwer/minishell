@@ -1,7 +1,7 @@
-# export LIBRARY_PATH = $(HOME)/.brew/lib
-# export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
-export LIBRARY_PATH = $(HOME)/homebrew/lib
-export C_INCLUDE_PATH = $(HOME)/homebrew/Cellar/criterion/2.4.1_2/include
+export LIBRARY_PATH = $(HOME)/.brew/lib
+export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
+# export LIBRARY_PATH = $(HOME)/homebrew/lib
+# export C_INCLUDE_PATH = $(HOME)/homebrew/Cellar/criterion/2.4.1_2/include
 
 
 NAME		:= minishell
