@@ -4,6 +4,7 @@
 
 static int check_flag(char **args);
 
+// TODO: FIX multple -n flags
 int builtin_echo(char **args)
 {
 	int flag;
