@@ -11,7 +11,7 @@ void	expand(t_token *top, t_shell *shell)
 	if (strings_equal(top->content, "$?"))
 	{
 		free(top->content);
-		top->content = ft_itoa(shell->exit_status);
+		top->content = ft_itoa(g_status.num);
 	}	
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->envp);

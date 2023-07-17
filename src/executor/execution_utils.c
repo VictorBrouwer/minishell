@@ -25,26 +25,28 @@ char	*get_command_path(t_shell *shell, char *command)
 
 	if (access(command, X_OK & F_OK) == 0)
 		return (command);
+	if (!command)
+		return (NULL);
 	path = get_env_var("PATH", shell->env_list);
-	if (path == NULL || !command)
-		return (NULL); // beter afhandelen
+	if (path == NULL)
+		return (command);
 	sep_paths = ft_split(path, ':');
 	if (!sep_paths)
-		return (NULL); // beter afhandelen
+		return (command);
 	end_part_command = ft_strjoin("/", command);
 	if (!end_part_command)
-		return (ft_free_split(sep_paths), NULL);
+		return (ft_free_split(sep_paths), command);
 	i = 0;
 	while (sep_paths[i] != NULL)
 	{
 		total_command = ft_strjoin(sep_paths[i], end_part_command);
 		if (!total_command)
-			return (ft_free_split(sep_paths), free(end_part_command), NULL);
+			return (ft_free_split(sep_paths), free(end_part_command), command);
 		if (access(total_command, X_OK & F_OK) == 0)
 			return (ft_free_split(sep_paths), free(end_part_command), total_command);
 		free(total_command);
 		i++;
 	}
-	return (free(end_part_command), ft_free_split(sep_paths), NULL);
+	return (free(end_part_command), ft_free_split(sep_paths), command);
 }
 

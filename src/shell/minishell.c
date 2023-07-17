@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int	execute_line(t_shell *shell);
+static void	execute_line(t_shell *shell);
 static int	shell_loop(t_shell *shell);
 
 
@@ -13,6 +13,7 @@ int	initiate_shell(char **envp)
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
+	g_status.num = 0; // deze string freeen aan het eind
 	init_signals();
 	return (shell_loop(shell));
 }
@@ -55,11 +56,7 @@ static int	shell_loop(t_shell *shell)
 			if (!ft_strncmp(line, "exit", 5))
 				break ;
 			else
-			{
-				/* printf("line = %s\n", line); */
-				if (execute_line(shell) == ERROR)
-					return (ERROR);
-			}
+				execute_line(shell);
 			redirect_std_in(temp_std_in);
 			redirect_std_out(temp_std_out);
 			rl_on_new_line();
@@ -73,15 +70,15 @@ static int	shell_loop(t_shell *shell)
 	return(0);
 }
 
-static int	execute_line(t_shell *shell)
+static void	execute_line(t_shell *shell)
 {
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
-		return (ERROR);
-	shell->exit_status = executor(shell);
+		return ;
+	executor(shell);
 	shell->read_fd = STDIN_FILENO; //after execution always set the read and write fd's back to std because they can be changed
 	shell->write_fd = STDOUT_FILENO;
 	clean_commands(&shell->command_node);
-	return (SUCCESS);
+	return ;
 }
 

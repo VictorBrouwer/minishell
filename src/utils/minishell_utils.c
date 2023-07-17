@@ -12,3 +12,8 @@ bool strings_equal(const char *s1, const char *s2)
     }
     return (1);
 }
+
+void	update_status(unsigned int status)
+{
+	g_status.num = status;
+}
