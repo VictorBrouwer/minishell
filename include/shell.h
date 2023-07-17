@@ -23,6 +23,11 @@
 #define READ 0
 #define WRITE 1
 
+typedef	struct s_status
+{
+	int				num;
+}	t_status;
+
 typedef struct s_token
 {
 	char			*content;
@@ -59,7 +64,6 @@ typedef struct s_shell
 	int 		write_fd;
 	char 		**envp;
 	t_env_list	*env_list;
-	int			exit_status;
 }	t_shell;
 
 enum token_id
@@ -76,6 +80,9 @@ enum token_id
 	WHITE_SPACE,
 	WORD
 };
+
+//		GLOBAL VARIABLE
+extern t_status	g_status;
 
 //	SHELL.C
 int			initiate_shell(char **envp);
@@ -193,6 +200,7 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
+void		update_status(unsigned int status);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(void);

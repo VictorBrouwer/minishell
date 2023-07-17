@@ -28,4 +28,3 @@ static void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 	if (pid == 0)
 		execute_non_built_in(shell, curr);
 }
-

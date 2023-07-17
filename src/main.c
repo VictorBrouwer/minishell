@@ -2,6 +2,8 @@
 #include "libft.h"
 #include <sys/signal.h>
 
+t_status g_status;
+
 int	main(int argc, char **argv, char **envp)
 {
 	// char *line;

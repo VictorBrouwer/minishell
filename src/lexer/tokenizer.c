@@ -41,7 +41,7 @@ t_token	**tokenize(char *s)
 		add_token_back(token_list, token);
 	}
 	if (start == 0)
-		return (free(trimmed), NULL);
+		return (free(token_list), free(trimmed), NULL);
 	*token_list = remove_white_space(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
