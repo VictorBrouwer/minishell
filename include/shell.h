@@ -23,10 +23,10 @@
 #define READ 0
 #define WRITE 1
 
-typedef	struct s_status
-{
-	int				num;
-}	t_status;
+// typedef	struct s_status
+// {
+// 	int				num;
+// }	t_status;
 
 typedef struct s_token
 {
@@ -82,7 +82,7 @@ enum token_id
 };
 
 //		GLOBAL VARIABLE
-extern t_status	g_status;
+extern u_int8_t	glob_status;
 
 //	SHELL.C
 int			initiate_shell(char **envp);
@@ -162,7 +162,7 @@ bool		append_outfile(t_redir *curr, t_shell *shell);
 bool		redir_infile(t_redir *curr, t_shell *shell);
 
 //	EXECUTE_BUILT_IN.C
-bool		check_built_in(char *cmd);
+bool		check_built_in(t_command *curr);
 bool		handle_built_in(t_shell *shell, t_command *curr);
 void		execute_built_in(t_shell *shell, t_command *curr);
 
@@ -200,7 +200,7 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
-void		update_status(unsigned int status);
+void		update_status(pid_t pid);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(void);

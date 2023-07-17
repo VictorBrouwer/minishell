@@ -11,7 +11,7 @@ void	expand(t_token *top, t_shell *shell)
 	if (strings_equal(top->content, "$?"))
 	{
 		free(top->content);
-		top->content = ft_itoa(g_status.num);
+		top->content = ft_itoa(glob_status);
 	}	
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->envp);
@@ -54,7 +54,7 @@ char *find_replacement(char *env_string, char *new_string)
 	char *result;
 
 	replacement = env_string + ft_strlen(new_string);
-	// printf("replacement = %s\n", replacement);
+	printf("replacement = %s\n", replacement);
 	if (!replacement)
 		return (NULL);
 	result = ft_strdup(replacement);

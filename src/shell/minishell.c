@@ -13,7 +13,7 @@ int	initiate_shell(char **envp)
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
-	g_status.num = 0; // deze string freeen aan het eind
+	glob_status = 0; // deze struct misschien nog freeen aan het eind
 	init_signals();
 	return (shell_loop(shell));
 }

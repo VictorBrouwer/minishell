@@ -19,7 +19,7 @@ void	execute_non_built_in(t_shell *shell, t_command *curr)
 	{
 		perror(command_with_path);
 		clean_commands(&shell->command_node);
-		exit(ERROR);
+		exit(127);
 	}
 }
 

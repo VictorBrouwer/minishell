@@ -1,21 +1,21 @@
 #include "shell.h"
 #include "libft.h"
 
-bool	check_built_in(char *cmd)
+bool	check_built_in(t_command *curr)
 {
-	if (ft_strncmp(cmd, "echo", 5) == 0)
+	if (strings_equal(curr->args[0], "echo"))
 		return (true);
-	if (ft_strncmp(cmd, "pwd", 4) == 0)
+	else if (strings_equal(curr->args[0], "pwd"))
 		return (true);
-	if (ft_strncmp(cmd, "cd", 3) == 0)
+	else if (strings_equal(curr->args[0], "cd"))
 		return (true);
-	if (ft_strncmp(cmd, "env", 4) == 0)
+	else if (strings_equal(curr->args[0], "env") && !curr->args[1])
 		return (true);
-	if (ft_strncmp(cmd, "unset", 6) == 0)
+	else if (strings_equal(curr->args[0], "unset"))
 		return (true);
-	if (ft_strncmp(cmd, "export", 7) == 0)
+	else if (strings_equal(curr->args[0], "export"))
 		return (true);
-	if (ft_strncmp(cmd, "exit", 5) == 0)
+	else if (strings_equal(curr->args[0], "exit"))
 		return (true);
 	return (false);
 }
@@ -23,7 +23,7 @@ bool	check_built_in(char *cmd)
 bool	handle_built_in(t_shell *shell, t_command *curr)
 {
 	// printf("BUILTIN command = %s, read fd = %d, write fd = %d\n", curr->args[0], shell->read_fd, shell->write_fd);
-	if (check_built_in(curr->args[0]))
+	if (check_built_in(curr))
 	{
 		if (handle_redirs_curr_cmd(shell, curr))
 			return (clean_commands(&shell->command_node), NULL);

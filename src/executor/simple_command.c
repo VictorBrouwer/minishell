@@ -15,7 +15,6 @@ void	simple_command(t_shell *shell)
 		return ;
 	else
 		execute_child_without_pipe(shell, shell->command_node);
-	wait(NULL);
 }
 
 static void	execute_child_without_pipe(t_shell *shell, t_command *curr)
@@ -27,4 +26,6 @@ static void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 		return ;
 	if (pid == 0)
 		execute_non_built_in(shell, curr);
+	else
+		update_status(pid);
 }

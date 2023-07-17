@@ -31,8 +31,12 @@ void	pipe_line(t_shell *shell)
 		return ;
 	if (pid == 0)
 		execute_last_child(curr, shell, pipefd);
-	while (pid > 0) // wait functie moet beter
+	while (pid > 0)
+	{
 		pid = waitpid(-1, &status, 0);
+		update_status(pid);
+	}
+	 // wait functie moet beter
 		// if (WIFEXITED(status) == 0) // if child terminated abnormally
 		// 	shell->exit_status = status;
 	return ;
