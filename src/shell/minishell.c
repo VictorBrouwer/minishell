@@ -30,7 +30,7 @@ void	clean_shell(t_shell *shell)
 
 static int	shell_loop(t_shell *shell)
 {
-	char 	*line;
+	char	*line;
 	int		temp_std_in;
 	int		temp_std_out;
 
@@ -39,7 +39,7 @@ static int	shell_loop(t_shell *shell)
 	{
 		temp_std_in = dup(STDIN_FILENO); // make dups of stdin and stdout to refer back to if they are overwritten in the parent
 		temp_std_out = dup(STDOUT_FILENO);
-		line = readline("[nutshell]₿ ");
+		line = readline("nutshell:₿ ");
 		if (line == NULL)
 		{
 			rl_replace_line("", 0);
@@ -55,8 +55,7 @@ static int	shell_loop(t_shell *shell)
 			shell->input = line;
 			if (!ft_strncmp(line, "exit", 5))
 				break ;
-			else
-				execute_line(shell);
+			execute_line(shell);
 			redirect_std_in(temp_std_in);
 			redirect_std_out(temp_std_out);
 			rl_on_new_line();
