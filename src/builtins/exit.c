@@ -29,7 +29,6 @@ int	builtin_exit(char **args, t_shell *shell)
  		}
  	}
  	/* free + clear_everything */
-	printf("test\n");
 	clean_shell(shell);
 	rl_clear_history();
 	exit(0);
