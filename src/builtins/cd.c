@@ -20,8 +20,8 @@ int builtin_cd(char **cmd, t_env_list *env)
 	oldpwd = ft_strdup(cwd);
 	if (chdir(path) != 0)
 	{
-		ft_putstr_fd_protected("Directory does not exist.\n", STDERR_FILENO, 1);
-		return (free(path), free(cwd), -1);
+		ft_putstr_fd_protected("No such file or directory", STDERR_FILENO, 1);
+		return (free(path), free(cwd), 1);
 	}
 	free(cwd);
 	cwd = getcwd(NULL, 0);

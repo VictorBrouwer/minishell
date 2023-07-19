@@ -28,3 +28,13 @@ void	update_status(pid_t pid)
 		glob_status = 128 + status;
 	}
 }
+
+void	exit_and_print_error(char *error_type, int status, char *command)
+{
+	ft_putstr_fd_protected("[nutshell]₿: ", 2, 0);
+	ft_putstr_fd_protected(command, 2, 0);
+	ft_putstr_fd_protected(": ", 2, 0);
+	ft_putstr_fd_protected(error_type, 2, 0);
+	ft_putstr_fd_protected("\n", 2, 0);
+	exit(status);
+}

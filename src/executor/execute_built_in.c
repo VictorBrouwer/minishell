@@ -26,13 +26,13 @@ bool	handle_built_in(t_shell *shell, t_command *curr)
 	if (check_built_in(curr))
 	{
 		handle_redirs_curr_cmd(shell, curr);
-		// 	return (clean_commands(&shell->command_node), NULL);
 		if (shell->read_fd != STDIN_FILENO)
 			redirect_std_in(shell->read_fd);
 		if (shell->write_fd != STDOUT_FILENO)
 			redirect_std_out(shell->write_fd);
-		if (execute_built_in(shell, curr) == SUCCESS)
-			glob_status = 0;
+		glob_status = execute_built_in(shell, curr);
+		// if (execute_built_in(shell, curr) == SUCCESS)
+		// 	glob_status = 0;
 		return (true);
 	}
 	return (false);

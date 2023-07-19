@@ -15,10 +15,6 @@ void	execute_non_built_in(t_shell *shell, t_command *curr)
 		redirect_std_out(shell->write_fd);
 	// printf("command = %s, read fd = %d, write fd = %d\n", command_with_path, shell->read_fd, shell->write_fd);
 	if (execve(command_with_path, curr->args, shell->envp) == -1)
-	{
-		perror(command_with_path);
-		clean_commands(&shell->command_node);
-		exit(127);
-	}
+		exit_and_print_error("command not found", 127, command_with_path);
 }
 

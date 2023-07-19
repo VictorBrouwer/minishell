@@ -201,6 +201,7 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
 void		update_status(pid_t pid);
+void		exit_and_print_error(char *error_type, int status, char *command);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(void);

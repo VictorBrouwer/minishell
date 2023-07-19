@@ -9,12 +9,6 @@ void	expand(t_token *top, t_shell *shell)
 	t_token	*curr;
 
 	curr = top;
-
-	// if (ft_strncmp(top->content, "$?", 3) == 0)
-	// {
-	// 	free(top->content);
-	// 	top->content = ft_itoa(glob_status);
-	// }
 	check_and_expand_exit_status(top);
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->env_list);
@@ -27,11 +21,6 @@ void	expand(t_token *top, t_shell *shell)
 		}
 		curr = curr->next;
 	}
-	// if (ft_strncmp(curr->content, "$?", 3) == 0)
-	// {
-	// 	free(curr->content);
-	// 	curr->content = ft_itoa(glob_status);
-	// }
 }
 
 void	check_and_expand_exit_status(t_token *token)
