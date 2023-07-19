@@ -10,6 +10,7 @@ void	init_signals(void)
 	struct sigaction	sa;
 
 	rl_catch_signals = 0; // Not clear if needed.
+	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = &signal_handler;
 	sigaction(SIGINT, &sa, NULL);

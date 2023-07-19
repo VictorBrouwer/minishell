@@ -25,10 +25,8 @@ void	expand(t_token *top, t_shell *shell)
 
 void	replace(t_token *token, t_env_list *env)
 {
-	size_t	i;
 	char	*replacement;
 
-	i = 0;
 	replacement = get_env_var(token->content + 1, env);
 	if (replacement != NULL)
 	{

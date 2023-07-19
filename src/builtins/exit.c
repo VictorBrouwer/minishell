@@ -4,7 +4,8 @@
 
 int	builtin_exit(char **args, t_shell *shell)
 {
-	ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
+	if (shell->command_count > 1)
+		exit(0);
  	if (args[1])
  	{
  		if (args[2])
@@ -15,6 +16,7 @@ int	builtin_exit(char **args, t_shell *shell)
  		else if (ft_stris_x(args[1], ft_isdigit))
  		{
 			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 1);
+			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
 			exit(0);
  		}
  		else
@@ -22,6 +24,7 @@ int	builtin_exit(char **args, t_shell *shell)
  			ft_putstr_fd_protected("exit: %s: numeric argument is required\n", STDERR_FILENO, 0);
  			ft_putstr_fd_protected(args[1], STDERR_FILENO, 0);
  			ft_putstr_fd_protected(": numeric argument is required\n", STDERR_FILENO, 0);
+			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
  			exit(255);
  		}
  	}

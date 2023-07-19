@@ -58,12 +58,13 @@ typedef struct s_env_list
 
 typedef struct s_shell
 {
-	char 		*input;
-	t_command 	*command_node;
-	int 		read_fd;
-	int 		write_fd;
-	char 		**envp;
-	t_env_list	*env_list;
+	char 			*input;
+	t_command 		*command_node;
+	unsigned int	command_count;
+	int 			read_fd;
+	int 			write_fd;
+	char 			**envp;
+	t_env_list		*env_list;
 }	t_shell;
 
 enum token_id
@@ -112,7 +113,7 @@ bool		check_quotes(t_token *prev, t_token *curr);
 bool		check_env_var(t_token *prev, t_token *curr);
 
 //	COMMANDS.C
-t_command	*create_commands(t_token **top);
+t_command	*create_commands(t_token **top, t_shell *shell);
 t_token		*fill_command(t_command *command, t_token *current);
 int			get_num_args(t_token *current);
 

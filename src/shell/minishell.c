@@ -14,6 +14,7 @@ int	initiate_shell(char **envp)
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
 	glob_status = 0;
+	shell->command_count = 0;
 	init_signals();
 	return (shell_loop(shell));
 }
@@ -43,9 +44,8 @@ static int	shell_loop(t_shell *shell)
 		if (line == NULL)
 		{
 			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay();
-			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
+			// rl_on_new_line();
+			// rl_redisplay();
 			break ;
 		}
 		else if (ft_strlen(line) == 0)
@@ -67,7 +67,8 @@ static int	shell_loop(t_shell *shell)
 	}
 	clean_shell(shell);
 	rl_clear_history();
-	return(0);
+	ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
+	exit(glob_status);
 }
 
 static void	execute_line(t_shell *shell)

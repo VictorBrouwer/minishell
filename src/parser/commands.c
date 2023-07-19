@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-t_command	*create_commands(t_token **token_list)
+t_command	*create_commands(t_token **token_list, t_shell *shell)
 {
 	t_token 	*current;
 	t_command	*command;
@@ -21,6 +21,7 @@ t_command	*create_commands(t_token **token_list)
 		add_comm_back(&command_list_start, command);
 		if (current && current->token_id == PIPE)
 			current = current->next;
+		shell->command_count++;
 	}
 	free_tokens_and_useless_strings(token_list);
 	return (command_list_start);
