@@ -2,18 +2,27 @@
 #include "shell.h"
 #include <sys/errno.h>
 
-static int check_flag(char **args);
+static int check_flag(char *arg);
 
-// TODO: FIX multple -n flags
 int builtin_echo(char **args)
 {
 	int flag;
 
-	if (args)
-		args++;
-	flag = 0;
-	flag += check_flag(args);
-	args += flag;
+	if (!args)
+		return (ERROR);
+	args++;
+	flag = check_flag(*args);
+	while (*args && flag)
+	{
+		flag = check_flag(*args);
+		if (flag)
+			args++;
+		else
+		{
+			flag = 1;
+			break;
+		}
+	}
 	while (*args)
 	{
 		if (ft_putstr_fd_protected(*args, STDOUT_FILENO, 0) == -1)
@@ -25,37 +34,24 @@ int builtin_echo(char **args)
 		}
 		args++;
 	}
-	/* if (ft_putstr_fd_protected("", STDOUT_FILENO, (flag == 0)) == -1) */
 	if (ft_putstr_fd_protected("", STDOUT_FILENO, flag < 1) == -1)
 		return (ERROR);
 	return (0);
 }
 
-static int check_flag(char **args)
+static int check_flag(char *arg)
 {
-	int	i;
-	int	flag;
-
-	flag = 0;
-	if (!args[flag])
-		return (flag);
-	while (args[flag])
+	if (!arg || *arg != '-')
+		return (0);
+	arg++;
+	while (*arg)
 	{
-		i = 0;
-		if (!(args[flag][i] == '-'))
-			break ;
-		i++;
-		while (args[flag][i])
-		{
-			if (args[flag][i] != 'n')
-				return (flag);
-			i++;
-		}
-		flag++;
-		/* if (ft_strncmp(args[0], "-n", 2) == 0) */
-		/* 	return (1); */
+		if (*arg == 'n')
+			arg++;
+		else
+			return (0);
 	}
-	return	(0);
+	return	(1);
 }
 
 // int main(int argc, char **argv)

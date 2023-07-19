@@ -43,9 +43,8 @@ static int	shell_loop(t_shell *shell)
 		if (line == NULL)
 		{
 			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay();
-			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
+			/* rl_on_new_line(); */
+			/* rl_redisplay(); */
 			break ;
 		}
 		else if (ft_strlen(line) == 0)
@@ -58,14 +57,16 @@ static int	shell_loop(t_shell *shell)
 			execute_line(shell);
 			redirect_std_in(temp_std_in);
 			redirect_std_out(temp_std_out);
-			rl_on_new_line();
 			add_history(line);
 			free(shell->input);
 			shell->input = NULL;
+			/* printf("test\n"); */ // Na command komt automatische een \n?
 		}
+		rl_on_new_line();
 	}
 	clean_shell(shell);
 	rl_clear_history();
+	ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
 	return(0);
 }
 
