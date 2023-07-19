@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
+static void	check_and_expand_exit_status(t_token *token);
 // there can be nothing, quotes or an empty string after a env_var
 
 void	expand(t_token *top, t_shell *shell)
@@ -8,55 +9,48 @@ void	expand(t_token *top, t_shell *shell)
 	t_token	*curr;
 
 	curr = top;
-	if (strings_equal(top->content, "$?"))
-	{
-		free(top->content);
-		top->content = ft_itoa(g_status.num);
-	}	
+
+	// if (ft_strncmp(top->content, "$?", 3) == 0)
+	// {
+	// 	free(top->content);
+	// 	top->content = ft_itoa(glob_status);
+	// }
+	check_and_expand_exit_status(top);
 	if (curr->token_id == ENV_VAR)
-		replace(curr, shell->envp);
+		replace(curr, shell->env_list);
 	while (curr->next)
 	{
 		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC) // if env_var comes after a heredoc it should not be expanded
-			replace(curr->next, shell->envp);
+		{
+			check_and_expand_exit_status(curr->next);
+			replace(curr->next, shell->env_list);
+		}
 		curr = curr->next;
 	}
+	// if (ft_strncmp(curr->content, "$?", 3) == 0)
+	// {
+	// 	free(curr->content);
+	// 	curr->content = ft_itoa(glob_status);
+	// }
 }
 
-void	replace(t_token *token, char **envp)
+void	check_and_expand_exit_status(t_token *token)
 {
-	size_t	i;
-	char	*new_str;
+	if (ft_strncmp(token->content, "$?", 3) == 0)
+	{
+		free(token->content);
+		token->content = ft_itoa(glob_status);
+	}
+}
+
+void	replace(t_token *token, t_env_list *env)
+{
 	char	*replacement;
 
-	i = 0;
-	new_str = ft_strjoin(token->content + 1, "=");
-	while (envp[i])
+	replacement = get_env_var(token->content + 1, env);
+	if (replacement != NULL)
 	{
-		if (strings_equal(envp[i], new_str))
-		{
-			replacement = find_replacement(envp[i], new_str);
-			if (replacement != NULL)
-			{
-				free(token->content);
-				token->content = replacement;
-			}
-			return (free(new_str));
-		}
-		i++;
+		free(token->content);
+		token->content = ft_strdup(replacement);
 	}
-	return (free(new_str));
-}
-
-char *find_replacement(char *env_string, char *new_string)
-{
-	char *replacement;
-	char *result;
-
-	replacement = env_string + ft_strlen(new_string);
-	// printf("replacement = %s\n", replacement);
-	if (!replacement)
-		return (NULL);
-	result = ft_strdup(replacement);
-	return (result);
 }
