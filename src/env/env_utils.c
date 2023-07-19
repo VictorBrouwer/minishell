@@ -3,13 +3,11 @@
 
 char	*get_env_var(char *name, t_env_list *env)
 {
-	const int	name_len = ft_strlen(name);
-
-	if (!name || !name_len || !env)
+	if (!name || !env)
 		return (NULL);
 	while (env)
 	{
-		if (ft_strncmp(env->name, name, name_len) == 0)
+		if (strings_equal(env->name, name))
 			return (env->content);
 		env = env->next;
 	}

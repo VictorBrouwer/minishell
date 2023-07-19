@@ -23,10 +23,10 @@
 #define READ 0
 #define WRITE 1
 
-typedef	struct s_status
-{
-	int				num;
-}	t_status;
+// typedef	struct s_status
+// {
+// 	int				num;
+// }	t_status;
 
 typedef struct s_token
 {
@@ -58,12 +58,13 @@ typedef struct s_env_list
 
 typedef struct s_shell
 {
-	char 		*input;
-	t_command 	*command_node;
-	int 		read_fd;
-	int 		write_fd;
-	char 		**envp;
-	t_env_list	*env_list;
+	char 			*input;
+	t_command 		*command_node;
+	unsigned int	command_count;
+	int 			read_fd;
+	int 			write_fd;
+	char 			**envp;
+	t_env_list		*env_list;
 }	t_shell;
 
 enum token_id
@@ -82,7 +83,7 @@ enum token_id
 };
 
 //		GLOBAL VARIABLE
-extern t_status	g_status;
+extern u_int8_t	glob_status;
 
 //	SHELL.C
 int			initiate_shell(char **envp);
@@ -112,7 +113,7 @@ bool		check_quotes(t_token *prev, t_token *curr);
 bool		check_env_var(t_token *prev, t_token *curr);
 
 //	COMMANDS.C
-t_command	*create_commands(t_token **top);
+t_command	*create_commands(t_token **top, t_shell *shell);
 t_token		*fill_command(t_command *command, t_token *current);
 int			get_num_args(t_token *current);
 
@@ -124,8 +125,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 
 //	EXPANSION.C
 void		expand(t_token *top, t_shell *shell);
-void		replace(t_token *token, char **envp);
-char		*find_replacement(char *env_string, char *new_string);
+void		replace(t_token *token, t_env_list *env);
 
 //	PARSER.C
 t_command	*parser(t_shell *shell);
@@ -156,15 +156,15 @@ char		*find_path(char **envp);
 char		*get_command_path(t_shell *shell, char *command);
 
 //	HANDLE_REDIR.C
-int			handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
+void		handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
 bool		redir_outfile(t_redir *curr, t_shell *shell);
 bool		append_outfile(t_redir *curr, t_shell *shell);
 bool		redir_infile(t_redir *curr, t_shell *shell);
 
 //	EXECUTE_BUILT_IN.C
-bool		check_built_in(char *cmd);
+bool		check_built_in(t_command *curr);
 bool		handle_built_in(t_shell *shell, t_command *curr);
-void		execute_built_in(t_shell *shell, t_command *curr);
+bool		execute_built_in(t_shell *shell, t_command *curr);
 
 //	EXECUTE_NON_BUILT_IN.C
 void		execute_non_built_in(t_shell *shell, t_command *curr);
@@ -200,7 +200,7 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
-void		update_status(unsigned int status);
+void		update_status(pid_t pid);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(void);
