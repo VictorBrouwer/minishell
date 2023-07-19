@@ -155,7 +155,7 @@ char		*find_path(char **envp);
 char		*get_command_path(t_shell *shell, char *command);
 
 //	HANDLE_REDIR.C
-int			handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
+void		handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
 bool		redir_outfile(t_redir *curr, t_shell *shell);
 bool		append_outfile(t_redir *curr, t_shell *shell);
 bool		redir_infile(t_redir *curr, t_shell *shell);
@@ -163,7 +163,7 @@ bool		redir_infile(t_redir *curr, t_shell *shell);
 //	EXECUTE_BUILT_IN.C
 bool		check_built_in(t_command *curr);
 bool		handle_built_in(t_shell *shell, t_command *curr);
-void		execute_built_in(t_shell *shell, t_command *curr);
+bool		execute_built_in(t_shell *shell, t_command *curr);
 
 //	EXECUTE_NON_BUILT_IN.C
 void		execute_non_built_in(t_shell *shell, t_command *curr);

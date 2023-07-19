@@ -10,25 +10,25 @@ static const redir_jumpt_table g_redir_func[] =
 	[LESS] = &redir_infile,
 };
 
-int	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
+void	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
 {
 	t_redir *redir;
 
 	if (!curr)
-		return (ERROR);
+		return ;
 	if (!curr->redir)
-		return (SUCCESS);
+		return ;
 	redir = curr->redir;
 	while (redir)
 	{
 		if (redir->redir_type == LESS || redir->redir_type == GREAT || redir->redir_type == APPEND)
 		{
 			if ((g_redir_func[redir->redir_type])(redir, shell))
-				return (ERROR);// hier nog freeen
+				return ;// hier nog freeen
 		}
 		redir = redir->next;
 	}
-	return (SUCCESS);
+	return ;
 }
 
 bool	redir_outfile(t_redir *curr, t_shell *shell)

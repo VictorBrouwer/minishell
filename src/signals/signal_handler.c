@@ -28,4 +28,3 @@ void	signal_handler(int sig)
 		rl_redisplay();
 	}
 }
-

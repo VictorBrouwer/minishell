@@ -46,13 +46,13 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 {
 	close(pipefd[READ]);
 	redirect_std_out(pipefd[WRITE]); // als je dit niet doet blijft de write end van de pipe open en gaat voor problem zorgen
-	if (handle_built_in(shell, curr))
-		exit(0);// if it is a built_in, the child process needs to be killed
 	if (!(curr->args[0]))
 	{
 		handle_redirs_curr_cmd(shell, curr);
-		return ;
+		exit(0);
 	}
+	if (handle_built_in(shell, curr))
+		exit(0);// if it is a built_in, the child process needs to be killed
 	execute_non_built_in(shell, curr);
 }
 
@@ -61,12 +61,12 @@ void	execute_last_child(t_command *curr, t_shell *shell, int pipefd[])
 	close(pipefd[READ]);
 	close(pipefd[WRITE]);
 	shell->write_fd = STDOUT_FILENO; // set standard write_fd to STDOUT and handle redirs afterwards
-	if (handle_built_in(shell, curr))
-		exit(0);// if it is a built_in, the child process needs to be killed
 	if (!(curr->args[0]))
 	{
 		handle_redirs_curr_cmd(shell, curr);
-		return ;
+		exit(0);
 	}
+	if (handle_built_in(shell, curr))
+		exit(0);// if it is a built_in, the child process needs to be killed
 	execute_non_built_in(shell, curr);
 }

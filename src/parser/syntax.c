@@ -35,7 +35,6 @@ int analyze_tokens(t_token **token_list)
 			if ((g_syntax_func[current->token_id])(prev, current))
 				return (clean_tokens(token_list), ERROR);
 		}
-			// return (printf(" ERROR \n prev token = %s \n current token = %s", prev->content, current->content), ERROR);
 		prev = current;
 		current = current->next;
 	}

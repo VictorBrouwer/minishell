@@ -16,13 +16,13 @@ bool strings_equal(const char *s1, const char *s2)
 void	update_status(pid_t pid)
 {
 	int		status;
-	int		exit_code;
 
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status)) // returns true if child was not terminate by signal, segfault etc.
+		glob_status = WEXITSTATUS(status);
+	if (WIFSIGNALED(status)) // returns true if child was terminated by signal
 	{
-		exit_code = WEXITSTATUS(status);
-		if (exit_code != 0)
-			glob_status = exit_code;
+		printf("exited due to signal\n");
+		glob_status = 128 + status;
 	}
 }

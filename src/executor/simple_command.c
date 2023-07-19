@@ -7,10 +7,7 @@ void	simple_command(t_shell *shell)
 {
 	check_hd_curr_cmd(shell, shell->command_node);
 	if (!(shell->command_node->args[0]))
-	{
-		handle_redirs_curr_cmd(shell, shell->command_node);
-		return ;
-	}
+		return (handle_redirs_curr_cmd(shell, shell->command_node));
 	else if (handle_built_in(shell, shell->command_node))
 		return ;
 	else
