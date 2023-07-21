@@ -13,16 +13,13 @@ int builtin_cd(char **cmd, t_env_list *env)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (-1);
+		return (1);
 	path = get_path(cmd, cwd, env);
 	if (!path)
-		return (free(cwd), -1);
+		return (free(cwd), 1);
 	oldpwd = ft_strdup(cwd);
 	if (chdir(path) != 0)
-	{
-		ft_putstr_fd_protected("No such file or directory", STDERR_FILENO, 1);
-		return (free(path), free(cwd), 1);
-	}
+		return (print_error_and_set_status("No such file or directory", 1), free(path), free(cwd), 1);
 	free(cwd);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
@@ -31,8 +28,8 @@ int builtin_cd(char **cmd, t_env_list *env)
 		return (free(path), free(cwd), free(oldpwd), -1);
 	if (!replace_env_var_content("OLDPWD", oldpwd, &env))
 		return (free(path), free(oldpwd), -1);
-	printf("PWD = %s\n", get_env_var("PWD", env));
-	printf("OLDPWD = %s\n", get_env_var("OLDPWD", env));
+	// printf("PWD = %s\n", get_env_var("PWD", env));
+	// printf("OLDPWD = %s\n", get_env_var("OLDPWD", env));
 	return (free(path), 0);
 }
 

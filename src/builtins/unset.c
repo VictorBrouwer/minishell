@@ -11,7 +11,7 @@ int	builtin_unset(t_command *curr, t_env_list **env)
 	int			i;
 
 	if (!curr->args[1] || !env || !*env)
-		return (ERROR);
+		return (1);
 	i = 1;
 	while (curr->args[i])
 	{

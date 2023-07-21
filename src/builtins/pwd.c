@@ -7,9 +7,9 @@ int	builtin_pwd(void)
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (-1);
+		return (1);
 	if (ft_putstr_fd_protected(pwd, STDOUT_FILENO, 1) == -1)
-		return (free(pwd), -1);
+		return (free(pwd), 1);
 	free(pwd);
 	return (0);
 }

@@ -83,7 +83,7 @@ enum token_id
 };
 
 //		GLOBAL VARIABLE
-extern u_int8_t	glob_status;
+extern u_int16_t	glob_status;
 
 //	SHELL.C
 int			initiate_shell(char **envp);
@@ -201,7 +201,8 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
 void		update_status(pid_t pid);
-void		exit_and_print_error(char *error_type, int status, char *command);
+void		exit_and_print_error_command(char *error_type, int status, char *command);
+void		print_error_and_set_status(char *error_type, int status);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(void);

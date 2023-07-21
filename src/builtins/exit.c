@@ -11,20 +11,19 @@ int	builtin_exit(char **args, t_shell *shell)
  		if (args[2])
  		{
  			ft_putstr_fd_protected("exit: too many arguments\n", STDERR_FILENO, 0);
-			return(-1);
+			return(1);
  		}
  		else if (ft_stris_x(args[1], ft_isdigit))
  		{
-			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 1);
-			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
-			exit(0);
+			ft_putstr_fd_protected("exit", STDOUT_FILENO, 1);
+			exit(ft_atoi(args[1]));
  		}
  		else
 		{
- 			ft_putstr_fd_protected("exit: %s: numeric argument is required\n", STDERR_FILENO, 0);
+			ft_putstr_fd_protected("exit", STDOUT_FILENO, 1);
+ 			ft_putstr_fd_protected("nutshell: exit: ", STDERR_FILENO, 0);
  			ft_putstr_fd_protected(args[1], STDERR_FILENO, 0);
  			ft_putstr_fd_protected(": numeric argument is required\n", STDERR_FILENO, 0);
-			ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
  			exit(255);
  		}
  	}
