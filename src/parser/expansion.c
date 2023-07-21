@@ -2,6 +2,8 @@
 #include "libft.h"
 
 static void	check_and_expand_exit_status(t_token *token);
+static void	replace(t_token *token, t_env_list *env);
+int	ft_isspace(int c);
 // there can be nothing, quotes or an empty string after a env_var
 
 void	expand(t_token *top, t_shell *shell)
@@ -23,7 +25,7 @@ void	expand(t_token *top, t_shell *shell)
 	}
 }
 
-void	check_and_expand_exit_status(t_token *token)
+static void	check_and_expand_exit_status(t_token *token)
 {
 	if (ft_strncmp(token->content, "$?", 3) == 0)
 	{
@@ -32,7 +34,7 @@ void	check_and_expand_exit_status(t_token *token)
 	}
 }
 
-void	replace(t_token *token, t_env_list *env)
+static void	replace(t_token *token, t_env_list *env)
 {
 	char	*replacement;
 
@@ -42,4 +44,38 @@ void	replace(t_token *token, t_env_list *env)
 		free(token->content);
 		token->content = ft_strdup(replacement);
 	}
+}
+
+/* double quotes wel expanden, single niet*/
+static char	*expand_double_quotes(t_token *token, t_env_list *env)
+{
+	int		i;
+	int		j;
+	char	*expanded_var;
+	char	*var;
+	char	*new_str;
+	
+	i = 0;
+	while (token->content[i])
+	{
+		while (token->content[i] && token->content[i] != '$')
+			i++;
+		j = i;
+		while (token->content[j] && !ft_isspace(token->content[j]))
+			j++;
+		if (i == 0 && j > i)
+		{
+			var = ft_substr(token->content, i, j - i);
+			expanded_var = get_env_var(var, env);
+			new_str = ft_strjoin(expanded_var, token->content + j);
+		}
+	}
+	return (new_str);
+}
+
+int	ft_isspace(int c)
+{
+	if ((c > 8 && c < 14) || c == 32)
+		return (1);
+	return (0);
 }

@@ -125,7 +125,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 
 //	EXPANSION.C
 void		expand(t_token *top, t_shell *shell);
-void		replace(t_token *token, t_env_list *env);
+/* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C
 t_command	*parser(t_shell *shell);
