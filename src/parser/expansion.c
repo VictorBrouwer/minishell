@@ -3,6 +3,7 @@
 
 static void	check_and_expand_exit_status(t_token *token);
 // there can be nothing, quotes or an empty string after a env_var
+// tussen single quotes wel expanden en tussen dubbelle quotes niet
 
 void	expand(t_token *top, t_shell *shell)
 {
