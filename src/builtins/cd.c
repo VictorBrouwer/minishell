@@ -12,8 +12,10 @@ int builtin_cd(char **cmd, t_env_list *env)
 	char	*path;
 
 	cwd = getcwd(NULL, 0);
-	if (!cwd)
+	if (!cwd && errno != ENOENT)
 		return (-1);
+	else if (!cwd && errno == ENOENT)
+		cwd = ft_strdup(get_env_var("PWD", env));
 	path = get_path(cmd, cwd, env);
 	if (!path)
 		return (free(cwd), -1);
