@@ -45,7 +45,7 @@ static int	shell_loop(t_shell *shell)
 		{
 			rl_replace_line("", 0);
 			// rl_on_new_line();
-			// rl_redisplay();
+			rl_redisplay();
 			break ;
 		}
 		else if (ft_strlen(line) == 0)

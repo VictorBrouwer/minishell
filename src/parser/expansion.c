@@ -1,10 +1,12 @@
 #include "shell.h"
 #include "libft.h"
+#include <stddef.h>
 
 static void	check_and_expand_exit_status(t_token *token);
 static void	replace(t_token *token, t_env_list *env);
-/* static int	ft_isspace(int c); */
-/* static char	*expand_double_quotes(t_token *token, t_env_list *env); */
+static char	*expand_double_quotes(t_token *token, t_env_list *env);
+static char	*append_part(char *str, char *new_part);
+static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_list *env);
 // there can be nothing, quotes or an empty string after a env_var
 
 void	expand(t_token *top, t_shell *shell)
@@ -15,8 +17,8 @@ void	expand(t_token *top, t_shell *shell)
 	check_and_expand_exit_status(top);
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->env_list);
-	/* else if (curr->token_id == D_QUOTE) */
-	/* 	expand_double_quotes(curr, shell->env_list); */
+	else if (curr->token_id == D_QUOTE)
+		curr->content = expand_double_quotes(curr, shell->env_list);
 	while (curr->next)
 	{
 		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC) // if env_var comes after a heredoc it should not be expanded
@@ -24,6 +26,8 @@ void	expand(t_token *top, t_shell *shell)
 			check_and_expand_exit_status(curr->next);
 			replace(curr->next, shell->env_list);
 		}
+		else if (curr->token_id == D_QUOTE)
+			curr->content = expand_double_quotes(curr, shell->env_list);
 		curr = curr->next;
 	}
 }
@@ -49,39 +53,58 @@ static void	replace(t_token *token, t_env_list *env)
 	}
 }
 
-/* double quotes wel expanden, single niet*/
-/* static char	*expand_double_quotes(t_token *token, t_env_list *env) */
-/* { */
-/* 	int		i; */
-/* 	int		j; */
-/* 	char	*expanded_var; */
-/* 	char	*var; */
-/* 	char	*new_str; */
-/**/
-/* 	i = 0; */
-/* 	new_str = ft_strtrim(token->content, "\""); */
-/* 	while (new_str[i]) */
-/* 	{ */
-/* 		while (new_str[i] && new_str[i] != '$') */
-/* 			i++; */
-/* 		j = i; */
-/* 		while (new_str[j] && !ft_isspace(new_str[j])) */
-/* 			j++; */
-/* 		if (i == 0 && j > i) */
-/* 		{ */
-/* 			var = ft_substr(new_str, i, j - i); */
-/* 			expanded_var = get_env_var(var, env); */
-/* 			free(new_str); */
-/* 			new_str = ft_strjoin(expanded_var, new_str + j); */
-/* 		} */
-/**/
-/* 	} */
-/* 	return (new_str); */
-/* } */
+/* TODO: double quotes wel expanden, single niet. */
+static char	*expand_double_quotes(t_token *token, t_env_list *env)
+{
+	size_t	start;
+	size_t	end;
+	char	*part;
+	char	*new_str;
 
-/* static int	ft_isspace(int c) */
-/* { */
-/* 	if ((c > 8 && c < 14) || c == 32) */
-/* 		return (1); */
-/* 	return (0); */
-/* } */
+	printf("test quote expansion\n");
+	start = 0;
+	new_str = ft_calloc(1, sizeof(char));
+	while (token->content[start])
+	{
+		end = start;
+		if (token->content[start] != '$')
+		{
+			while (token->content[end] && token->content[end] != '$')
+				end++;
+			part = ft_substr(token->content, start, end - start);
+		}
+		else
+		{
+			while (token->content[end] && !ft_isspace(token->content[end]))
+				end++;
+			part = expand_part(token->content, start, end, env);
+		}
+		new_str = append_part(new_str, part);
+		start = end;
+	}
+	return (free(token->content), new_str);
+}
+
+static char	*append_part(char *str, char *new_part)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(str, new_part);
+	if (!tmp)
+		return (NULL);
+	free(str);
+	return (tmp);
+}
+
+static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_list *env)
+{
+	char	*var;
+	char	*expanded_var;
+
+	var = ft_substr(var, start, end - start);
+	if (!var)
+		return (NULL);
+	expanded_var = get_env_var(str + 1, env);
+	return (free(var), expanded_var);
+}
+

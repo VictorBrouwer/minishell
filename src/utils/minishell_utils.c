@@ -13,6 +13,13 @@ bool strings_equal(const char *s1, const char *s2)
     return (1);
 }
 
+int	ft_isspace(int c)
+{
+	if ((c > 8 && c < 14) || c == 32)
+		return (1);
+	return (0);
+}
+
 void	update_status(pid_t pid)
 {
 	int		status;
