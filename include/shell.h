@@ -104,6 +104,7 @@ t_token		*remove_white_space(t_token *top);
 //	SYNTAX.C
 int			analyze_tokens(t_token **token_list);
 int 		check_tokens(int id_1, int id_2);
+const char*	getTokenString(enum token_id id);
 
 //	JUMPTABLE_FUNCS.C
 bool		check_pipe(t_token *prev, t_token *curr);
