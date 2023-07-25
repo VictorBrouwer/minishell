@@ -1,9 +1,9 @@
 #include "shell.h"
 #include "libft.h"
 
-size_t	list_command_size(t_command *t_list);
-void	print_commands(t_command *top);
-const char* getTokenString(enum token_id id);
+size_t		list_command_size(t_command *t_list);
+/* static void	print_commands(t_command *top); */
+const char*	getTokenString(enum token_id id);
 
 t_command	*parser(t_shell *shell)
 {
@@ -39,35 +39,35 @@ size_t	list_command_size(t_command *t_list)
 	return (ret);
 }
 
-void	print_commands(t_command *top)
-{
-	int			size;
-	int			i;
-	const int	con = list_command_size(top);
-
-	size = list_command_size(top);
-	printf("\n\t-=-  COMMAND PRINT [%d] -=-\n", con);
-	while (size--)
-	{
-		i = 0;
-		printf("\tCOMMAND [%02d]\n\n", (con - size));
-		ft_printf("|__ARGS__\n");
-		while (top->args[i])
-		{
-			printf("ARG [%02d]\tstr: {%s}\n", i, top->args[i]);
-			i++;
-		}
-		i = 0;
-		ft_printf("|__REDIRECTIONS__\n");
-		while (top->redir)
-		{
-			printf("RED [%02d]\ttype: {%s} \t\tfile name: {%s}\n", i, getTokenString(top->redir->redir_type), top->redir->file_name);
-			top->redir = top->redir->next;
-			i++;
-		}
-		top = top->next;
-		ft_printf("|______________________\n\n");
-	}
-	return ;
-}
+/* static void	print_commands(t_command *top) */
+/* { */
+/* 	int			size; */
+/* 	int			i; */
+/* 	const int	con = list_command_size(top); */
+/**/
+/* 	size = list_command_size(top); */
+/* 	printf("\n\t-=-  COMMAND PRINT [%d] -=-\n", con); */
+/* 	while (size--) */
+/* 	{ */
+/* 		i = 0; */
+/* 		printf("\tCOMMAND [%02d]\n\n", (con - size)); */
+/* 		ft_printf("|__ARGS__\n"); */
+/* 		while (top->args[i]) */
+/* 		{ */
+/* 			printf("ARG [%02d]\tstr: {%s}\n", i, top->args[i]); */
+/* 			i++; */
+/* 		} */
+/* 		i = 0; */
+/* 		ft_printf("|__REDIRECTIONS__\n"); */
+/* 		while (top->redir) */
+/* 		{ */
+/* 			printf("RED [%02d]\ttype: {%s} \t\tfile name: {%s}\n", i, getTokenString(top->redir->redir_type), top->redir->file_name); */
+/* 			top->redir = top->redir->next; */
+/* 			i++; */
+/* 		} */
+/* 		top = top->next; */
+/* 		ft_printf("|______________________\n\n"); */
+/* 	} */
+/* 	return ; */
+/* } */
 
