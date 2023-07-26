@@ -1,7 +1,6 @@
 #include "shell.h"
 #include "libft.h"
 
-static int	remove_enclosing_quotes(t_token *current);
 static int	fill_command(t_command *command, t_token *current);
 static t_token	*update_current(t_token *current);
 
@@ -52,11 +51,6 @@ static int	fill_command(t_command *command, t_token *current)
 	{
 		if (!(current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS || current->token_id == HEREDOC))
 		{
-			if (current->token_id == S_QUOTE || current->token_id == D_QUOTE)
-			{
-				if (remove_enclosing_quotes(current) == 1)
-					return (1);
-			}
 			command->args[i] = current->content;
 			i++;
 		}
@@ -89,25 +83,4 @@ int	get_num_args(t_token *current)
 	return count;
 }
 
-static int	remove_enclosing_quotes(t_token *current)
-{
-	char	*new_str;
 
-	if (current->token_id == S_QUOTE)
-	{
-		new_str = ft_strtrim(current->content, "'");
-		if (!new_str)
-			return (1);
-		free(current->content);
-		current->content = new_str;
-	}
-	else if (current->token_id == D_QUOTE)
-	{
-		new_str = ft_strtrim(current->content, "\"");
-		if (!new_str)
-			return (1);
-		free(current->content);
-		current->content = new_str;
-	}
-	return (SUCCESS);
-}
