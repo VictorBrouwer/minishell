@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-const char* getTokenString(enum token_id id);
+static char	*trim_content(char *str, const char *symbol);
 
 typedef bool (*syntx_jumpt_table)	(t_token *prev, t_token *curr);
 
@@ -30,15 +30,32 @@ int analyze_tokens(t_token **token_list)
 	while (current)
 	{
 		// printf("current token =  %d %s \n", current->token_id, current->content);
-		if (current->token_id != 0 && current->token_id != 10 && current->token_id != 11) // hier nog iets op verzinnen
+		if (current->token_id != 0 && current->token_id != 10 && current->token_id != 11) // hier nog iets op verzinnen. moet dit niet 9 + 10 zijn?
 		{
 			if ((g_syntax_func[current->token_id])(prev, current))
 				return (clean_tokens(token_list), ERROR);
 		}
+		if (current->token_id == 6)
+			current->content = trim_content(current->content, "\'");
+		else if (current->token_id == 7)
+			current->content = trim_content(current->content, "\"");
+		if (!current->content)
+			return (clean_tokens(token_list), ERROR);
 		prev = current;
 		current = current->next;
 	}
 	return (SUCCESS);
+}
+
+static char	*trim_content(char *str, const char *symbol)
+{
+	char *tmp;
+
+	tmp = ft_strtrim(str, symbol);
+	if (!tmp)
+		return (NULL);
+	free(str);
+	return (tmp);
 }
 
 const char* getTokenString(enum token_id id)
