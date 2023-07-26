@@ -104,6 +104,7 @@ t_token		*remove_white_space(t_token *top);
 //	SYNTAX.C
 int			analyze_tokens(t_token **token_list);
 int 		check_tokens(int id_1, int id_2);
+const char*	getTokenString(enum token_id id);
 
 //	JUMPTABLE_FUNCS.C
 bool		check_pipe(t_token *prev, t_token *curr);
@@ -125,7 +126,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 
 //	EXPANSION.C
 void		expand(t_token *top, t_shell *shell);
-void		replace(t_token *token, t_env_list *env);
+/* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C
 t_command	*parser(t_shell *shell);
@@ -200,6 +201,7 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
+int			ft_isspace(int c);
 void		update_status(pid_t pid);
 void		exit_and_print_error_command(char *error_type, int status, char *command);
 void		print_error_and_set_status(char *error_type, int status);
