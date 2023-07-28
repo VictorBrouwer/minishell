@@ -9,25 +9,23 @@ t_token	**tokenize(char *s)
 	char	*token_string;
 	t_token	*token;
 	t_token	**token_list;
-	char	*trimmed;
+    char	*trimmed;
 
-	trimmed = ft_strtrim(s, " ");
-	if (!trimmed)
-		return (NULL);
-	/* free(s); */
-	/* if (s[0] == '\0') */
-	/* 	return (free(s), NULL); */
-	/* token = NULL; */
 	start = 0;
+    trimmed = ft_strtrim(s, " ");
+    if (!trimmed)
+ 		return (NULL);
 	token_list = ft_calloc(1, sizeof(t_token *));
 	if (!token_list)
-		return (free(trimmed), NULL);
+		return (free(trimmed),NULL);
 	while (trimmed[start])
 	{
-		end = find_next_token(trimmed, start);
+		end = find_next_token(s, start);
+		if (start == end)
+			break ;
 		token_string = ft_substr(trimmed, start, end - start);
 		if (!token_string)
-			return (clean_tokens(token_list), free(trimmed), NULL);
+			return (free(trimmed), clean_tokens(token_list), NULL);
 		while(trimmed[end] && trimmed[end] == ' ')
 			end++;
 		if (end - 1 > start && trimmed[end - 1] == ' ')
@@ -37,11 +35,11 @@ t_token	**tokenize(char *s)
 		// token = ft_new_token(ft_strtrim(token_string, " "));
 		token = ft_new_token(token_string);
 		if (!token)
-			return (clean_tokens(token_list), free(trimmed), NULL);
+			return (free(trimmed), clean_tokens(token_list), NULL);
 		add_token_back(token_list, token);
 	}
 	if (start == 0)
-		return (free(token_list), free(trimmed), NULL);
+		return (free(trimmed), free(token_list), NULL);
 	*token_list = remove_white_space(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
@@ -50,38 +48,43 @@ size_t	find_next_token(const char *s, size_t start)
 {
 	size_t	end;
 
+	if (!s[start])
+		return (start);
 	end = start + 1;
 	if (ft_strchr(SPECIAL_DELIMITERS, s[start]) && s[start + 1] && s[start] == s[start + 1])
 		return (start + 2);
-	if (s[start] == '\\')
+	else if (s[start] == '\\') // <- segfault
 	{
 		if (s[end])
 			return (end + 1);
 		return (end);
 	}
-	if (ft_strchr("\"\'", s[start]))
-	{
+	else if (ft_strchr("\"\'", s[start])) // <- segfault, hier nog goed naar kijken
+    {
 		while (s[end])
 		{
-			if (s[end] == s[start] && s[end - 1] != '\\')
+			if (s[end] == s[start] && s[end - 1] != '\\')  // <- echo "\"\"" klopt niet
 				break ;
 			end++;
 		}
-		return (end + 1);
+        if (s[end])
+		    return (end + 1);
+        else
+            return (end);
 	}
-	if (s[start] == '$') // hier nog ff goed naar kijken
+	else if (s[start] == '$') // hier nog ff goed naar kijken
 	{
 		while(s[end] && !(ft_strchr(TOKEN_DELIMITERS, s[end])))
 			end++;
 		return (end);
 	}
-	if (ft_strchr(TOKEN_DELIMITERS, s[start]))
+	else if (ft_strchr(TOKEN_DELIMITERS, s[start]))
 		return (start + 1);
 	while (s[end])
 	{
 		if (ft_strchr(TOKEN_DELIMITERS, s[end]))
 			return (end);
-		end++;
+        end++;
 	}
 	return (end);
 }

@@ -7,13 +7,6 @@ export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
 NAME		:= minishell
 UNIT_TEST	:= test.out
 
-ifdef DEBUG
-CFLAGS += -g
-endif
-
-ifdef FSAN
-CFLAGS += -fsanitize=address,undefined
-endif
 
 #=================== DIRECTORIES ===================#
 BUILD_DIR	:=	build
@@ -25,8 +18,16 @@ TEST_DIR	:=	./tests
 
 #=================== LIBRARIES ===================#
 
-CFLAGS			+=	-Wextra -Wall -Werror
+CFLAGS			:=	-Wextra -Wall -Werror
 CFLAGS			+=	$(addprefix -I, $(shell brew --prefix readline)/include)
+
+ifdef DEBUG
+	CFLAGS += -g
+endif
+
+ifdef FSAN
+	CFLAGS += -fsanitize=address,undefined
+endif
 
 LDFLAGS			=	-L$(shell brew --prefix readline)/lib -lreadline -L./libft -lft
 
