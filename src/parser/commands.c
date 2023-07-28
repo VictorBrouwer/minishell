@@ -1,6 +1,9 @@
 #include "shell.h"
 #include "libft.h"
 
+static int	fill_command(t_command *command, t_token *current);
+static t_token	*update_current(t_token *current);
+
 t_command	*create_commands(t_token **token_list, t_shell *shell)
 {
 	t_token 	*current;
@@ -13,11 +16,10 @@ t_command	*create_commands(t_token **token_list, t_shell *shell)
 	{
 		command = ft_new_comm();
 		if (!command)
-		{
-			clean_tokens(token_list);
-			return(clean_commands(&command_list_start), NULL);
-		}
-		current = fill_command(command, current);
+			return(clean_tokens(token_list), clean_commands(&command_list_start), NULL);
+		if (fill_command(command, current) == 1)
+			return(free(command), clean_tokens(token_list), clean_commands(&command_list_start), NULL);
+		current = update_current(current);
 		add_comm_back(&command_list_start, command);
 		if (current && current->token_id == PIPE)
 			current = current->next;
@@ -27,8 +29,14 @@ t_command	*create_commands(t_token **token_list, t_shell *shell)
 	return (command_list_start);
 }
 
+static t_token	*update_current(t_token *current)
+{
+	while (current != NULL && current->token_id != PIPE)
+		current = current->next;
+	return (current);
+}
 
-t_token	*fill_command(t_command *command, t_token *current)
+static int	fill_command(t_command *command, t_token *current)
 {
 	int	count;
 	int	i;
@@ -38,7 +46,7 @@ t_token	*fill_command(t_command *command, t_token *current)
 	i = 0;
 	command->args = ft_calloc(count + 1, sizeof(char *));
 	if (!command->args)
-		return (NULL);
+		return (1);
 	while (current != NULL && current->token_id != PIPE)
 	{
 		if (!(current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS || current->token_id == HEREDOC))
@@ -50,13 +58,13 @@ t_token	*fill_command(t_command *command, t_token *current)
 		{
 			temp_redir = ft_new_redir(current);
 			if (!temp_redir)
-				return (clean_commands(&command), NULL);
+				return (clean_commands(&command), 1);
 			add_redir(temp_redir, command);
 			current = current->next;
 		}
 		current = current->next;
 	}
-	return (current);
+	return (0);
 }
 
 int	get_num_args(t_token *current)
@@ -74,3 +82,5 @@ int	get_num_args(t_token *current)
 	}
 	return count;
 }
+
+

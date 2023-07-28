@@ -1,7 +1,8 @@
 #include "shell.h"
 #include "libft.h"
 
-static char	*trim_content(char *str, const char *symbol);
+const char* getTokenString(enum token_id id);
+static int	remove_enclosing_quotes(t_token *current);
 
 typedef bool (*syntx_jumpt_table)	(t_token *prev, t_token *curr);
 
@@ -35,28 +36,27 @@ int analyze_tokens(t_token **token_list)
 			if ((g_syntax_func[current->token_id])(prev, current))
 				return (clean_tokens(token_list), ERROR);
 		}
-		if (current->token_id == 6)
-			current->content = trim_content(current->content, "\'");
-		else if (current->token_id == 7)
-			current->content = trim_content(current->content, "\"");
-		if (!current->content)
-			return (clean_tokens(token_list), ERROR);
+		if (current->token_id == S_QUOTE || current->token_id == D_QUOTE)
+		{
+			if (remove_enclosing_quotes(current) == 1)
+				return (1);
+		}
 		prev = current;
 		current = current->next;
 	}
 	return (SUCCESS);
 }
 
-static char	*trim_content(char *str, const char *symbol)
-{
-	char *tmp;
+// static char	*trim_content(char *str, const char *symbol)
+// {
+// 	char *tmp;
 
-	tmp = ft_strtrim(str, symbol);
-	if (!tmp)
-		return (NULL);
-	free(str);
-	return (tmp);
-}
+// 	tmp = ft_strtrim(str, symbol);
+// 	if (!tmp)
+// 		return (NULL);
+// 	free(str);
+// 	return (tmp);
+// }
 
 const char* getTokenString(enum token_id id)
 {
@@ -87,6 +87,29 @@ const char* getTokenString(enum token_id id)
         default:
             return "UNKNOWN";
     }
+}
+
+static int	remove_enclosing_quotes(t_token *current)
+{
+	char	*new_str;
+
+	if (current->token_id == S_QUOTE)
+	{
+		new_str = ft_strtrim(current->content, "'");
+		if (!new_str)
+			return (1);
+		free(current->content);
+		current->content = new_str;
+	}
+	else if (current->token_id == D_QUOTE)
+	{
+		new_str = ft_strtrim(current->content, "\"");
+		if (!new_str)
+			return (1);
+		free(current->content);
+		current->content = new_str;
+	}
+	return (SUCCESS);
 }
 
 //  <VAR>VAR<VAR>VAR<VAR>>VAR<<VAR>VAR|CATCAT CAT CAT<CAT>CAT

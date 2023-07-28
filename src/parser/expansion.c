@@ -2,49 +2,56 @@
 #include "libft.h"
 #include <stddef.h>
 
-static void	check_and_expand_exit_status(t_token *token);
+// static void	check_and_expand_exit_status(t_token *token);
+static bool	check_dollar_sign(t_token *token);
 static void	replace(t_token *token, t_env_list *env);
 static char	*expand_double_quotes(t_token *token, t_env_list *env);
 static char	*append_part(char *str, char *new_part);
 static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_list *env);
 // there can be nothing, quotes or an empty string after a env_var
+// tussen dubbelle quotes wel expanden en tussen single quotes niet
 
 void	expand(t_token *top, t_shell *shell)
 {
 	t_token	*curr;
 
 	curr = top;
-	check_and_expand_exit_status(top);
+	// printf("content is %s and id = %d\n", curr->content, curr->token_id);
+	// check_and_expand_exit_status(top);
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->env_list);
-	else if (curr->token_id == D_QUOTE)
+	else if (curr->token_id == D_QUOTE && check_dollar_sign(curr))
 		curr->content = expand_double_quotes(curr, shell->env_list);
 	while (curr->next)
 	{
 		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC) // if env_var comes after a heredoc it should not be expanded
 		{
-			check_and_expand_exit_status(curr->next);
+			// check_and_expand_exit_status(curr->next);
 			replace(curr->next, shell->env_list);
 		}
-		else if (curr->next->token_id == D_QUOTE && curr->token_id != HEREDOC)
+		else if (curr->next->token_id == D_QUOTE && check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
 			curr->next->content = expand_double_quotes(curr->next, shell->env_list);
 		curr = curr->next;
 	}
 }
 
-static void	check_and_expand_exit_status(t_token *token)
+static bool	check_dollar_sign(t_token *token)
 {
-	if (ft_strncmp(token->content, "$?", 3) == 0)
-	{
-		free(token->content);
-		token->content = ft_itoa(glob_status);
-	}
+	if (ft_strnstr(token->content, "$", ft_strlen(token->content)) != 0)
+		return (true);
+	return (false);
 }
 
 static void	replace(t_token *token, t_env_list *env)
 {
 	char	*replacement;
 
+	if (ft_strncmp(token->content, "$?", 3) == 0)
+	{
+		free(token->content);
+		token->content = ft_itoa(glob_status);
+		return ;
+	}
 	replacement = get_env_var(token->content + 1, env);
 	if (replacement != NULL)
 	{
@@ -78,7 +85,7 @@ static char	*expand_double_quotes(t_token *token, t_env_list *env)
 		}
 		else
 		{
-			while (token->content[end] && ft_isalpha(token->content[end]))
+			while (token->content[end] && (ft_isalpha(token->content[end]) || token->content[end] == '?'))
 				end++;
 			part = expand_part(token->content, start, end, env);
 			if (!part && glob_status == 1)
@@ -118,6 +125,8 @@ static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_
 		var = ft_substr(str, start + 1, end - start - 1);
 	if (!var)
 		return (glob_status = 1, NULL);
+	if (ft_strncmp(var, "?", 2) == 0)
+		return (free(var), ft_itoa(glob_status));
 	tmp = get_env_var(var, env);
 	if (!tmp)
 		return (free(var), ft_strdup(""));
@@ -126,4 +135,3 @@ static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_
 		return (free(var), NULL);
 	return (free(var), expanded_var);
 }
-

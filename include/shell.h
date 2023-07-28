@@ -115,7 +115,7 @@ bool		check_env_var(t_token *prev, t_token *curr);
 
 //	COMMANDS.C
 t_command	*create_commands(t_token **top, t_shell *shell);
-t_token		*fill_command(t_command *command, t_token *current);
+// t_token		*fill_command(t_command *command, t_token *current);
 int			get_num_args(t_token *current);
 
 //	PARSER_UTILS.C

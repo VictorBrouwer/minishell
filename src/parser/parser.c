@@ -13,14 +13,14 @@ t_command	*parser(t_shell *shell)
 	token_list = tokenize(shell->input);
 	if (token_list == NULL)
 		return (NULL);
-	/* print_tokens(*token_list); */
+	// print_tokens(*token_list);
 	if (analyze_tokens(token_list) == ERROR)
 		return (print_error_and_set_status("syntax error", 258), NULL);
 	expand(*token_list, shell);// doe nog iets met return value
 	command_list = create_commands(token_list, shell);
 	if (command_list == NULL)
 		return (NULL);
-	/* print_commands(command_list); */
+	// print_commands(command_list);
 	return (command_list);
 }
 
