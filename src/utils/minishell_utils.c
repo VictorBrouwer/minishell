@@ -24,6 +24,7 @@ void	update_status(pid_t pid)
 {
 	int		status;
 
+	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status)) // returns true if child was not terminate by signal, segfault etc.
 	{

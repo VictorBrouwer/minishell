@@ -5,7 +5,6 @@ void	pipe_line(t_shell *shell)
 {
 	t_command	*curr;
 	int			pipefd[2];
-	// int			status;
 	pid_t		pid;
 
 	curr = shell->command_node;
@@ -33,15 +32,10 @@ void	pipe_line(t_shell *shell)
 		return ;
 	if (pid == 0)
 		execute_last_child(curr, shell, pipefd);
-	// close(shell->read_fd);
+	close(shell->read_fd);
 	while (wait(NULL) > 0)
 		continue ;
 	update_status(pid);
-	// while (pid > 0)
-	// {
-	// 	pid = waitpid(-1, &status, 0);
-	// 	update_status(pid);
-	// }
 	return ;
 }
 
