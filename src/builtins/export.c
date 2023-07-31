@@ -13,7 +13,7 @@ int	builtin_export(char **args, t_env_list **env)
 	i = 1;
 	while (args[i])
 	{
-		printf("content = %s\n", args[i]);
+		// printf("content = %s\n", args[i]);
 		name = split_var_name(args[i]);
 		if (!name)
 			i++;

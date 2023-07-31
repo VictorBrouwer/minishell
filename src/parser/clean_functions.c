@@ -3,8 +3,8 @@
 
 void	free_tokens_and_useless_strings(t_token **token_list)
 {
-	t_token *node;
-	t_token *temp;
+	t_token	*node;
+	t_token	*temp;
 
 	if (!token_list)
 		return ;
@@ -13,7 +13,8 @@ void	free_tokens_and_useless_strings(t_token **token_list)
 	node = *token_list;
 	while (node)
 	{
-		if (!(node->token_id == WORD || node->token_id == S_QUOTE || node->token_id == D_QUOTE || node->token_id == ENV_VAR))
+		if (!(node->token_id == WORD || node->token_id == S_QUOTE || \
+				node->token_id == D_QUOTE || node->token_id == ENV_VAR))
 		{
 			free(node->content);
 		}
@@ -26,8 +27,8 @@ void	free_tokens_and_useless_strings(t_token **token_list)
 
 void	clean_tokens(t_token **token_list)
 {
-	t_token *node;
-	t_token *temp;
+	t_token	*node;
+	t_token	*temp;
 
 	if (!token_list)
 		return ;
@@ -46,8 +47,8 @@ void	clean_tokens(t_token **token_list)
 
 void	clean_commands(t_command **command_node)
 {
-	t_command *node;
-	t_command *temp;
+	t_command	*node;
+	t_command	*temp;
 
 	if (!command_node || !*command_node)
 		return ;
@@ -66,7 +67,7 @@ void	clean_commands(t_command **command_node)
 
 void	clean_redirs(t_redir *node)
 {
-	t_redir *temp;
+	t_redir	*temp;
 
 	if (!node)
 		return ;

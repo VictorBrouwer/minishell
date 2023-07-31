@@ -31,8 +31,6 @@ bool	handle_built_in(t_shell *shell, t_command *curr)
 		if (shell->write_fd != STDOUT_FILENO)
 			redirect_std_out(shell->write_fd);
 		glob_status = execute_built_in(shell, curr);
-		// if (execute_built_in(shell, curr) == SUCCESS)
-		// 	glob_status = 0;
 		return (true);
 	}
 	return (false);
