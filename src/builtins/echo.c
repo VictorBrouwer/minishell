@@ -4,6 +4,7 @@
 
 static int check_flag(char *arg);
 
+/*TODO: echo "test"test"test"  vs echo dit is een test */
 int builtin_echo(char **args)
 {
 	int flag;

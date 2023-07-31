@@ -3,7 +3,7 @@
 
 size_t		list_command_size(t_command *t_list);
 /* static void	print_commands(t_command *top); */
-const char*	getTokenString(enum token_id id);
+//const char*	getTokenString(enum token_id id);
 
 t_command	*parser(t_shell *shell)
 {
@@ -13,10 +13,10 @@ t_command	*parser(t_shell *shell)
 	token_list = tokenize(shell->input);
 	if (token_list == NULL)
 		return (NULL);
-	// print_tokens(*token_list);
+	/* print_tokens(*token_list); */
 	if (analyze_tokens(token_list) == ERROR)
 		return (print_error_and_set_status("syntax error", 258), NULL);
-	expand(*token_list, shell);// doe nog iets met return value
+	expand(*token_list, shell);// dshell->env_listoe nog iets met return value
 	command_list = create_commands(token_list, shell);
 	if (command_list == NULL)
 		return (NULL);
