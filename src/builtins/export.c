@@ -1,24 +1,25 @@
 #include "libft.h"
 #include "shell.h"
 
-int	builtin_export(char **cmd, t_env_list **env)
+int	builtin_export(char **args, t_env_list **env)
 {
 	char		*name;
 	char		*content;
 	t_env_list	*new_var_node;
 	int			i;
 
-	if (!cmd[1] || ft_strlen(cmd[1]) == 0)
+	if (!args[1] || ft_strlen(args[1]) == 0)
 		return (builtin_env(*env), 1);
 	i = 1;
-	while (cmd[i])
+	while (args[i])
 	{
-		name = split_var_name(cmd[i]);
+		printf("content = %s\n", args[i]);
+		name = split_var_name(args[i]);
 		if (!name)
 			i++;
 		else
 		{
-			content = split_var_content(cmd[i]);
+			content = split_var_content(args[i]);
 			if (!content)
 			{
 				content = ft_calloc(1,1);
