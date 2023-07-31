@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "libft.h"
+#include <unistd.h>
 
 void	pipe_line(t_shell *shell)
 {
@@ -19,6 +20,8 @@ void	pipe_line(t_shell *shell)
 			return ;
 		if (pid == 0)
 			execute_child(curr, shell, pipefd);
+		if (shell->read_fd != STDIN_FILENO)
+			close(shell->read_fd);
 		shell->read_fd = pipefd[READ];
 		shell->read_fd = dup(shell->read_fd);
 		close(pipefd[READ]);
@@ -31,6 +34,8 @@ void	pipe_line(t_shell *shell)
 		return ;
 	if (pid == 0)
 		execute_last_child(curr, shell, pipefd);
+	if (shell->read_fd != STDIN_FILENO)
+		close(shell->read_fd);
 	while (pid > 0)
 	{
 		pid = waitpid(-1, &status, 0);
