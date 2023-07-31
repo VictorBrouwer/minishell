@@ -164,7 +164,7 @@ bool		redir_infile(t_redir *curr, t_shell *shell);
 
 //	EXECUTE_BUILT_IN.C
 bool		check_built_in(t_command *curr);
-bool		handle_built_in(t_shell *shell, t_command *curr);
+void		handle_built_in(t_shell *shell, t_command *curr);
 bool		execute_built_in(t_shell *shell, t_command *curr);
 
 //	EXECUTE_NON_BUILT_IN.C

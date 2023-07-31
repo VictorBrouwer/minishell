@@ -5,7 +5,7 @@ void	pipe_line(t_shell *shell)
 {
 	t_command	*curr;
 	int			pipefd[2];
-	int			status;
+	// int			status;
 	pid_t		pid;
 
 	curr = shell->command_node;
@@ -19,10 +19,12 @@ void	pipe_line(t_shell *shell)
 			return ;
 		if (pid == 0)
 			execute_child(curr, shell, pipefd);
+		close(pipefd[WRITE]);
+		if (shell->read_fd != STDIN_FILENO) // als read fd iets anders is dan stdin moet ie nog gesloten worden van de vorige keer
+			close (shell->read_fd);
 		shell->read_fd = pipefd[READ];
 		shell->read_fd = dup(shell->read_fd);
 		close(pipefd[READ]);
-		close(pipefd[WRITE]);
 		curr = curr->next;
 	}
 	check_hd_curr_cmd(shell, curr);
@@ -31,14 +33,15 @@ void	pipe_line(t_shell *shell)
 		return ;
 	if (pid == 0)
 		execute_last_child(curr, shell, pipefd);
-	while (pid > 0)
-	{
-		pid = waitpid(-1, &status, 0);
-		update_status(pid);
-	}
-	 // wait functie moet beter
-		// if (WIFEXITED(status) == 0) // if child terminated abnormally
-		// 	shell->exit_status = status;
+	// close(shell->read_fd);
+	while (wait(NULL) > 0)
+		continue ;
+	update_status(pid);
+	// while (pid > 0)
+	// {
+	// 	pid = waitpid(-1, &status, 0);
+	// 	update_status(pid);
+	// }
 	return ;
 }
 
@@ -51,9 +54,11 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 		handle_redirs_curr_cmd(shell, curr);
 		exit(0);
 	}
-	if (handle_built_in(shell, curr))
-		exit(0);// if it is a built_in, the child process needs to be killed
-	execute_non_built_in(shell, curr);
+	if (check_built_in(curr))
+		handle_built_in(shell, curr);
+	else
+		execute_non_built_in(shell, curr);
+	exit(glob_status);// if it is a built_in or the non_built-in does not exit for some reason, the child process needs to be killed
 }
 
 void	execute_last_child(t_command *curr, t_shell *shell, int pipefd[])
@@ -66,7 +71,9 @@ void	execute_last_child(t_command *curr, t_shell *shell, int pipefd[])
 		handle_redirs_curr_cmd(shell, curr);
 		exit(0);
 	}
-	if (handle_built_in(shell, curr))
-		exit(0);// if it is a built_in, the child process needs to be killed
-	execute_non_built_in(shell, curr);
+	if (check_built_in(curr))
+		handle_built_in(shell, curr);
+	else
+		execute_non_built_in(shell, curr);
+	exit(glob_status);// if it is a built_in or the non_built-in does not exit for some reason, the child process needs to be killed
 }

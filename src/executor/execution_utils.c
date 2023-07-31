@@ -27,6 +27,8 @@ char	*get_command_path(t_shell *shell, char *command)
 		return (command);
 	if (!command)
 		return (NULL);
+	if (ft_strlen(command) == 0) // to check for ""
+		return (command);
 	path = get_env_var("PATH", shell->env_list);
 	if (path == NULL)
 		return (command);

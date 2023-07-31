@@ -20,22 +20,15 @@ bool	check_built_in(t_command *curr)
 	return (false);
 }
 
-bool	handle_built_in(t_shell *shell, t_command *curr)
+void	handle_built_in(t_shell *shell, t_command *curr)
 {
 	// printf("BUILTIN command = %s, read fd = %d, write fd = %d\n", curr->args[0], shell->read_fd, shell->write_fd);
-	if (check_built_in(curr))
-	{
-		handle_redirs_curr_cmd(shell, curr);
-		if (shell->read_fd != STDIN_FILENO)
-			redirect_std_in(shell->read_fd);
-		if (shell->write_fd != STDOUT_FILENO)
-			redirect_std_out(shell->write_fd);
-		glob_status = execute_built_in(shell, curr);
-		// if (execute_built_in(shell, curr) == SUCCESS)
-		// 	glob_status = 0;
-		return (true);
-	}
-	return (false);
+	handle_redirs_curr_cmd(shell, curr);
+	if (shell->read_fd != STDIN_FILENO)
+		redirect_std_in(shell->read_fd);
+	if (shell->write_fd != STDOUT_FILENO)
+		redirect_std_out(shell->write_fd);
+	glob_status = execute_built_in(shell, curr);
 }
 
 bool	execute_built_in(t_shell *shell, t_command *curr)

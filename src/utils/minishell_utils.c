@@ -29,7 +29,7 @@ void	update_status(pid_t pid)
 	{
 		glob_status = WEXITSTATUS(status);
 	}
-	if (WIFSIGNALED(status)) // returns true if child was terminated by signal
+	else if (WIFSIGNALED(status)) // returns true if child was terminated by signal
 	{
 		printf("exited due to signal\n");
 		glob_status = 128 + status;

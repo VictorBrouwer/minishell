@@ -17,7 +17,6 @@ void	expand(t_token *top, t_shell *shell)
 
 	curr = top;
 	// printf("content is %s and id = %d\n", curr->content, curr->token_id);
-	// check_and_expand_exit_status(top);
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->env_list);
 	else if (curr->token_id == D_QUOTE && check_dollar_sign(curr))
@@ -25,10 +24,7 @@ void	expand(t_token *top, t_shell *shell)
 	while (curr->next)
 	{
 		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC) // if env_var comes after a heredoc it should not be expanded
-		{
-			// check_and_expand_exit_status(curr->next);
 			replace(curr->next, shell->env_list);
-		}
 		else if (curr->next->token_id == D_QUOTE && check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
 			curr->next->content = expand_double_quotes(curr->next, shell->env_list);
 		curr = curr->next;
@@ -82,6 +78,15 @@ static char	*expand_double_quotes(t_token *token, t_env_list *env)
 			part = ft_substr(token->content, start, end - start);
 			if (!part)
 				return (free(new_str), NULL);
+		}
+		else if (token->content[end] == '?')
+		{
+			end++;
+			part = expand_part(token->content, start, end, env);
+			if (!part && glob_status == 1)
+				return (free(new_str), NULL);
+			else if (!part && glob_status != 1)
+				return (ft_strdup(""));
 		}
 		else
 		{
