@@ -3,7 +3,7 @@
 
 void	check_hd_curr_cmd(t_shell *shell, t_command *curr)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	if (!curr)
 		return ;
@@ -38,4 +38,3 @@ void	handle_hd(t_shell *shell, char *hd_delim)
 	close(pipefd[WRITE]);
 	shell->read_fd = pipefd[READ]; // unsure if the old read needs to be closed with multiple heredocs in  single command
 }
-

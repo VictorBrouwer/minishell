@@ -22,7 +22,6 @@ bool	check_built_in(t_command *curr)
 
 bool	handle_built_in(t_shell *shell, t_command *curr)
 {
-	// printf("BUILTIN command = %s, read fd = %d, write fd = %d\n", curr->args[0], shell->read_fd, shell->write_fd);
 	if (check_built_in(curr))
 	{
 		handle_redirs_curr_cmd(shell, curr);
@@ -40,17 +39,17 @@ bool	execute_built_in(t_shell *shell, t_command *curr)
 {
 	if (ft_strncmp(curr->args[0], "echo", 5) == 0)
 		return (builtin_echo(curr->args));
-	else if(ft_strncmp(curr->args[0], "pwd", 4) == 0)
+	else if (ft_strncmp(curr->args[0], "pwd", 4) == 0)
 		return (builtin_pwd(shell->env_list));
-	else if(ft_strncmp(curr->args[0], "cd", 3) == 0)
+	else if (ft_strncmp(curr->args[0], "cd", 3) == 0)
 		return (builtin_cd(curr->args, shell->env_list));
-	else if(ft_strncmp(curr->args[0], "env", 4) == 0)
+	else if (ft_strncmp(curr->args[0], "env", 4) == 0)
 		return (builtin_env(shell->env_list));
-	else if(ft_strncmp(curr->args[0], "unset", 6) == 0)
+	else if (ft_strncmp(curr->args[0], "unset", 6) == 0)
 		return (builtin_unset(curr, &shell->env_list));
-	else if(ft_strncmp(curr->args[0],  "export", 7) == 0)
+	else if (ft_strncmp(curr->args[0], "export", 7) == 0)
 		return (builtin_export(curr->args, &shell->env_list));
-	else if(ft_strncmp(curr->args[0],  "exit", 5) == 0)
-	 	return (builtin_exit(curr->args, shell));
-	return (ERROR); // it is impossible to get here
+	else if (ft_strncmp(curr->args[0], "exit", 5) == 0)
+		return (builtin_exit(curr->args, shell));
+	return (ERROR);
 }

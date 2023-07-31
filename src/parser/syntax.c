@@ -1,13 +1,11 @@
 #include "shell.h"
 #include "libft.h"
 
-const char* getTokenString(enum token_id id);
-static int	remove_enclosing_quotes(t_token *current);
+// const char* getTokenString(enum token_id id);
+static int		remove_enclosing_quotes(t_token *current);
+typedef bool	(*syntx_jumpt_table)	(t_token *prev, t_token *curr);
 
-typedef bool (*syntx_jumpt_table)	(t_token *prev, t_token *curr);
-
-static const syntx_jumpt_table g_syntax_func[] =
-{
+static const	syntx_jumpt_table g_syntax_func[] = {
 	[TOKEN] = NULL,
 	[PIPE] = &check_pipe,
 	[GREAT] = &check_redirection,
@@ -21,7 +19,7 @@ static const syntx_jumpt_table g_syntax_func[] =
 	[WORD] = NULL
 };
 
-int analyze_tokens(t_token **token_list)
+int	analyze_tokens(t_token **token_list)
 {
 	t_token *current;
 	t_token *prev;
@@ -58,36 +56,36 @@ int analyze_tokens(t_token **token_list)
 // 	return (tmp);
 // }
 
-const char* getTokenString(enum token_id id)
-{
-    switch (id)
-    {
-        case TOKEN:
-            return "TOKEN";
-        case PIPE:
-            return "PIPE";
-        case GREAT:
-            return "GREAT";
-        case APPEND:
-            return "APPEND";
-        case LESS:
-            return "LESS";
-        case HEREDOC:
-            return "HEREDOC";
-        case S_QUOTE:
-            return "S_QUOTE";
-        case D_QUOTE:
-            return "D_QUOTE";
-        case ENV_VAR:
-            return "ENV_VAR";
-        case WHITE_SPACE:
-            return "WHITE_SPACE";
-        case WORD:
-            return "WORD";
-        default:
-            return "UNKNOWN";
-    }
-}
+// const char* getTokenString(enum token_id id)
+// {
+//     switch (id)
+//     {
+//         case TOKEN:
+//             return "TOKEN";
+//         case PIPE:
+//             return "PIPE";
+//         case GREAT:
+//             return "GREAT";
+//         case APPEND:
+//             return "APPEND";
+//         case LESS:
+//             return "LESS";
+//         case HEREDOC:
+//             return "HEREDOC";
+//         case S_QUOTE:
+//             return "S_QUOTE";
+//         case D_QUOTE:
+//             return "D_QUOTE";
+//         case ENV_VAR:
+//             return "ENV_VAR";
+//         case WHITE_SPACE:
+//             return "WHITE_SPACE";
+//         case WORD:
+//             return "WORD";
+//         default:
+//             return "UNKNOWN";
+//     }
+// }
 
 static int	remove_enclosing_quotes(t_token *current)
 {
@@ -111,5 +109,3 @@ static int	remove_enclosing_quotes(t_token *current)
 	}
 	return (SUCCESS);
 }
-
-//  <VAR>VAR<VAR>VAR<VAR>>VAR<<VAR>VAR|CATCAT CAT CAT<CAT>CAT

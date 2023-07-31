@@ -2,14 +2,11 @@
 #include "libft.h"
 #include <stddef.h>
 
-// static void	check_and_expand_exit_status(t_token *token);
 static bool	check_dollar_sign(t_token *token);
 static void	replace(t_token *token, t_env_list *env);
 static char	*expand_double_quotes(t_token *token, t_env_list *env);
 static char	*append_part(char *str, char *new_part);
 static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_list *env);
-// there can be nothing, quotes or an empty string after a env_var
-// tussen dubbelle quotes wel expanden en tussen single quotes niet
 
 void	expand(t_token *top, t_shell *shell)
 {
@@ -17,7 +14,6 @@ void	expand(t_token *top, t_shell *shell)
 
 	curr = top;
 	// printf("content is %s and id = %d\n", curr->content, curr->token_id);
-	// check_and_expand_exit_status(top);
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->env_list);
 	else if (curr->token_id == D_QUOTE && check_dollar_sign(curr))
@@ -25,10 +21,7 @@ void	expand(t_token *top, t_shell *shell)
 	while (curr->next)
 	{
 		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC) // if env_var comes after a heredoc it should not be expanded
-		{
-			// check_and_expand_exit_status(curr->next);
 			replace(curr->next, shell->env_list);
-		}
 		else if (curr->next->token_id == D_QUOTE && check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
 			curr->next->content = expand_double_quotes(curr->next, shell->env_list);
 		curr = curr->next;
@@ -120,7 +113,7 @@ static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_
 	char	*tmp;
 
 	if (start + 1 == end)
-		return(ft_strdup("$"));
+		return (ft_strdup("$"));
 	else
 		var = ft_substr(str, start + 1, end - start - 1);
 	if (!var)

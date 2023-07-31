@@ -18,15 +18,15 @@ bool	check_redirection(t_token *prev, t_token *curr)
 	if (curr->next == NULL)
 		return (ERROR);
 	id_next_token = curr->next->token_id;
-	if (id_next_token != WORD && id_next_token != ENV_VAR &&\
+	if (id_next_token != WORD && id_next_token != ENV_VAR && \
 		id_next_token != S_QUOTE && id_next_token != D_QUOTE)
 		return (ERROR);
 	return (SUCCESS);
 }
 
-bool check_quotes(t_token *prev, t_token *curr)
+bool	check_quotes(t_token *prev, t_token *curr)
 {
-	size_t i;
+	size_t	i;
 
 	(void) prev;
 	i = 1;
@@ -34,14 +34,14 @@ bool check_quotes(t_token *prev, t_token *curr)
 	{
 		while (curr->content[i])
 		{
-			if (curr->content[i] == curr->content[0] && curr->content[i + 1] == '\0')
-				return SUCCESS;
+			if (curr->content[i] == curr->content[0] && \
+				curr->content[i + 1] == '\0')
+				return (SUCCESS);
 			i++;
 		}
 	}
-	return ERROR;
+	return (ERROR);
 }
-
 
 bool	check_env_var(t_token *prev, t_token *curr)
 {
