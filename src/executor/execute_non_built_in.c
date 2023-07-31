@@ -17,4 +17,3 @@ void	execute_non_built_in(t_shell *shell, t_command *curr)
 	if (execve(command_with_path, curr->args, shell->envp) == -1)
 		exit_and_print_error_command("command not found", 127, command_with_path);
 }
-

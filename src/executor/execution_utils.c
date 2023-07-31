@@ -23,7 +23,7 @@ char	*get_command_path(t_shell *shell, char *command)
 	char	*total_command;
 	int		i;
 
-	if (access(command, X_OK & F_OK) == 0)
+	if (access(command, X_OK & F_OK) == 0 || ft_strlen(command) == 0)
 		return (command);
 	if (!command)
 		return (NULL);

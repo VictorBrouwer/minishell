@@ -20,7 +20,6 @@ t_token	**tokenize(char *s)
 		return (free(trimmed),NULL);
 	while (trimmed[start])
 	{
-		printf("start = %zu\n", start);
 		end = find_next_token(s, start);
 		if (start == end)
 			break ;

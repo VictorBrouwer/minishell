@@ -59,3 +59,21 @@ void	add_redir(t_redir *redir, t_command *comm)
 	last_redir->next = redir;
 	return ;
 }
+
+int	get_num_args(t_token *current)
+{
+	int	count;
+
+	count = 0;
+	while (current != NULL && current->token_id != PIPE)
+	{
+		if (!(current->token_id == GREAT || current->token_id == APPEND \
+			|| current->token_id == LESS))
+			count++;
+		if (current->token_id == GREAT || current->token_id == APPEND \
+			|| current->token_id == LESS)
+			current = current->next;
+		current = current->next;
+	}
+	return (count);
+}

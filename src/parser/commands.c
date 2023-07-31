@@ -3,6 +3,7 @@
 
 static int		fill_command(t_command *command, t_token *current);
 static t_token	*update_current(t_token *current);
+static bool		check_special_export_case(t_command *command, t_token *current, int i);
 static int		fill_redirs_command(t_command *command, t_token *current);
 
 t_command	*create_commands(t_token **token_list, t_shell *shell)
@@ -53,16 +54,8 @@ static int	fill_command(t_command *command, t_token *current)
 	{
 		if (!(current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS || current->token_id == HEREDOC))
 		{
-			if (ft_strncmp(current->content, "export", 7) == 0 && current->next && current->next->next)
-			{
-				if (current->next->next->token_id == D_QUOTE || current->next->next->token_id == S_QUOTE)
-				{
-					command->args[i] = current->content;
-					i++;
-					command->args[i] = ft_strjoin(current->next->content, current->next->next->content);
-					return (0);
-				}
-			}
+			if (check_special_export_case(command, current, i))// als het idd de special case is 0 returnen
+				return (0);
 			command->args[i] = current->content;
 			i++;
 		}
@@ -77,10 +70,24 @@ static int	fill_command(t_command *command, t_token *current)
 	return (0);
 }
 
+bool	check_special_export_case(t_command *command, t_token *current, int i)
+{
+	if (ft_strncmp(current->content, "export", 7) == 0 && current->next && current->next->next)
+	{
+		if (current->next->next->token_id == D_QUOTE || current->next->next->token_id == S_QUOTE)
+		{
+			command->args[i] = current->content;
+			i++;
+			command->args[i] = ft_strjoin(current->next->content, current->next->next->content); //dit nog protecten
+			return (true);
+		}
+	}
+	return (false);
+}
+
 int	fill_redirs_command(t_command *command, t_token *current)
 {
 	t_redir	*temp_redir;
-
 
 	temp_redir = ft_new_redir(current);
 	if (!temp_redir)
@@ -88,21 +95,3 @@ int	fill_redirs_command(t_command *command, t_token *current)
 	add_redir(temp_redir, command);
 	return (0);
 }
-
-int	get_num_args(t_token *current)
-{
-	int	count;
-
-	count = 0;
-	while (current != NULL && current->token_id != PIPE)
-	{
-		if (!(current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS))
-			count++;
-		if (current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS)
-			current = current->next;
-		current = current->next;
-	}
-	return count;
-}
-
-
