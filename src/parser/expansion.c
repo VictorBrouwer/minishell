@@ -44,6 +44,15 @@ static void	replace(t_token *token, t_env_list *env)
 	{
 		free(token->content);
 		token->content = ft_strdup(replacement);
+		if (!token->content)
+			exit_and_print_error("malloc fail", 1);
+	}
+	else
+	{
+		free(token->content);
+		token->content = ft_strdup("");
+		if (!token->content)
+			exit_and_print_error("malloc fail", 1);
 	}
 }
 

@@ -11,7 +11,7 @@ int	builtin_exit(char **args, t_shell *shell)
 		if (args[2])
 		{
 			ft_putstr_fd_protected("exit: too many arguments\n", STDERR_FILENO, 0);
-			return(1);
+			return (1);
 		}
 		else if (ft_stris_x(args[1], ft_isdigit))
 		{

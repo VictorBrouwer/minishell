@@ -206,6 +206,7 @@ bool		check_dollar_sign(t_token *token);
 
 //	ERROR_HANDLING.C
 void		exit_and_print_error_command(char *error_type, int status, char *command);
+void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 
 //	SIGNAL_HANDLER.C

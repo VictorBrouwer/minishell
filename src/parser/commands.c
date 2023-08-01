@@ -80,7 +80,9 @@ bool	check_special_export_case(t_command *command, t_token *current, int i)
 			command->args[i] = current->content;
 			i++;
 			command->args[i] = ft_strjoin(current->next->content, \
-							current->next->next->content); //dit nog protecten
+							current->next->next->content);
+			if (!command->args[i])
+				exit_and_print_error("malloc fail", 1);
 			return (true);
 		}
 	}

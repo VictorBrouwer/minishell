@@ -10,6 +10,8 @@ int	initiate_shell(char **envp)
 	t_shell	*shell;
 
 	shell = ft_calloc(1, sizeof(t_shell));
+	if (!shell)
+		exit_and_print_error("malloc fail", 1);
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
