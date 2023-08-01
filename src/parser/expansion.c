@@ -2,37 +2,31 @@
 #include "libft.h"
 #include <stddef.h>
 
-static bool	check_dollar_sign(t_token *token);
 static void	replace(t_token *token, t_env_list *env);
 static char	*expand_double_quotes(t_token *token, t_env_list *env);
 static char	*append_part(char *str, char *new_part);
-static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_list *env);
+static char	*expand_part(char *str, unsigned int start, \
+						unsigned int end, t_env_list *env);
 
 void	expand(t_token *top, t_shell *shell)
 {
 	t_token	*curr;
 
 	curr = top;
-	// printf("content is %s and id = %d\n", curr->content, curr->token_id);
 	if (curr->token_id == ENV_VAR)
 		replace(curr, shell->env_list);
 	else if (curr->token_id == D_QUOTE && check_dollar_sign(curr))
 		curr->content = expand_double_quotes(curr, shell->env_list);
 	while (curr->next)
 	{
-		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC) // if env_var comes after a heredoc it should not be expanded
+		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC)
 			replace(curr->next, shell->env_list);
-		else if (curr->next->token_id == D_QUOTE && check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
-			curr->next->content = expand_double_quotes(curr->next, shell->env_list);
+		else if (curr->next->token_id == D_QUOTE && \
+				check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
+			curr->next->content = expand_double_quotes(curr->next, \
+									shell->env_list);
 		curr = curr->next;
 	}
-}
-
-static bool	check_dollar_sign(t_token *token)
-{
-	if (ft_strnstr(token->content, "$", ft_strlen(token->content)) != 0)
-		return (true);
-	return (false);
 }
 
 static void	replace(t_token *token, t_env_list *env)

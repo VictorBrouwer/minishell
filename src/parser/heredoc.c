@@ -36,5 +36,5 @@ void	handle_hd(t_shell *shell, char *hd_delim)
 	if (line)
 		free(line);
 	close(pipefd[WRITE]);
-	shell->read_fd = pipefd[READ]; // unsure if the old read needs to be closed with multiple heredocs in  single command
+	shell->read_fd = pipefd[READ];
 }

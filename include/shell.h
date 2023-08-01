@@ -202,6 +202,9 @@ int			replace_env_var_content(char *name, char *content, t_env_list **env);
 bool		strings_equal(const char *s1, const char *s2);
 int			ft_isspace(int c);
 void		update_status(pid_t pid);
+bool		check_dollar_sign(t_token *token);
+
+//	ERROR_HANDLING.C
 void		exit_and_print_error_command(char *error_type, int status, char *command);
 void		print_error_and_set_status(char *error_type, int status);
 

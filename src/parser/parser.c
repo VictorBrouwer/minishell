@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-size_t		list_command_size(t_command *t_list);
+// size_t		list_command_size(t_command *t_list);
 // static void	print_commands(t_command *top);
 //const char*	getTokenString(enum token_id id);
 
@@ -16,7 +16,7 @@ t_command	*parser(t_shell *shell)
 	// print_tokens(*token_list);
 	if (analyze_tokens(token_list) == ERROR)
 		return (print_error_and_set_status("syntax error", 258), NULL);
-	expand(*token_list, shell);// dshell->env_listoe nog iets met return value
+	expand(*token_list, shell);// shell->env_list doe nog iets met return value
 	command_list = create_commands(token_list, shell);
 	if (command_list == NULL)
 		return (NULL);
@@ -24,20 +24,20 @@ t_command	*parser(t_shell *shell)
 	return (command_list);
 }
 
-size_t	list_command_size(t_command *t_list)
-{
-	size_t	ret;
+// size_t	list_command_size(t_command *t_list)
+// {
+// 	size_t	ret;
 
-	ret = 0;
-	if (t_list == NULL)
-		return (0);
-	while (t_list != NULL)
-	{
-		t_list = t_list->next;
-		ret++;
-	}
-	return (ret);
-}
+// 	ret = 0;
+// 	if (t_list == NULL)
+// 		return (0);
+// 	while (t_list != NULL)
+// 	{
+// 		t_list = t_list->next;
+// 		ret++;
+// 	}
+// 	return (ret);
+// }
 
 //  static void	print_commands(t_command *top) 
 //  { 

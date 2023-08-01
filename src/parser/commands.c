@@ -3,7 +3,8 @@
 
 static int		fill_command(t_command *command, t_token *current);
 static t_token	*update_current(t_token *current);
-static bool		check_special_export_case(t_command *command, t_token *current, int i);
+static bool		check_special_export_case(t_command *command, \
+						t_token *current, int i);
 static int		fill_redirs_command(t_command *command, t_token *current);
 
 t_command	*create_commands(t_token **token_list, t_shell *shell)
@@ -42,24 +43,22 @@ static t_token	*update_current(t_token *current)
 
 static int	fill_command(t_command *command, t_token *current)
 {
-	int		count;
 	int		i;
 
-	count = get_num_args(current);
 	i = 0;
-	command->args = ft_calloc(count + 1, sizeof(char *));
+	command->args = ft_calloc(get_num_args(current) + 1, sizeof(char *));
 	if (!command->args)
 		return (1);
 	while (current != NULL && current->token_id != PIPE)
 	{
-		if (!(current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS || current->token_id == HEREDOC))
+		if (!(current->token_id >= GREAT && current->token_id <= HEREDOC))
 		{
-			if (check_special_export_case(command, current, i))// als het idd de special case is 0 returnen
+			if (check_special_export_case(command, current, i))
 				return (0);
 			command->args[i] = current->content;
 			i++;
 		}
-		if (current->token_id == GREAT || current->token_id == APPEND || current->token_id == LESS || current->token_id == HEREDOC)
+		if (current->token_id >= GREAT && current->token_id <= HEREDOC)
 		{
 			if (fill_redirs_command(command, current) == 1)
 				return (1);
@@ -72,13 +71,16 @@ static int	fill_command(t_command *command, t_token *current)
 
 bool	check_special_export_case(t_command *command, t_token *current, int i)
 {
-	if (ft_strncmp(current->content, "export", 7) == 0 && current->next && current->next->next)
+	if (ft_strncmp(current->content, "export", 7) == 0 \
+				&& current->next && current->next->next)
 	{
-		if (current->next->next->token_id == D_QUOTE || current->next->next->token_id == S_QUOTE)
+		if (current->next->next->token_id == D_QUOTE \
+			|| current->next->next->token_id == S_QUOTE)
 		{
 			command->args[i] = current->content;
 			i++;
-			command->args[i] = ft_strjoin(current->next->content, current->next->next->content); //dit nog protecten
+			command->args[i] = ft_strjoin(current->next->content, \
+							current->next->next->content); //dit nog protecten
 			return (true);
 		}
 	}
