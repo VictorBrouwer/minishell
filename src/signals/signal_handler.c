@@ -1,5 +1,6 @@
 #include	"libft.h"
 #include	"shell.h"
+#include <sys/signal.h>
 #include	<termios.h>
 #include <unistd.h>
 
@@ -10,14 +11,13 @@
 void	init_signals(void)
 {
 	struct sigaction	sa;
-	struct termios		t;
+	/* struct termios		t; */
 
-	/* rl_catch_signals = 0; // Not clear if needed. */
-	tcgetattr(STDIN_FILENO, &t);
-	t.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &t);
+	/* tcgetattr(STDIN_FILENO, &t); */
+	/* t.c_lflag &= ~(ECHOCTL); */
+	/* tcsetattr(STDIN_FILENO, TCSAFLUSH, &t); */
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
+	/* sa.sa_flags = SA_NODEFER; */
 	sa.sa_handler = &signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_IGN;
@@ -29,8 +29,8 @@ void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putstr_fd_protected("\n", STDOUT_FILENO, 0);
 		rl_replace_line("", 0);
+		ft_putstr_fd_protected("\n", STDOUT_FILENO, 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
