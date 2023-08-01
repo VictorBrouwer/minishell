@@ -27,14 +27,9 @@ void	update_status(pid_t pid)
 	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status)) // returns true if child was not terminate by signal, segfault etc.
-	{
 		glob_status = WEXITSTATUS(status);
-	}
 	if (WIFSIGNALED(status)) // returns true if child was terminated by signal
-	{
-		printf("exited due to signal\n");
 		glob_status = 128 + status;
-	}
 }
 
 void	exit_and_print_error_command(char *error_type, int status, char *command)
