@@ -17,7 +17,7 @@ void	init_signals(void)
 	/* t.c_lflag &= ~(ECHOCTL); */
 	/* tcsetattr(STDIN_FILENO, TCSAFLUSH, &t); */
 	sigemptyset(&sa.sa_mask);
-	/* sa.sa_flags = SA_NODEFER; */
+	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = &signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_IGN;

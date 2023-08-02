@@ -1,42 +1,55 @@
 #include "libft.h"
 #include "shell.h"
 
+static int	add_env_var_node(char *arg, char *name, t_env_list **env);
+
 int	builtin_export(char **args, t_env_list **env)
 {
-	char		*name;
-	char		*content;
-	t_env_list	*new_var_node;
-	int			i;
+	char	*name;
+	int		i;
 
 	if (!args[1] || ft_strlen(args[1]) == 0)
-		return (builtin_env(*env), 1);
+	{
+		if (print_env_list(*env, 1) == -1)
+			return (1);
+		return (0);
+	}
 	i = 1;
 	while (args[i])
 	{
-		// printf("content = %s\n", args[i]);
 		name = split_var_name(args[i]);
 		if (!name)
 			i++;
 		else
 		{
-			content = split_var_content(args[i]);
-			if (!content)
-			{
-				content = ft_calloc(1,1);
-				if (!content)
-					return (1);
-			}
-			if (replace_env_var_content(name, content, env) != 0)
-				free(name);
-			else
-			{
-				new_var_node = new_env_var_node(name, content);
-				if (!new_var_node)
-					return (1);
-				env_lstadd_back(env, new_var_node);
-			}
+			if (add_env_var_node(args[i], name, env) == 1)
+				return (1);
 			i++;
 		}
+	}
+	return (0);
+}
+
+static int	add_env_var_node(char *arg, char *name, t_env_list **env)
+{
+	char		*content;
+	t_env_list	*new_var_node;
+
+	content = split_var_content(arg);
+	if (!content)
+	{
+		content = ft_calloc(1,1);
+		if (!content)
+				return (1);
+	}
+	if (replace_env_var_content(name, content, env) != 0)
+		free(name);
+	else
+	{
+		new_var_node = new_env_var_node(name, content);
+		if (!new_var_node)
+			return (1);
+		env_lstadd_back(env, new_var_node);
 	}
 	return (0);
 }

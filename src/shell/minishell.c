@@ -32,8 +32,8 @@ void	clean_shell(t_shell *shell)
 
 static int	shell_loop(t_shell *shell)
 {
-	int		temp_std_in;
-	int		temp_std_out;
+	int	temp_std_in;
+	int	temp_std_out;
 
 	shell->env_list = init_env_lst(shell->envp);
 	init_signals();
@@ -52,15 +52,21 @@ static int	shell_loop(t_shell *shell)
 		if (ft_strncmp(shell->input, "", 1))
 		{
 			if (!ft_strncmp(shell->input, "exit", 5))
+			{
+				free(shell->input);
+				shell->input = NULL;
 				break ;
-			execute_line(shell);
-			redirect_std_in(temp_std_in);
-			redirect_std_out(temp_std_out);
-			add_history(shell->input);
+			}
+			else
+			{
+				execute_line(shell);
+				redirect_std_in(temp_std_in);
+				redirect_std_out(temp_std_out);
+				add_history(shell->input);
+			}
 		}
 		free(shell->input);
 		shell->input = NULL;
-		/* rl_on_new_line(); */
 	}
 	close(temp_std_in);
 	close(temp_std_out);
