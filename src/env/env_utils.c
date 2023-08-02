@@ -29,10 +29,15 @@ size_t	env_len(t_env_list *env)
 	return (count);
 }
 
-int	print_env_list(t_env_list *env)
+int	print_env_list(t_env_list *env, int export)
 {
 	while (env)
 	{
+        if (export)
+        {
+            if (ft_putstr_fd_protected("declare -x ", STDOUT_FILENO, 0) == -1)
+                return (-1);
+        }
 		if (ft_putstr_fd_protected(env->name, STDOUT_FILENO, 0) == -1)
 			return (-1);
 		if (ft_putstr_fd_protected("=", STDOUT_FILENO, 0) == -1)
