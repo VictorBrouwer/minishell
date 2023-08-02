@@ -20,19 +20,14 @@ bool	check_built_in(t_command *curr)
 	return (false);
 }
 
-bool	handle_built_in(t_shell *shell, t_command *curr)
+int	handle_built_in(t_shell *shell, t_command *curr)
 {
-	if (check_built_in(curr))
-	{
-		handle_redirs_curr_cmd(shell, curr);
-		if (shell->read_fd != STDIN_FILENO)
-			redirect_std_in(shell->read_fd);
-		if (shell->write_fd != STDOUT_FILENO)
-			redirect_std_out(shell->write_fd);
-		glob_status = execute_built_in(shell, curr);
-		return (true);
-	}
-	return (false);
+	handle_redirs_curr_cmd(shell, curr);
+	if (shell->read_fd != STDIN_FILENO)
+		redirect_std_in(shell->read_fd);
+	if (shell->write_fd != STDOUT_FILENO)
+		redirect_std_out(shell->write_fd);
+	return (execute_built_in(shell, curr));
 }
 
 bool	execute_built_in(t_shell *shell, t_command *curr)

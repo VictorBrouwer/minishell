@@ -15,7 +15,7 @@ int	initiate_shell(char **envp)
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
-	glob_status = 0;
+	g_status = 0;
 	shell->command_count = 0;
 	return (shell_loop(shell));
 }
@@ -67,7 +67,7 @@ static int	shell_loop(t_shell *shell)
 	clean_shell(shell);
 	rl_clear_history();
 	ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
-	exit(glob_status);
+	exit(g_status);
 }
 
 static void	execute_line(t_shell *shell)

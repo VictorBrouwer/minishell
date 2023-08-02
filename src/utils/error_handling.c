@@ -21,5 +21,5 @@ void	print_error_and_set_status(char *error_type, int status)
 {
 	ft_putstr_fd_protected("nutshell: ", 2, 0);
 	ft_putstr_fd_protected(error_type, 2, 1);
-	glob_status = status;
+	g_status = status;
 }

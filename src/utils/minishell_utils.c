@@ -27,9 +27,9 @@ void	update_status(pid_t pid)
 	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status)) // returns true if child was not terminate by signal, segfault etc.
-		glob_status = WEXITSTATUS(status);
+		g_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status)) // returns true if child was terminated by signal
-		glob_status = 128 + status;
+		g_status = 128 + status;
 }
 
 bool	check_dollar_sign(t_token *token)

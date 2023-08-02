@@ -36,7 +36,7 @@ static void	replace(t_token *token, t_env_list *env)
 	if (ft_strncmp(token->content, "$?", 3) == 0)
 	{
 		free(token->content);
-		token->content = ft_itoa(glob_status);
+		token->content = ft_itoa(g_status);
 		return ;
 	}
 	replacement = get_env_var(token->content + 1, env);
@@ -84,9 +84,9 @@ static char	*expand_double_quotes(t_token *token, t_env_list *env)
 			while (token->content[end] && (ft_isalpha(token->content[end]) || token->content[end] == '?'))
 				end++;
 			part = expand_part(token->content, start, end, env);
-			if (!part && glob_status == 1)
+			if (!part && g_status == 1)
 				return (free(new_str), NULL);
-			else if (!part && glob_status != 1)
+			else if (!part && g_status != 1)
 				return (ft_strdup(""));
 		}
 		new_str = append_part(new_str, part);
@@ -120,9 +120,9 @@ static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_
 	else
 		var = ft_substr(str, start + 1, end - start - 1);
 	if (!var)
-		return (glob_status = 1, NULL);
+		return (g_status = 1, NULL);
 	if (ft_strncmp(var, "?", 2) == 0)
-		return (free(var), ft_itoa(glob_status));
+		return (free(var), ft_itoa(g_status));
 	tmp = get_env_var(var, env);
 	if (!tmp)
 		return (free(var), ft_strdup(""));

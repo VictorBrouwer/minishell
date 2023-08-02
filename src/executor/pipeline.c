@@ -60,8 +60,8 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 		handle_redirs_curr_cmd(shell, curr);
 		exit(0);
 	}
-	if (handle_built_in(shell, curr))
-		exit(0);
+	if (check_built_in(curr))
+		exit(handle_built_in(shell, curr));	
 	execute_non_built_in(shell, curr);
 }
 
@@ -75,7 +75,7 @@ void	execute_last_child(t_command *curr, t_shell *shell, int pipefd[])
 		handle_redirs_curr_cmd(shell, curr);
 		exit(0);
 	}
-	if (handle_built_in(shell, curr))
-		exit(0);
+	if (check_built_in(curr))
+		exit(handle_built_in(shell, curr));	
 	execute_non_built_in(shell, curr);
 }
