@@ -2,27 +2,27 @@
 #include "libft.h"
 
 // const char* getTokenString(enum token_id id);
-static int		remove_enclosing_quotes(t_token *current);
-typedef bool	(*syntx_jumpt_table)	(t_token *prev, t_token *curr);
+static int							remove_enclosing_quotes(t_token *current);
+typedef bool						(*t_syntx_jumpt_table) (t_token *prev, t_token *curr);
 
-static const	syntx_jumpt_table g_syntax_func[] = {
-	[TOKEN] = NULL,
-	[PIPE] = &check_pipe,
-	[GREAT] = &check_redirection,
-	[APPEND] = &check_redirection,
-	[LESS] = &check_redirection,
-	[HEREDOC] = &check_redirection,
-	[S_QUOTE] = &check_quotes,
-	[D_QUOTE] = &check_quotes,
-	[ENV_VAR] = &check_env_var,
-	[WHITE_SPACE] = NULL,
-	[WORD] = NULL
+static const t_syntx_jumpt_table	g_syntax_func[] = {
+[TOKEN] = NULL,
+[PIPE] = &check_pipe,
+[GREAT] = &check_redirection,
+[APPEND] = &check_redirection,
+[LESS] = &check_redirection,
+[HEREDOC] = &check_redirection,
+[S_QUOTE] = &check_quotes,
+[D_QUOTE] = &check_quotes,
+[ENV_VAR] = &check_env_var,
+[WHITE_SPACE] = NULL,
+[WORD] = NULL
 };
 
 int	analyze_tokens(t_token **token_list)
 {
-	t_token *current;
-	t_token *prev;
+	t_token	*current;
+	t_token	*prev;
 
 	prev = NULL;
 	current = *token_list;
