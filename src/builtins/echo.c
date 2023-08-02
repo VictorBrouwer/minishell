@@ -14,37 +14,11 @@ int builtin_echo(char **args)
 
 	if (!args)
 		return (ERROR);
-	tmp = args;
-	tmp++;
+	tmp = args + 1;
 	flag = skip_flags(&tmp);
-	/* flag = check_flag(*args); */
-	/* while (*args && flag) */
-	/* { */
-	/* 	flag = check_flag(*args); */
-	/* 	if (flag) */
-	/* 		args++; */
-	/* 	else */
-	/* 	{ */
-	/* 		flag = 1; */
-	/* 		break; */
-	/* 	} */
-	/* } */
 	if (print_args(tmp, flag) == 1)
 		return (1);
 	return (0);
-	/* while (*args) */
-	/* { */
-	/* 	if (ft_putstr_fd_protected(*args, STDOUT_FILENO, 0) == -1) */
-	/* 		return (ERROR); */
-	/* 	if (*(args + 1)) */
-	/* 	{ */
-	/* 		if (ft_putstr_fd_protected(" ", STDOUT_FILENO, 0) == -1) */
-	/* 			return (ERROR); */
-	/* 	} */
-	/* 	args++; */
-	/* } */
-	/* if (ft_putstr_fd_protected("", STDOUT_FILENO, flag < 1) == -1) */
-	/* 	return (ERROR); */
 }
 
 static int	skip_flags(char ***args)
@@ -60,7 +34,7 @@ static int	skip_flags(char ***args)
 		else
 		{
 			flag = 1;
-			break;
+			break ;
 		}
 	}
 	return (flag);
