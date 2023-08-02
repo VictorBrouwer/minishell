@@ -1,27 +1,27 @@
 #ifndef SHELL_H
-#define SHELL_H
+# define SHELL_H
 
-#include <errno.h>
-#include <limits.h>
-#include <stdio.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>
+# include <errno.h>
+# include <limits.h>
+# include <stdio.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <stdbool.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <unistd.h>
+# include <signal.h>
+# include <sys/wait.h>
 
-#define TOKEN_DELIMITERS "|><\'\"$\\ "
-#define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
-#define SPECIAL_DELIMITERS "<>"
+# define TOKEN_DELIMITERS "|><\'\"$\\ "
+# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
+# define SPECIAL_DELIMITERS "<>"
 
-#define SUCCESS 0
-#define ERROR -1
+# define SUCCESS 0
+# define ERROR -1
 
-#define READ 0
-#define WRITE 1
+# define READ 0
+# define WRITE 1
 
 // typedef	struct s_status
 // {
@@ -58,16 +58,16 @@ typedef struct s_env_list
 
 typedef struct s_shell
 {
-	char 			*input;
-	t_command 		*command_node;
+	char			*input;
+	t_command		*command_node;
 	unsigned int	command_count;
-	int 			read_fd;
-	int 			write_fd;
-	char 			**envp;
+	int				read_fd;
+	int				write_fd;
+	char			**envp;
 	t_env_list		*env_list;
 }	t_shell;
 
-enum token_id
+enum e_token_id
 {
 	TOKEN,
 	PIPE,
@@ -83,7 +83,7 @@ enum token_id
 };
 
 //		GLOBAL VARIABLE
-extern u_int16_t	glob_status;
+extern u_int16_t	g_status;
 
 //	SHELL.C
 int			initiate_shell(char **envp);
@@ -103,8 +103,8 @@ t_token		*remove_white_space(t_token *top);
 
 //	SYNTAX.C
 int			analyze_tokens(t_token **token_list);
-int 		check_tokens(int id_1, int id_2);
-const char*	getTokenString(enum token_id id);
+int			check_tokens(int id_1, int id_2);
+const char	*getTokenString(enum e_token_id id);
 
 //	JUMPTABLE_FUNCS.C
 bool		check_pipe(t_token *prev, t_token *curr);
@@ -119,7 +119,7 @@ t_command	*create_commands(t_token **top, t_shell *shell);
 //	COMMAND_UTILS.C
 void		add_comm_back(t_command **command_list, t_command *command);
 t_command	*ft_new_comm(void);
-t_redir 	*ft_new_redir(t_token *current);
+t_redir		*ft_new_redir(t_token *current);
 void		add_redir(t_redir *redir, t_command *comm);
 int			get_num_args(t_token *current);
 
@@ -163,7 +163,7 @@ bool		redir_infile(t_redir *curr, t_shell *shell);
 
 //	EXECUTE_BUILT_IN.C
 bool		check_built_in(t_command *curr);
-bool		handle_built_in(t_shell *shell, t_command *curr);
+int			handle_built_in(t_shell *shell, t_command *curr);
 bool		execute_built_in(t_shell *shell, t_command *curr);
 
 //	EXECUTE_NON_BUILT_IN.C
@@ -187,7 +187,7 @@ char		*find_path_up(char *path);
 t_env_list	*init_env_lst(char **envp);
 t_env_list	*new_env_var_node(char *var_str, char *content);
 void		env_lstadd_back(t_env_list **lst, t_env_list *new);
-void 		free_env_list(t_env_list **env);
+void		free_env_list(t_env_list **env);
 void		free_env_node(t_env_list *node);
 
 //	ENV_UTILS.C
@@ -196,7 +196,8 @@ size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
 char		*split_var_name(char *var_str);
 char		*split_var_content(char *var_str);
-int			replace_env_var_content(char *name, char *content, t_env_list **env);
+int			replace_env_var_content(char *name, char *content, \
+										t_env_list **env);
 
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
@@ -205,7 +206,9 @@ void		update_status(pid_t pid);
 bool		check_dollar_sign(t_token *token);
 
 //	ERROR_HANDLING.C
-void		exit_and_print_error_command(char *error_type, int status, char *command);
+void		exit_and_print_error_command(char *error_type, \
+									int status, char *command);
+void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 
 //	SIGNAL_HANDLER.C
