@@ -67,8 +67,9 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 
 void	execute_last_child(t_command *curr, t_shell *shell, int pipefd[])
 {
-	close(pipefd[READ]);
-	close(pipefd[WRITE]);
+	// close(pipefd[READ]);
+	// close(pipefd[WRITE]);
+	(void) pipefd;
 	shell->write_fd = STDOUT_FILENO;
 	if (!(curr->args[0]))
 	{
