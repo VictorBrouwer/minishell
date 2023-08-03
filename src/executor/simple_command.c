@@ -13,10 +13,7 @@ void	simple_command(t_shell *shell)
 		temp_std_in = dup(STDIN_FILENO);
 		temp_std_out = dup(STDOUT_FILENO);
 		handle_redirs_curr_cmd(shell, shell->command_node);
-		if (shell->write_fd != STDOUT_FILENO)
-			close(shell->write_fd);
-		if (shell->read_fd != STDIN_FILENO)
-			close(shell->read_fd);
+		close_open_fds(shell);
 		redirect_std_in(temp_std_in);
 		redirect_std_out(temp_std_out);
 	}
@@ -25,13 +22,9 @@ void	simple_command(t_shell *shell)
 		temp_std_in = dup(STDIN_FILENO);
 		temp_std_out = dup(STDOUT_FILENO);
 		handle_built_in(shell, shell->command_node);
-		if (shell->write_fd != STDOUT_FILENO)
-			close(shell->write_fd);
-		if (shell->read_fd != STDIN_FILENO)
-			close(shell->read_fd);
+		close_open_fds(shell);
 		redirect_std_in(temp_std_in);
 		redirect_std_out(temp_std_out);
-		return ;
 	}
 	else
 		execute_child_without_pipe(shell, shell->command_node);

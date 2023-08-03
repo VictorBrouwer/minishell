@@ -15,6 +15,14 @@ void	redirect_std_out(int fd)
 	close(fd);
 }
 
+void	close_open_fds(t_shell *shell)
+{
+	if (shell->write_fd != STDOUT_FILENO)
+		close(shell->write_fd);
+	if (shell->read_fd != STDIN_FILENO)
+		clsoe(shell->read_fd);
+}
+
 char	*get_command_path(t_shell *shell, char *command)
 {
 	char	*path;

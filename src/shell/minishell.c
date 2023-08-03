@@ -60,10 +60,7 @@ static int	shell_loop(t_shell *shell)
 				add_history(shell->input);
 			}
 		}
-		if (shell->read_fd != STDIN_FILENO)
-			close(shell->read_fd);
-		if (shell->write_fd != STDOUT_FILENO)
-			close(shell->write_fd);
+		close_open_fds(shell);
 		free(shell->input);
 		shell->input = NULL;
 	}

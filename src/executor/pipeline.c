@@ -57,6 +57,7 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 	if (!(curr->args[0]))
 	{
 		handle_redirs_curr_cmd(shell, curr);
+		close_open_fds(shell);
 		exit(0);
 	}
 	if (check_built_in(curr))
@@ -70,6 +71,7 @@ void	execute_last_child(t_command *curr, t_shell *shell)
 	if (!(curr->args[0]))
 	{
 		handle_redirs_curr_cmd(shell, curr);
+		close_open_fds(shell);
 		exit(0);
 	}
 	if (check_built_in(curr))
