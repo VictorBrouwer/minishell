@@ -44,8 +44,7 @@ static void	execute_compound_command(t_shell *shell, t_command *curr)
 		execute_child(curr, shell, pipefd);
 	if (shell->read_fd != STDIN_FILENO)
 		close(shell->read_fd);
-	shell->read_fd = pipefd[READ];
-	shell->read_fd = dup(shell->read_fd);
+	shell->read_fd = dup(pipefd[READ]);
 	close(pipefd[READ]);
 	close(pipefd[WRITE]);
 }
