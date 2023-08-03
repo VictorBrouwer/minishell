@@ -74,6 +74,6 @@ void	execute_last_child(t_command *curr, t_shell *shell)
 		exit(0);
 	}
 	if (check_built_in(curr))
-		exit(handle_built_in(shell, curr));	
+		exit(handle_built_in(shell, curr));
 	execute_non_built_in(shell, curr);
 }

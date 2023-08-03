@@ -66,7 +66,7 @@ static int	shell_loop(t_shell *shell)
 	}
 	clean_shell(shell);
 	rl_clear_history();
-	ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
+	ft_putstr_fd_protected("exit\n", STDERR_FILENO, 0);
 	exit(g_status);
 }
 

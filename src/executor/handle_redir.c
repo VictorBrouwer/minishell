@@ -1,18 +1,18 @@
 #include "shell.h"
 #include "libft.h"
 
-typedef bool (*redir_jumpt_table)	(t_redir *curr, t_shell *shell);
+typedef bool						(*t_redir_jumpt_table)	(t_redir *curr, \
+															t_shell *shell);
 
-static const redir_jumpt_table g_redir_func[] =
-{
-	[GREAT] = &redir_outfile,
-	[APPEND] = &append_outfile,
-	[LESS] = &redir_infile,
+static const t_redir_jumpt_table	g_redir_func[] = {
+[GREAT] = &redir_outfile,
+[APPEND] = &append_outfile,
+[LESS] = &redir_infile,
 };
 
 void	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	if (!curr)
 		return ;
@@ -21,10 +21,11 @@ void	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
 	redir = curr->redir;
 	while (redir)
 	{
-		if (redir->redir_type == LESS || redir->redir_type == GREAT || redir->redir_type == APPEND)
+		if (redir->redir_type == LESS || redir->redir_type == GREAT \
+									|| redir->redir_type == APPEND)
 		{
 			if ((g_redir_func[redir->redir_type])(redir, shell))
-				return ;// hier nog freeen
+				return ;
 		}
 		redir = redir->next;
 	}
@@ -45,7 +46,8 @@ bool	append_outfile(t_redir *curr, t_shell *shell)
 {
 	if (shell->write_fd != STDOUT_FILENO)
 		close(shell->write_fd);
-	shell->write_fd = open(curr->file_name, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	shell->write_fd = open(curr->file_name, O_WRONLY | O_APPEND | \
+													O_CREAT, 0644);
 	if (shell->write_fd == -1)
 		return (perror(curr->file_name), ERROR);
 	return (SUCCESS);

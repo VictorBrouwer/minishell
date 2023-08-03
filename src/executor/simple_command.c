@@ -7,6 +7,7 @@ void	simple_command(t_shell *shell)
 {
 	int	temp_std_in;
 	int	temp_std_out;
+
 	check_hd_curr_cmd(shell, shell->command_node);
 	if (!(shell->command_node->args[0]))
 	{
