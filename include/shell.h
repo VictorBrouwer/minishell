@@ -191,7 +191,7 @@ void		free_env_list(t_env_list **env);
 void		free_env_node(t_env_list *node);
 
 //	ENV_UTILS.C
-int			print_env_list(t_env_list *env);
+int			print_env_list(t_env_list *env, int export);
 size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
 char		*split_var_name(char *var_str);
