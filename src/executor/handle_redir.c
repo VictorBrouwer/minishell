@@ -33,6 +33,8 @@ void	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
 
 bool	redir_outfile(t_redir *curr, t_shell *shell)
 {
+	if (shell->write_fd != STDOUT_FILENO)
+		close(shell->write_fd);
 	shell->write_fd = open(curr->file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (shell->write_fd == -1)
 		return (perror(curr->file_name), ERROR);
@@ -41,6 +43,8 @@ bool	redir_outfile(t_redir *curr, t_shell *shell)
 
 bool	append_outfile(t_redir *curr, t_shell *shell)
 {
+	if (shell->write_fd != STDOUT_FILENO)
+		close(shell->write_fd);
 	shell->write_fd = open(curr->file_name, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (shell->write_fd == -1)
 		return (perror(curr->file_name), ERROR);
@@ -49,6 +53,8 @@ bool	append_outfile(t_redir *curr, t_shell *shell)
 
 bool	redir_infile(t_redir *curr, t_shell *shell)
 {
+	if (shell->read_fd != STDIN_FILENO)
+		close(shell->read_fd);
 	shell->read_fd = open(curr->file_name, O_RDONLY);
 	if (shell->read_fd == -1)
 		return (perror(curr->file_name), ERROR);
