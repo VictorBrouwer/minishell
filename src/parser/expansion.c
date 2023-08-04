@@ -5,8 +5,7 @@
 static void	replace(t_token *token, t_env_list *env);
 static char	*expand_double_quotes(t_token *token, t_env_list *env);
 static char	*append_part(char *str, char *new_part);
-static char	*expand_part(char *str, unsigned int start, \
-						unsigned int end, t_env_list *env);
+static char	*expand_part(char *str, size_t start, size_t end, t_env_list *env);
 
 void	expand(t_token *top, t_shell *shell)
 {
@@ -109,7 +108,7 @@ static char	*append_part(char *str, char *new_part)
 	return (free(str), free(new_part), new_str);
 }
 
-static char	*expand_part(char *str, unsigned int start, unsigned int end, t_env_list *env)
+static char	*expand_part(char *str, size_t start, size_t end, t_env_list *env)
 {
 	char	*var;
 	char	*expanded_var;
