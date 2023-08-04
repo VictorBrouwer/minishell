@@ -5,13 +5,27 @@ static void	execute_child_without_pipe(t_shell *shell, t_command *curr);
 
 void	simple_command(t_shell *shell)
 {
+	int	temp_std_in;
+	int	temp_std_out;
+
 	check_hd_curr_cmd(shell, shell->command_node);
 	if (!(shell->command_node->args[0]))
-		return (handle_redirs_curr_cmd(shell, shell->command_node));
+	{
+		temp_std_in = dup(STDIN_FILENO);
+		temp_std_out = dup(STDOUT_FILENO);
+		handle_redirs_curr_cmd(shell, shell->command_node);
+		close_open_fds(shell);
+		redirect_std_in(temp_std_in);
+		redirect_std_out(temp_std_out);
+	}
 	else if (check_built_in(shell->command_node))
 	{
+		temp_std_in = dup(STDIN_FILENO);
+		temp_std_out = dup(STDOUT_FILENO);
 		handle_built_in(shell, shell->command_node);
-		return ;
+		close_open_fds(shell);
+		redirect_std_in(temp_std_in);
+		redirect_std_out(temp_std_out);
 	}
 	else
 		execute_child_without_pipe(shell, shell->command_node);

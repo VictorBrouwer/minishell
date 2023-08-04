@@ -27,20 +27,17 @@ void	clean_shell(t_shell *shell)
 	free_env_list(&shell->env_list);
 	if (shell->input)
 		free(shell->input);
+	close(shell->read_fd);
+	close(shell->write_fd);
 	free(shell);
 }
 
 static int	shell_loop(t_shell *shell)
 {
-	int	temp_std_in;
-	int	temp_std_out;
-
 	shell->env_list = init_env_lst(shell->envp);
 	init_signals();
 	while(true)
 	{
-		temp_std_in = dup(STDIN_FILENO); // make dups of stdin and stdout to refer back to if they are overwritten in the parent
-		temp_std_out = dup(STDOUT_FILENO);
 		shell->input = readline("nutshell:₿ ");
 		if (shell->input == NULL)
 		{
@@ -60,19 +57,16 @@ static int	shell_loop(t_shell *shell)
 			else
 			{
 				execute_line(shell);
-				redirect_std_in(temp_std_in);
-				redirect_std_out(temp_std_out);
 				add_history(shell->input);
 			}
 		}
+		close_open_fds(shell);
 		free(shell->input);
 		shell->input = NULL;
 	}
-	close(temp_std_in);
-	close(temp_std_out);
 	clean_shell(shell);
 	rl_clear_history();
-	ft_putstr_fd_protected("exit\n", STDOUT_FILENO, 0);
+	ft_putstr_fd_protected("exit\n", STDERR_FILENO, 0);
 	exit(g_status);
 }
 

@@ -147,11 +147,12 @@ void		pipe_line(t_shell *shell);
 
 //	PIPELINE.C
 void		execute_child(t_command *curr, t_shell *shell, int pipefd[]);
-void		execute_last_child(t_command *curr, t_shell *shell, int pipefd[]);
+void		execute_last_child(t_command *curr, t_shell *shell);
 
 //	EXECUTION_UTILS.C
 void		redirect_std_in(int fd);
 void		redirect_std_out(int fd);
+void		close_open_fds(t_shell *shell);
 char		*find_path(char **envp);
 char		*get_command_path(t_shell *shell, char *command);
 
