@@ -10,10 +10,6 @@ static size_t	var_case(const char *s, size_t end);
 
 t_token	**tokenize(char *s)
 {
-	/* size_t	start; */
-	/* size_t	end; */
-	/* char	*token_string; */
-	/* t_token	*token; */
 	t_token	**token_list;
     char	*trimmed;
 
@@ -25,28 +21,6 @@ t_token	**tokenize(char *s)
 		return (free(trimmed),NULL);
 	if (create_token_list(trimmed, &token_list) == 1)
 		return (free(trimmed), clean_tokens(token_list), NULL);
-	/* start = 0; */
-	/* while (trimmed[start]) */
-	/* { */
-	/* 	end = find_next_token(trimmed, start); */
-		/* printf("start: %zu\nend: %zu\n", start, end); */
-	/* 	if (start == end) */
-	/* 		break ; */
-	/* 	token_string = ft_substr(trimmed, start, end - start); */
-	/* 	if (!token_string) */
-	/* 		return (free(trimmed), clean_tokens(token_list), NULL); */
-	/* 	token = ft_new_token(token_string); */
-	/* 	if (!token) */
-	/* 		return (free(trimmed), clean_tokens(token_list), NULL); */
-	/* 	add_token_back(token_list, token); */
-	/* 	start = end; */
-	/* 	while(trimmed[start] && trimmed[start] == ' ') */
-	/* 		start++; */
-		/* if (end - 1 > start && trimmed[end - 1] == ' ') */
-		/* 	start = end - 1; */
-	/* } */
-	/* if (start == 0) */
-	/* 	return (free(trimmed), free(token_list), NULL); */
 	*token_list = remove_white_space(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }

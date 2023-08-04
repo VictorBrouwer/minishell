@@ -16,7 +16,7 @@ t_command	*parser(t_shell *shell)
 	// print_tokens(*token_list);
 	if (analyze_tokens(token_list) == ERROR)
 		return (print_error_and_set_status("syntax error", 258), NULL);
-	expand(*token_list, shell);// shell->env_list doe nog iets met return value
+	expander(*token_list, shell);// shell->env_list doe nog iets met return value
 	command_list = create_commands(token_list, shell);
 	if (command_list == NULL)
 		return (NULL);

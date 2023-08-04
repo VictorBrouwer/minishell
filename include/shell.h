@@ -123,7 +123,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 int			get_num_args(t_token *current);
 
 //	EXPANSION.C
-void		expand(t_token *top, t_shell *shell);
+int		expander(t_token *top, t_shell *shell);
 /* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C
