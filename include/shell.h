@@ -213,7 +213,7 @@ void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 
 //	SIGNAL_HANDLER.C
-void		init_signals(void);
+void		init_signals(int interactive);
 void		signal_handler(int sig);
 
 #endif

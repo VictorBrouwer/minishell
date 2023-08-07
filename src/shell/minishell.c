@@ -18,7 +18,6 @@ t_shell	*initiate_shell(char **envp)
 	shell->env_list = init_env_lst(shell->envp);
 	if (!shell->env_list)
 		return (free(shell), NULL);
-	init_signals();
 	return (shell);
 }
 
@@ -38,6 +37,7 @@ int	shell_loop(t_shell *shell)
 {
 	while (true)
 	{
+		init_signals(1);
 		shell->input = readline("nutshell:₿ ");
 		if (shell->input == NULL)
 		{
@@ -52,6 +52,7 @@ int	shell_loop(t_shell *shell)
 				break ;
 			else
 			{
+				init_signals(0);
 				execute_line(shell);
 				add_history(shell->input);
 			}

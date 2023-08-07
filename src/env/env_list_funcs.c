@@ -31,7 +31,6 @@ static int	fill_env_list(char *env_var, t_env_list **env_lst)
 	char		*content;
 	t_env_list	*new_var_node;
 
-
 	name = split_var_name(env_var);
 	if (!name)
 		return (1);
