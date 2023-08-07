@@ -38,11 +38,11 @@ static int	add_env_var_node(char *arg, char *name, t_env_list **env)
 	content = split_var_content(arg);
 	if (!content)
 	{
-		content = ft_calloc(1,1);
+		content = ft_calloc(1, 1);
 		if (!content)
-				return (1);
+			return (1);
 	}
-	if (replace_env_var_content(name, content, env) != 0)
+	if (replace_env_var_cont(name, content, env) != 0)
 		free(name);
 	else
 	{
@@ -53,4 +53,3 @@ static int	add_env_var_node(char *arg, char *name, t_env_list **env)
 	}
 	return (0);
 }
-

@@ -35,16 +35,16 @@ int	print_env_list(t_env_list *env, int export)
 	{
         if (export)
         {
-            if (ft_putstr_fd_protected("declare -x ", STDOUT_FILENO, 0) == -1)
+            if (ft_putstr_fd_prot("declare -x ", STDOUT_FILENO, 0) == -1)
                 return (-1);
         }
-		if (ft_putstr_fd_protected(env->name, STDOUT_FILENO, 0) == -1)
+		if (ft_putstr_fd_prot(env->name, STDOUT_FILENO, 0) == -1)
 			return (-1);
-		if (ft_putstr_fd_protected("=", STDOUT_FILENO, 0) == -1)
+		if (ft_putstr_fd_prot("=", STDOUT_FILENO, 0) == -1)
 			return (-1);
-		if (ft_putstr_fd_protected(env->content, STDOUT_FILENO, 0) == -1)
+		if (ft_putstr_fd_prot(env->content, STDOUT_FILENO, 0) == -1)
 			return (-1);
-		if (ft_putstr_fd_protected("\n", STDOUT_FILENO, 0) == -1)
+		if (ft_putstr_fd_prot("\n", STDOUT_FILENO, 0) == -1)
 			return (-1);
 		env = env->next;
 	}
@@ -64,7 +64,7 @@ char	*split_var_name(char *var_str)
 		i++;
 	if (i == 0)
 	{
-		ft_putstr_fd_protected("'=' is not a valid identifier.\n", STDERR_FILENO, 0);
+		ft_putstr_fd_prot("'=' is not a valid identifier.\n", STDERR_FILENO, 0);
 		return (NULL);
 	}
 	if (i == varlen)
@@ -95,7 +95,7 @@ char	*split_var_content(char *var_str)
 		return (NULL);
 }
 
-int	replace_env_var_content(char *name, char *content, t_env_list **env)
+int	replace_env_var_cont(char *name, char *content, t_env_list **env)
 {
 	t_env_list	*ptr;
 

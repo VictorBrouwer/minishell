@@ -1,8 +1,5 @@
 #include	"libft.h"
 #include	"shell.h"
-#include <sys/signal.h>
-#include	<termios.h>
-#include <unistd.h>
 
 /* Ctrl-C = SIGINT -> displays a new prompt on a new line. */
 /* Ctrl-D = EOF -> exits the shell. */
@@ -22,15 +19,16 @@ void	init_signals(void)
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
+	/* signal(SIGINT, signal_handler); */
+	/* signal(SIGQUIT, SIG_IGN); */
 }
-
 
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
-		ft_putstr_fd_protected("\n", STDOUT_FILENO, 0);
+		ft_putstr_fd_prot("\n", STDOUT_FILENO, 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}

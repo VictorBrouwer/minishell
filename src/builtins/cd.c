@@ -4,7 +4,7 @@
 static char	*get_path(char **cmd, char *cwd, t_env_list *env);
 static char	*add_postfix(char *cwd, char *path);
 
-int builtin_cd(char **cmd, t_env_list *env)
+int	builtin_cd(char **cmd, t_env_list *env)
 {
 	char	*cwd;
 	char	*oldpwd;
@@ -25,12 +25,10 @@ int builtin_cd(char **cmd, t_env_list *env)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (free(path), free(oldpwd), -1);
-	if (!replace_env_var_content("PWD", cwd, &env))
+	if (!replace_env_var_cont("PWD", cwd, &env))
 		return (free(path), free(cwd), free(oldpwd), -1);
-	if (!replace_env_var_content("OLDPWD", oldpwd, &env))
+	if (!replace_env_var_cont("OLDPWD", oldpwd, &env))
 		return (free(path), free(oldpwd), -1);
-	// printf("PWD = %s\n", get_env_var("PWD", env));
-	// printf("OLDPWD = %s\n", get_env_var("OLDPWD", env));
 	return (free(path), 0);
 }
 

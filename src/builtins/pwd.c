@@ -8,7 +8,7 @@ int	builtin_pwd(t_env_list *env)
 	pwd = get_env_var("PWD", env);
 	if (!pwd)
 		return (1);
-	if (ft_putstr_fd_protected(pwd, STDOUT_FILENO, 1) == -1)
+	if (ft_putstr_fd_prot(pwd, STDOUT_FILENO, 1) == -1)
 		return (1); // write error
 	return (0);
 }
