@@ -13,8 +13,8 @@
 # include <signal.h>
 # include <sys/wait.h>
 
-# define TOKEN_DELIMITERS "|><\'\"$\\ "
-# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
+# define TOKEN_DELIMITERS " |><\'\"$\\"
+# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W" // wat is A,H, W?
 # define SPECIAL_DELIMITERS "<>"
 
 # define SUCCESS 0
@@ -91,7 +91,6 @@ void		clean_shell(t_shell *shell);
 
 //	TOKENIZER.C
 t_token		**tokenize(char *s);
-size_t		find_next_token(const char *s, size_t end);
 void		print_tokens(t_token *top);
 
 //	TOKEN_LIST_FUNCTIONS.C
@@ -124,7 +123,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 int			get_num_args(t_token *current);
 
 //	EXPANSION.C
-void		expand(t_token *top, t_shell *shell);
+int		expander(t_token *top, t_shell *shell);
 /* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C

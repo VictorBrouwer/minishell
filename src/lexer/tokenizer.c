@@ -1,12 +1,15 @@
 #include "shell.h"
 #include "libft.h"
+#include <stddef.h>
+
+static int		create_token_list(const char *str, t_token ***token_list);
+static size_t	find_next_token(const char *s, size_t start);
+static size_t	backslash_case(const char *s, size_t end);
+static size_t	quotes_case(const char *s, size_t start, size_t end);
+static size_t	var_case(const char *s, size_t end);
 
 t_token	**tokenize(char *s)
 {
-	size_t	start;
-	size_t	end;
-	char	*token_string;
-	t_token	*token;
 	t_token	**token_list;
     char	*trimmed;
 
@@ -16,33 +19,42 @@ t_token	**tokenize(char *s)
 	token_list = ft_calloc(1, sizeof(t_token *));
 	if (!token_list)
 		return (free(trimmed),NULL);
-	start = 0;
-	while (trimmed[start])
-	{
-		end = find_next_token(trimmed, start);
-		/* printf("start: %zu\nend: %zu\n", start, end); */
-		if (start == end)
-			break ;
-		token_string = ft_substr(trimmed, start, end - start);
-		if (!token_string)
-			return (free(trimmed), clean_tokens(token_list), NULL);
-		token = ft_new_token(token_string);
-		if (!token)
-			return (free(trimmed), clean_tokens(token_list), NULL);
-		add_token_back(token_list, token);
-		start = end;
-		while(trimmed[start] && trimmed[start] == ' ')
-			start++;
-		/* if (end - 1 > start && trimmed[end - 1] == ' ') */
-		/* 	start = end - 1; */
-	}
-	if (start == 0)
-		return (free(trimmed), free(token_list), NULL);
+	if (create_token_list(trimmed, &token_list) == 1)
+		return (free(trimmed), clean_tokens(token_list), NULL);
 	*token_list = remove_white_space(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
 
-size_t	find_next_token(const char *s, size_t start)
+static int	create_token_list(const char *str, t_token ***token_list)
+{
+	size_t	start;
+	size_t	end;
+	t_token	*token;
+	char	*token_string;
+
+	start = 0;
+	while (str[start])
+	{
+		end = find_next_token(str, start);
+		if (start == end)
+			break ;
+		token_string = ft_substr(str, start, end - start);
+		if (!token_string)
+			return (1);
+		token = ft_new_token(token_string);
+		if (!token)
+			return (1);
+		add_token_back(*token_list, token);
+		start = end;
+		while(str[start] && str[start] == ' ')
+			start++;
+	}
+	if (start == 0)
+		return (1);
+	return (0);
+}
+
+static size_t	find_next_token(const char *s, size_t start)
 {
 	size_t	end;
 
@@ -52,30 +64,11 @@ size_t	find_next_token(const char *s, size_t start)
 	if (ft_strchr(SPECIAL_DELIMITERS, s[start]) && s[start + 1] && s[start] == s[start + 1])
 		return (start + 2);
 	else if (s[start] == '\\') // <- segfault
-	{
-		if (s[end])
-			return (end + 1);
-		return (end);
-	}
+		return(backslash_case(s, end));
 	else if (ft_strchr("\"\'", s[start])) // <- segfault, hier nog goed naar kijken
-    {
-		while (s[end])
-		{
-			if (s[end] == s[start] && s[end - 1] != '\\')  // <- echo "\"\"" klopt niet
-				break ;
-			end++;
-		}
-        if (s[end])
-			return (end + 1);
-        else
-            return (end);
-	}
+		return (quotes_case(s, start, end));
 	else if (s[start] == '$') // hier nog ff goed naar kijken
-	{
-		while(s[end] && !(ft_strchr(TOKEN_DELIMITERS, s[end])))
-			end++;
-		return (end);
-	}
+		return (var_case(s, end));
 	else if (ft_strchr(TOKEN_DELIMITERS, s[start]))
 		return (start + 1);
 	while (s[end])
@@ -84,6 +77,35 @@ size_t	find_next_token(const char *s, size_t start)
 			return (end);
         end++;
 	}
+	return (end);
+}
+
+static size_t	backslash_case(const char *s, size_t end)
+{
+	if (s[end])
+		return (end + 1);
+	return (end);
+}
+
+static size_t	quotes_case(const char *s, size_t start, size_t end)
+{
+	while (s[end])
+	{
+		if (s[end] == s[start] && s[end - 1] != '\\')  // <- echo "\"\"" klopt niet
+			break ;
+		end++;
+	}
+	if (s[end])
+		return (end + 1);
+	return (end);
+}
+
+static size_t	var_case(const char *s, size_t end)
+{
+	while(s[end] && s[end] != '?' && !(ft_strchr(TOKEN_DELIMITERS, s[end])))
+		end++;
+	if (s[end] == '?')
+		return (end + 1);
 	return (end);
 }
 
