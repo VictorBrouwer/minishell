@@ -2,21 +2,24 @@
 #include "libft.h"
 
 static void	execute_line(t_shell *shell);
-static int	shell_loop(t_shell *shell);
 
-int	initiate_shell(char **envp)
+t_shell	*initiate_shell(char **envp)
 {
 	t_shell	*shell;
 
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
-		return (print_error_and_set_status("malloc fail", 1), 1);
+		return (NULL);
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
 	g_status = 0;
 	shell->command_count = 0;
-	return (shell_loop(shell));
+	shell->env_list = init_env_lst(shell->envp);
+	if (!shell->env_list)
+		return (free(shell), NULL);
+	init_signals();
+	return (shell);
 }
 
 void	clean_shell(t_shell *shell)
@@ -31,10 +34,8 @@ void	clean_shell(t_shell *shell)
 	free(shell);
 }
 
-static int	shell_loop(t_shell *shell)
+int	shell_loop(t_shell *shell)
 {
-	shell->env_list = init_env_lst(shell->envp);
-	init_signals();
 	while (true)
 	{
 		shell->input = readline("nutshell:₿ ");
@@ -48,11 +49,7 @@ static int	shell_loop(t_shell *shell)
 		if (ft_strncmp(shell->input, "", 1))
 		{
 			if (!ft_strncmp(shell->input, "exit", 5))
-			{
-				free(shell->input);
-				shell->input = NULL;
 				break ;
-			}
 			else
 			{
 				execute_line(shell);
@@ -63,10 +60,7 @@ static int	shell_loop(t_shell *shell)
 		free(shell->input);
 		shell->input = NULL;
 	}
-	clean_shell(shell);
-	rl_clear_history();
-	ft_putstr_fd_protected("exit\n", STDERR_FILENO, 0);
-	exit(g_status);
+	return (g_status);
 }
 
 static void	execute_line(t_shell *shell)

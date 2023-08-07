@@ -1,6 +1,5 @@
 #include "shell.h"
 #include "libft.h"
-#include <stddef.h>
 
 static int	replace(t_token *token, t_env_list *env);
 static int	replace_status_token(t_token *token);
@@ -25,9 +24,9 @@ int	expander(t_token *top, t_shell *shell)
 							&& replace(curr->next, shell->env_list) != 0)
 			return (1);
 		else if (curr->next->token_id == D_QUOTE && \
-				check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
+		check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
 			curr->next->content = expand_double_quotes(curr->next, \
-									shell->env_list);
+			shell->env_list);
 		curr = curr->next;
 	}
 	return (0);

@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "shell.h"
 
-int	ft_putstr_fd_protected(char *s, int fd, int newline)
+int	ft_putstr_fd_prot(char *s, int fd, int newline)
 {
 	int	x;
 
