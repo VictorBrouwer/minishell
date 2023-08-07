@@ -47,20 +47,23 @@ static int	replace(t_token *token, t_env_list *env)
 		if (!token->content)
 			return (1);
 	}
-	replacement = get_env_var(token->content + 1, env);
-	if (replacement != NULL)
-	{
-		free(token->content);
-		token->content = ft_strdup(replacement);
-		if (!token->content)
-			return(exit_and_print_error("malloc fail", 1), 1);
-	}
 	else
 	{
-		free(token->content);
-		token->content = ft_strdup("");
-		if (!token->content)
-			return (exit_and_print_error("malloc fail", 1), 1);
+		replacement = get_env_var(token->content + 1, env);
+		if (replacement != NULL)
+		{
+			free(token->content);
+			token->content = ft_strdup(replacement);
+			if (!token->content)
+				return(exit_and_print_error("malloc fail", 1), 1);
+		}
+		else
+		{
+			free(token->content);
+			token->content = ft_strdup("");
+			if (!token->content)
+				return (exit_and_print_error("malloc fail", 1), 1);
+		}
 	}
 	return (0);
 }
