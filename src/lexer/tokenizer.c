@@ -1,6 +1,5 @@
 #include "shell.h"
 #include "libft.h"
-#include <stddef.h>
 
 static int		create_token_list(const char *str, t_token ***token_list);
 static size_t	find_next_token(const char *s, size_t start);
@@ -11,14 +10,14 @@ static size_t	var_case(const char *s, size_t end);
 t_token	**tokenize(char *s)
 {
 	t_token	**token_list;
-    char	*trimmed;
+	char	*trimmed;
 
-    trimmed = ft_strtrim(s, " ");
-    if (!trimmed)
- 		return (NULL);
+	trimmed = ft_strtrim(s, " ");
+	if (!trimmed)
+		return (NULL);
 	token_list = ft_calloc(1, sizeof(t_token *));
 	if (!token_list)
-		return (free(trimmed),NULL);
+		return (free(trimmed), NULL);
 	if (create_token_list(trimmed, &token_list) == 1)
 		return (free(trimmed), clean_tokens(token_list), NULL);
 	*token_list = remove_white_space(*token_list);
@@ -64,7 +63,7 @@ static size_t	find_next_token(const char *s, size_t start)
 	if (ft_strchr(SPECIAL_DELIMITERS, s[start]) && s[start + 1] && s[start] == s[start + 1])
 		return (start + 2);
 	else if (s[start] == '\\') // <- segfault
-		return(backslash_case(s, end));
+		return (backslash_case(s, end));
 	else if (ft_strchr("\"\'", s[start])) // <- segfault, hier nog goed naar kijken
 		return (quotes_case(s, start, end));
 	else if (s[start] == '$') // hier nog ff goed naar kijken
@@ -102,7 +101,7 @@ static size_t	quotes_case(const char *s, size_t start, size_t end)
 
 static size_t	var_case(const char *s, size_t end)
 {
-	while(s[end] && s[end] != '?' && !(ft_strchr(TOKEN_DELIMITERS, s[end])))
+	while (s[end] && s[end] != '?' && !(ft_strchr(TOKEN_DELIMITERS, s[end])))
 		end++;
 	if (s[end] == '?')
 		return (end + 1);
@@ -136,4 +135,3 @@ void	print_tokens(t_token *top)
 	}
 	return ;
 }
-

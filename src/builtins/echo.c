@@ -7,7 +7,7 @@ static int	print_args(char **args, int flag);
 static int	check_flag(char *arg);
 
 /*TODO: echo "test"test"test"  vs echo dit is een test */
-int builtin_echo(char **args)
+int	builtin_echo(char **args)
 {
 	int		flag;
 	char	**tmp;
@@ -23,7 +23,7 @@ int builtin_echo(char **args)
 
 static int	skip_flags(char ***args)
 {
-	int flag;
+	int	flag;
 
 	flag = check_flag(**args);
 	while (*args && flag)
@@ -44,22 +44,21 @@ static int	print_args(char **args, int flag)
 {
 	while (*args)
 	{
-		if (ft_putstr_fd_protected(*args, STDOUT_FILENO, 0) == -1)
+		if (ft_putstr_fd_prot(*args, STDOUT_FILENO, 0) == -1)
 			return (1);
 		if (*(args + 1))
 		{
-			if (ft_putstr_fd_protected(" ", STDOUT_FILENO, 0) == -1)
+			if (ft_putstr_fd_prot(" ", STDOUT_FILENO, 0) == -1)
 				return (1);
 		}
 		args++;
 	}
-	if (ft_putstr_fd_protected("", STDOUT_FILENO, flag < 1) == -1)
+	if (ft_putstr_fd_prot("", STDOUT_FILENO, flag < 1) == -1)
 		return (1);
 	return (0);
 }
 
-
-static int check_flag(char *arg)
+static int	check_flag(char *arg)
 {
 	if (!arg || *arg != '-')
 		return (0);
@@ -71,7 +70,7 @@ static int check_flag(char *arg)
 		else
 			return (0);
 	}
-	return	(1);
+	return (1);
 }
 
 // int main(int argc, char **argv)

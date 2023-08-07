@@ -12,6 +12,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <stddef.h>
 
 # define TOKEN_DELIMITERS " |><\'\"$\\"
 # define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W" // wat is A,H, W?
@@ -86,7 +87,8 @@ enum e_token_id
 extern u_int16_t	g_status;
 
 //	SHELL.C
-int			initiate_shell(char **envp);
+t_shell		*initiate_shell(char **envp);
+int			shell_loop(t_shell *shell);
 void		clean_shell(t_shell *shell);
 
 //	TOKENIZER.C
@@ -123,7 +125,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 int			get_num_args(t_token *current);
 
 //	EXPANSION.C
-int		expander(t_token *top, t_shell *shell);
+int			expander(t_token *top, t_shell *shell);
 /* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C
@@ -179,7 +181,7 @@ int			builtin_unset(t_command *curr, t_env_list **env);
 int			builtin_export(char **cmd, t_env_list **env);
 
 // Builint_utils
-int			ft_putstr_fd_protected(char *s, int fd, int newline);
+int			ft_putstr_fd_prot(char *s, int fd, int newline);
 int			ft_stris_x(char *s, int (*f)(int));
 char		*find_path_up(char *path);
 
@@ -196,8 +198,7 @@ size_t		env_len(t_env_list *env);
 char		*get_env_var(char *name, t_env_list *env);
 char		*split_var_name(char *var_str);
 char		*split_var_content(char *var_str);
-int			replace_env_var_content(char *name, char *content, \
-										t_env_list **env);
+int			replace_env_var_cont(char *name, char *cont, t_env_list **env);
 
 //	SHELL_UTILS.C
 bool		strings_equal(const char *s1, const char *s2);
