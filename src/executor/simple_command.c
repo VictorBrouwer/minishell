@@ -37,7 +37,7 @@ static void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 
 	pid = fork();
 	if (pid == -1)
-		exit_and_print_error("fork fail", 1);
+		return (print_error_and_set_status("fork fail", 1));
 	if (pid == 0)
 		execute_non_built_in(shell, curr);
 	else
