@@ -51,9 +51,11 @@ SRC						:=  shell/minishell.c \
 							parser/syntax_jt_funcs.c \
 							parser/commands.c \
 							parser/command_utils.c \
+							parser/command_fill_utils.c \
 							parser/clean_functions.c \
 							parser/heredoc.c \
 							parser/expansion.c \
+							parser/expansion_utils.c \
 							executor/executor.c \
 							executor/execution_utils.c \
 							executor/execute_built_in.c \

@@ -1,9 +1,9 @@
 #include "shell.h"
 #include "libft.h"
 
-// const char* getTokenString(enum token_id id);
 static int							remove_enclosing_quotes(t_token *current);
-typedef bool						(*t_syntx_jumpt_table) (t_token *prev, t_token *curr);
+typedef bool						(*t_syntx_jumpt_table) (t_token *prev, \
+															t_token *curr);
 
 static const t_syntx_jumpt_table	g_syntax_func[] = {
 [TOKEN] = NULL,
@@ -28,8 +28,8 @@ int	analyze_tokens(t_token **token_list)
 	current = *token_list;
 	while (current)
 	{
-		// printf("current token =  %d %s \n", current->token_id, current->content);
-		if (current->token_id != 0 && current->token_id != 10 && current->token_id != 11) // hier nog iets op verzinnen. moet dit niet 9 + 10 zijn?
+		if (current->token_id != 0 && \
+			current->token_id != 10 && current->token_id != 11)
 		{
 			if ((g_syntax_func[current->token_id])(prev, current))
 				return (clean_tokens(token_list), ERROR);
@@ -45,18 +45,30 @@ int	analyze_tokens(t_token **token_list)
 	return (SUCCESS);
 }
 
-// static char	*trim_content(char *str, const char *symbol)
-// {
-// 	char *tmp;
+static int	remove_enclosing_quotes(t_token *current)
+{
+	char	*new_str;
 
-// 	tmp = ft_strtrim(str, symbol);
-// 	if (!tmp)
-// 		return (NULL);
-// 	free(str);
-// 	return (tmp);
-// }
+	if (current->token_id == S_QUOTE)
+	{
+		new_str = ft_strtrim(current->content, "'");
+		if (!new_str)
+			return (1);
+		free(current->content);
+		current->content = new_str;
+	}
+	else if (current->token_id == D_QUOTE)
+	{
+		new_str = ft_strtrim(current->content, "\"");
+		if (!new_str)
+			return (1);
+		free(current->content);
+		current->content = new_str;
+	}
+	return (SUCCESS);
+}
 
-// const char* getTokenString(enum token_id id)
+// const char* getTokenString(enum e_token_id id)
 // {
 //     switch (id)
 //     {
@@ -86,26 +98,3 @@ int	analyze_tokens(t_token **token_list)
 //             return "UNKNOWN";
 //     }
 // }
-
-static int	remove_enclosing_quotes(t_token *current)
-{
-	char	*new_str;
-
-	if (current->token_id == S_QUOTE)
-	{
-		new_str = ft_strtrim(current->content, "'");
-		if (!new_str)
-			return (1);
-		free(current->content);
-		current->content = new_str;
-	}
-	else if (current->token_id == D_QUOTE)
-	{
-		new_str = ft_strtrim(current->content, "\"");
-		if (!new_str)
-			return (1);
-		free(current->content);
-		current->content = new_str;
-	}
-	return (SUCCESS);
-}

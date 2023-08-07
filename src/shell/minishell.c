@@ -4,14 +4,13 @@
 static void	execute_line(t_shell *shell);
 static int	shell_loop(t_shell *shell);
 
-
 int	initiate_shell(char **envp)
 {
 	t_shell	*shell;
 
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
-		exit_and_print_error("malloc fail", 1);
+		return (print_error_and_set_status("malloc fail", 1), 1);
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
@@ -36,7 +35,7 @@ static int	shell_loop(t_shell *shell)
 {
 	shell->env_list = init_env_lst(shell->envp);
 	init_signals();
-	while(true)
+	while (true)
 	{
 		shell->input = readline("nutshell:₿ ");
 		if (shell->input == NULL)
@@ -76,9 +75,8 @@ static void	execute_line(t_shell *shell)
 	if (shell->command_node == NULL)
 		return ;
 	executor(shell);
-	shell->read_fd = STDIN_FILENO; //after execution always set the read and write fd's back to std because they can be changed
+	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
 	clean_commands(&shell->command_node);
 	return ;
 }
-

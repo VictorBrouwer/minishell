@@ -1,18 +1,18 @@
 #include "shell.h"
 #include "libft.h"
 
-void	redirect_std_in(int fd)
+int	redirect_std_in(int fd)
 {
-	if (dup2(fd, STDIN_FILENO) == -1)
-		exit(1); // beter afhandelen
-	close(fd);
+	if (fd != STDIN_FILENO)
+		return (dup2(fd, STDIN_FILENO));
+	return (0);
 }
 
-void	redirect_std_out(int fd)
+int	redirect_std_out(int fd)
 {
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		exit(1); // beter afhandelen
-	close(fd);
+	if (fd != STDOUT_FILENO)
+		return (dup2(fd, STDOUT_FILENO));
+	return (0);
 }
 
 void	close_open_fds(t_shell *shell)
