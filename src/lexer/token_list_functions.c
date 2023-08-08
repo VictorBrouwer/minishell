@@ -75,29 +75,6 @@ size_t	list_token_size(t_token *t_list)
 	return (ret);
 }
 
-t_token *remove_white_space(t_token *top)
-{
-    t_token *node;
-    t_token *temp;
-
-    node = top;
-    temp = NULL;
-    while (node && node->next)
-    {
-        if (node->next->token_id == WHITE_SPACE)
-        {
-            if (node->next->next)
-                temp = node->next->next;
-            else
-                temp = NULL;
-            free(node->next->content);
-            free(node->next);
-            node->next = temp;
-        }
-        node = node->next;
-    }
-    return (top);
-}
 
 // this function returns the next token and skips whitespace while doing so
 // t_token *get_next_token(t_token *current_token)

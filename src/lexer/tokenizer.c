@@ -20,6 +20,9 @@ t_token	**tokenize(char *s)
 		return (free(trimmed), NULL);
 	if (create_token_list(trimmed, &token_list) == 1)
 		return (free(trimmed), clean_tokens(token_list), NULL);
+	// print_tokens(*token_list);
+	// *token_list = join_tokens(*token_list);
+	// print_tokens(*token_list);
 	*token_list = remove_white_space(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
