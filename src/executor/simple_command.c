@@ -22,7 +22,7 @@ void	simple_command(t_shell *shell)
 	{
 		temp_std_in = dup(STDIN_FILENO);
 		temp_std_out = dup(STDOUT_FILENO);
-		handle_built_in(shell, shell->command_node);
+		g_status = handle_built_in(shell, shell->command_node);
 		close_open_fds(shell);
 		redirect_std_in(temp_std_in);
 		redirect_std_out(temp_std_out);

@@ -12,7 +12,8 @@ int	expander(t_token *top, t_shell *shell)
 	curr = top;
 	if (curr->token_id == ENV_VAR && replace(curr, shell->env_list) != 0)
 		return (1);
-	else if (curr->token_id == D_QUOTE && check_dollar_sign(curr))
+	else if ((curr->token_id == D_QUOTE || curr->token_id == WORD) \
+										&& check_dollar_sign(curr))
 	{
 		curr->content = expand_double_quotes(curr, shell->env_list);
 		if (!curr->content)
@@ -23,8 +24,9 @@ int	expander(t_token *top, t_shell *shell)
 		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC \
 							&& replace(curr->next, shell->env_list) != 0)
 			return (1);
-		else if (curr->next->token_id == D_QUOTE && \
-		check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
+		else if ((curr->next->token_id == D_QUOTE || \
+					curr->next->token_id == WORD) \
+		&& check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
 			curr->next->content = expand_double_quotes(curr->next, \
 			shell->env_list);
 		curr = curr->next;
