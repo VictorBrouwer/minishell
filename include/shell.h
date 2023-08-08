@@ -91,7 +91,7 @@ t_token		**tokenize(char *s);
 void		print_tokens(t_token *top);
 
 //	TOKENIZER_UTILS.C
-int			join_tokens(t_token *top);
+int			join_tokens(t_token *n);
 t_token		*remove_white_space(t_token *top);
 
 //	TOKEN_LIST_FUNCTIONS.C

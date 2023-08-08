@@ -51,13 +51,13 @@ int	shell_loop(t_shell *shell)
 static int	execute_line(t_shell *shell)
 {
 	init_signals(0);
+	add_history(shell->input);
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
 		return (1);
 	executor(shell);
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
-	add_history(shell->input);
 	clean_commands(&shell->command_node);
 	return (0);
 }
