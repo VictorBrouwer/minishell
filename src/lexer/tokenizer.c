@@ -1,33 +1,36 @@
 #include "shell.h"
 #include "libft.h"
 
-static int		create_token_list(const char *str, t_token ***token_list);
+static int		create_token_list(char *str, t_token ***token_list, t_shell *sh);
 static size_t	find_next_token(const char *s, size_t start);
 static size_t	backslash_case(const char *s, size_t end);
 static size_t	quotes_case(const char *s, size_t start, size_t end);
 static size_t	var_case(const char *s, size_t end);
 
-t_token	**tokenize(char *s)
+t_token	**tokenize(t_shell *shell)
 {
 	t_token	**token_list;
 	char	*trimmed;
+	int		status;
 
-	trimmed = ft_strtrim(s, " ");
+	trimmed = ft_strtrim(shell->input, " ");
 	if (!trimmed)
 		return (NULL);
 	token_list = ft_calloc(1, sizeof(t_token *));
 	if (!token_list)
 		return (free(trimmed), NULL);
-	if (create_token_list(trimmed, &token_list) == 1)
+	status  = create_token_list(trimmed, &token_list, shell);
+	if (status == 1)
 		return (free(trimmed), clean_tokens(token_list), NULL);
+	if (status == 2)
+		return (free(trimmed), clean_tokens(token_list), print_error_and_set_status("syntax error", 258), NULL);
 	if (join_tokens(*token_list) == ERROR)
 		return (free(trimmed), clean_tokens(token_list), print_error_and_set_status("syntax error", 258), NULL);
 	*token_list = remove_white_space(*token_list);
-	// print_tokens(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
 
-static int	create_token_list(const char *str, t_token ***token_list)
+static int	create_token_list(char *str, t_token ***token_list, t_shell *sh)
 {
 	size_t	start;
 	size_t	end;
@@ -46,6 +49,18 @@ static int	create_token_list(const char *str, t_token ***token_list)
 		token = ft_new_token(token_string);
 		if (!token)
 			return (1);
+		if (token->token_id == ENV_VAR || token->token_id == D_QUOTE)
+		{
+			if (token->token_id == D_QUOTE)
+			{
+				if (check_quotes_tok(token) == ERROR)
+					return (2);
+				if (remove_enclosing_quotes(token) == ERROR)
+					return (ERROR);
+			}
+			token->content = expand_double_quotes(token, sh->env_list);
+			token->token_id = WORD;
+		}
 		add_token_back(*token_list, token);
 		start = end;
 		// while(str[start] && str[start] == ' ')
@@ -63,6 +78,12 @@ static size_t	find_next_token(const char *s, size_t start)
 	if (!s[start])
 		return (start);
 	end = start + 1;
+	if (s[start] == ' ' && s[end] == ' ')
+	{
+		while (s[end] == ' ')
+			end++;
+		return (end);
+	}
 	if (ft_strchr(SPECIAL_DELIMITERS, s[start]) && s[start + 1] && s[start] == s[start + 1])
 		return (start + 2);
 	else if (s[start] == '\\') // <- segfault

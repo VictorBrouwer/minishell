@@ -43,7 +43,7 @@ static void	interactive_handler(int sig)
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
-		;
+		(void)sig;
 }
 
 static void	non_interactive_handler(int sig)
