@@ -146,7 +146,7 @@ void		free_tokens_and_useless_strings(t_token **token_list);
 void		check_hd_curr_cmd(t_shell *shell, t_command *curr);
 
 //	EXECUTOR.C
-int			executor(t_shell *shell);
+void		executor(t_shell *shell);
 void		simple_command(t_shell *shell);
 void		pipe_line(t_shell *shell);
 
