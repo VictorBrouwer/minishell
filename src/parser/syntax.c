@@ -1,7 +1,6 @@
 #include "shell.h"
 #include "libft.h"
 
-static int							remove_enclosing_quotes(t_token *current);
 typedef bool						(*t_syntx_jumpt_table) (t_token *prev, \
 															t_token *curr);
 
@@ -45,7 +44,7 @@ int	analyze_tokens(t_token **token_list)
 	return (SUCCESS);
 }
 
-static int	remove_enclosing_quotes(t_token *current)
+int	remove_enclosing_quotes(t_token *current)
 {
 	char	*new_str;
 

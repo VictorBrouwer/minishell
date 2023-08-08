@@ -20,10 +20,11 @@ t_token	**tokenize(char *s)
 		return (free(trimmed), NULL);
 	if (create_token_list(trimmed, &token_list) == 1)
 		return (free(trimmed), clean_tokens(token_list), NULL);
-	// print_tokens(*token_list);
-	// *token_list = join_tokens(*token_list);
-	// print_tokens(*token_list);
+	print_tokens(*token_list);
+	if (join_tokens(*token_list) == ERROR)
+		return (free(trimmed), clean_tokens(token_list), print_error_and_set_status("syntax error", 258), NULL);
 	*token_list = remove_white_space(*token_list);
+	// print_tokens(*token_list);
 	return (free(trimmed), token_list); // trimmed is mallocced in ft_strtrim
 }
 
@@ -48,8 +49,8 @@ static int	create_token_list(const char *str, t_token ***token_list)
 			return (1);
 		add_token_back(*token_list, token);
 		start = end;
-		while(str[start] && str[start] == ' ')
-			start++;
+		// while(str[start] && str[start] == ' ')
+		// 	start++;
 	}
 	if (start == 0)
 		return (1);
