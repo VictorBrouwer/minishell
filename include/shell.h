@@ -91,7 +91,7 @@ t_token		**tokenize(char *s);
 void		print_tokens(t_token *top);
 
 //	TOKENIZER_UTILS.C
-t_token		*join_tokens(t_token *top);
+int			join_tokens(t_token *top);
 t_token		*remove_white_space(t_token *top);
 
 //	TOKEN_LIST_FUNCTIONS.C
@@ -103,6 +103,7 @@ size_t		list_token_size(t_token *t_list);
 //	SYNTAX.C
 int			analyze_tokens(t_token **token_list);
 int			check_tokens(int id_1, int id_2);
+int			remove_enclosing_quotes(t_token *current);
 const char	*getTokenString(enum e_token_id id);
 
 //	JUMPTABLE_FUNCS.C
