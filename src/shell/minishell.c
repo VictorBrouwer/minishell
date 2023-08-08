@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static void	execute_line(t_shell *shell);
+static int	execute_line(t_shell *shell);
 
 t_shell	*initiate_shell(char **envp)
 {
@@ -18,26 +18,14 @@ t_shell	*initiate_shell(char **envp)
 	shell->env_list = init_env_lst(shell->envp);
 	if (!shell->env_list)
 		return (free(shell), NULL);
-	init_signals();
 	return (shell);
-}
-
-void	clean_shell(t_shell *shell)
-{
-	if (shell->command_node)
-		clean_commands(&shell->command_node);
-	free_env_list(&shell->env_list);
-	if (shell->input)
-		free(shell->input);
-	close(shell->read_fd);
-	close(shell->write_fd);
-	free(shell);
 }
 
 int	shell_loop(t_shell *shell)
 {
 	while (true)
 	{
+		init_signals(1);
 		shell->input = readline("nutshell:₿ ");
 		if (shell->input == NULL)
 		{
@@ -51,10 +39,7 @@ int	shell_loop(t_shell *shell)
 			if (!ft_strncmp(shell->input, "exit", 5))
 				break ;
 			else
-			{
 				execute_line(shell);
-				add_history(shell->input);
-			}
 		}
 		close_open_fds(shell);
 		free(shell->input);
@@ -63,14 +48,16 @@ int	shell_loop(t_shell *shell)
 	return (g_status);
 }
 
-static void	execute_line(t_shell *shell)
+static int	execute_line(t_shell *shell)
 {
+	init_signals(0);
+	add_history(shell->input);
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
-		return ;
+		return (1);
 	executor(shell);
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
 	clean_commands(&shell->command_node);
-	return ;
+	return (0);
 }

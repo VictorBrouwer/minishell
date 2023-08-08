@@ -7,5 +7,5 @@ int	executor(t_shell *shell)
 		simple_command(shell);
 	else
 		pipe_line(shell);
-	return (SUCCESS);
+	return (0);
 }

@@ -1,35 +1,55 @@
 #include	"libft.h"
 #include	"shell.h"
 
+static void	interactive_handler(int sig);
+static void	non_interactive_handler(int sig);
+
 /* Ctrl-C = SIGINT -> displays a new prompt on a new line. */
 /* Ctrl-D = EOF -> exits the shell. */
 /* Ctrl-\ = SIGQUIT -> does nothing. */
 
-void	init_signals(void)
+void	init_signals(int interactive)
 {
 	struct sigaction	sa;
-	/* struct termios		t; */
 
 	/* tcgetattr(STDIN_FILENO, &t); */
 	/* t.c_lflag &= ~(ECHOCTL); */
 	/* tcsetattr(STDIN_FILENO, TCSAFLUSH, &t); */
+	rl_catch_signals = 1;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = &signal_handler;
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sa, NULL);
-	/* signal(SIGINT, signal_handler); */
-	/* signal(SIGQUIT, SIG_IGN); */
+	if (interactive)
+	{
+		sa.sa_handler = &interactive_handler;
+		sigaction(SIGINT, &sa, NULL);
+		sigaction(SIGQUIT, &sa, NULL);
+	}
+	else
+	{
+		sa.sa_handler = &non_interactive_handler;
+		sigaction(SIGINT, &sa, NULL);
+		sigaction(SIGQUIT, &sa, NULL);
+		
+	}
 }
 
-void	signal_handler(int sig)
+static void	interactive_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		rl_replace_line("", 0);
 		ft_putstr_fd_prot("\n", STDOUT_FILENO, 0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	else if (sig == SIGQUIT)
+		;
+}
+
+static void	non_interactive_handler(int sig)
+{
+	if (sig == SIGQUIT)
+		ft_putstr_fd_prot("Quit: 3\n", STDOUT_FILENO, 0);
+	else if (sig == SIGINT)
+		ft_putstr_fd_prot("\n", STDOUT_FILENO, 0);
 }
