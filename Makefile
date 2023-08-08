@@ -46,6 +46,7 @@ MAIN					:=	src/main.c
 SRC						:=  shell/minishell.c \
 						  	lexer/tokenizer.c \
 							lexer/token_list_functions.c \
+						  	lexer/tokenizer_utils.c \
 							parser/parser.c \
 							parser/syntax.c \
 							parser/syntax_jt_funcs.c \

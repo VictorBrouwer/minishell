@@ -90,12 +90,15 @@ void		clean_shell(t_shell *shell);
 t_token		**tokenize(char *s);
 void		print_tokens(t_token *top);
 
+//	TOKENIZER_UTILS.C
+t_token		*join_tokens(t_token *top);
+t_token		*remove_white_space(t_token *top);
+
 //	TOKEN_LIST_FUNCTIONS.C
 void		add_token_back(t_token **token_list, t_token *token);
 t_token		*ft_new_token(char *content);
 int			get_token_id(char *content);
 size_t		list_token_size(t_token *t_list);
-t_token		*remove_white_space(t_token *top);
 
 //	SYNTAX.C
 int			analyze_tokens(t_token **token_list);
