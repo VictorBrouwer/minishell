@@ -15,7 +15,7 @@
 # include <stddef.h>
 
 # define TOKEN_DELIMITERS " |><\'\"$\\"
-# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W" // wat is A,H, W?
+# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
 # define SPECIAL_DELIMITERS "<>"
 
 # define SUCCESS 0
@@ -23,11 +23,6 @@
 
 # define READ 0
 # define WRITE 1
-
-// typedef	struct s_status
-// {
-// 	int				num;
-// }	t_status;
 
 typedef struct s_token
 {
@@ -117,6 +112,9 @@ bool		check_env_var(t_token *prev, t_token *curr);
 //	COMMANDS.C
 t_command	*create_commands(t_token **top, t_shell *shell);
 
+//	COMMAND_FILL_UTILS.C
+int 		fill_command(t_command *command, t_token *current);
+
 //	COMMAND_UTILS.C
 void		add_comm_back(t_command **command_list, t_command *command);
 t_command	*ft_new_comm(void);
@@ -125,7 +123,10 @@ void		add_redir(t_redir *redir, t_command *comm);
 int			get_num_args(t_token *current);
 
 //	EXPANSION.C
-int			expander(t_token *top, t_shell *shell);
+int		expander(t_token *top, t_shell *shell);
+
+//	EXPANSION_UTILS.C
+char		*expand_double_quotes(t_token *token, t_env_list *env);
 /* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C
@@ -139,7 +140,6 @@ void		free_tokens_and_useless_strings(t_token **token_list);
 
 //	HEREDOC.C
 void		check_hd_curr_cmd(t_shell *shell, t_command *curr);
-void		handle_hd(t_shell *shell, char *hd_delm);
 
 //	EXECUTOR.C
 int			executor(t_shell *shell);
@@ -151,8 +151,8 @@ void		execute_child(t_command *curr, t_shell *shell, int pipefd[]);
 void		execute_last_child(t_command *curr, t_shell *shell);
 
 //	EXECUTION_UTILS.C
-void		redirect_std_in(int fd);
-void		redirect_std_out(int fd);
+int			redirect_std_in(int fd);
+int			redirect_std_out(int fd);
 void		close_open_fds(t_shell *shell);
 char		*find_path(char **envp);
 char		*get_command_path(t_shell *shell, char *command);

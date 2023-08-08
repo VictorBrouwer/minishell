@@ -59,6 +59,9 @@ bool	redir_infile(t_redir *curr, t_shell *shell)
 		close(shell->read_fd);
 	shell->read_fd = open(curr->file_name, O_RDONLY);
 	if (shell->read_fd == -1)
+	{
+		g_status = 1;
 		return (perror(curr->file_name), ERROR);
+	}
 	return (SUCCESS);
 }

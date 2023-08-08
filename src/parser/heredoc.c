@@ -1,6 +1,8 @@
 #include "shell.h"
 #include "libft.h"
 
+static int	handle_hd(t_shell *shell, char *hd_delim);
+
 void	check_hd_curr_cmd(t_shell *shell, t_command *curr)
 {
 	t_redir	*redir;
@@ -13,18 +15,21 @@ void	check_hd_curr_cmd(t_shell *shell, t_command *curr)
 	while (redir)
 	{
 		if (redir->redir_type == HEREDOC)
-			handle_hd(shell, redir->file_name);
+		{
+			if (handle_hd(shell, redir->file_name) == -1)
+				return ;
+		}
 		redir = redir->next;
 	}
 }
 
-void	handle_hd(t_shell *shell, char *hd_delim)
+static int	handle_hd(t_shell *shell, char *hd_delim)
 {
 	char	*line;
 	int		pipefd[2];
 
 	if (pipe(pipefd) == -1)
-		return ;// handle errors
+		return (-1);
 	line = readline("> ");
 	while (line && !(strings_equal(line, hd_delim)))
 	{
@@ -37,4 +42,5 @@ void	handle_hd(t_shell *shell, char *hd_delim)
 		free(line);
 	close(pipefd[WRITE]);
 	shell->read_fd = pipefd[READ];
+	return (0);
 }
