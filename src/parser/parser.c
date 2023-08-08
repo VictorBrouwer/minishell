@@ -20,23 +20,24 @@ t_command	*parser(t_shell *shell)
 	command_list = create_commands(token_list, shell);
 	if (command_list == NULL)
 		return (NULL);
+	// print_commands(command_list);
 	return (command_list);
 }
 
-// size_t	list_command_size(t_command *t_list)
-// {
-// 	size_t	ret;
+size_t	list_command_size(t_command *t_list)
+{
+	size_t	ret;
 
-// 	ret = 0;
-// 	if (t_list == NULL)
-// 		return (0);
-// 	while (t_list != NULL)
-// 	{
-// 		t_list = t_list->next;
-// 		ret++;
-// 	}
-// 	return (ret);
-// }
+	ret = 0;
+	if (t_list == NULL)
+		return (0);
+	while (t_list != NULL)
+	{
+		t_list = t_list->next;
+		ret++;
+	}
+	return (ret);
+}
 
 //  static void	print_commands(t_command *top) 
 //  { 
@@ -69,3 +70,34 @@ t_command	*parser(t_shell *shell)
 //  	} 
 //  	return ; 
 //  } 
+
+// const char* getTokenString(enum e_token_id id)
+// {
+//     switch (id)
+//     {
+//         case TOKEN:
+//             return "TOKEN";
+//         case PIPE:
+//             return "PIPE";
+//         case GREAT:
+//             return "GREAT";
+//         case APPEND:
+//             return "APPEND";
+//         case LESS:
+//             return "LESS";
+//         case HEREDOC:
+//             return "HEREDOC";
+//         case S_QUOTE:
+//             return "S_QUOTE";
+//         case D_QUOTE:
+//             return "D_QUOTE";
+//         case ENV_VAR:
+//             return "ENV_VAR";
+//         case WHITE_SPACE:
+//             return "WHITE_SPACE";
+//         case WORD:
+//             return "WORD";
+//         default:
+//             return "UNKNOWN";
+//     }
+// }

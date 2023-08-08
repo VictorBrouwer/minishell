@@ -67,33 +67,3 @@ int	remove_enclosing_quotes(t_token *current)
 	return (SUCCESS);
 }
 
-// const char* getTokenString(enum e_token_id id)
-// {
-//     switch (id)
-//     {
-//         case TOKEN:
-//             return "TOKEN";
-//         case PIPE:
-//             return "PIPE";
-//         case GREAT:
-//             return "GREAT";
-//         case APPEND:
-//             return "APPEND";
-//         case LESS:
-//             return "LESS";
-//         case HEREDOC:
-//             return "HEREDOC";
-//         case S_QUOTE:
-//             return "S_QUOTE";
-//         case D_QUOTE:
-//             return "D_QUOTE";
-//         case ENV_VAR:
-//             return "ENV_VAR";
-//         case WHITE_SPACE:
-//             return "WHITE_SPACE";
-//         case WORD:
-//             return "WORD";
-//         default:
-//             return "UNKNOWN";
-//     }
-// }

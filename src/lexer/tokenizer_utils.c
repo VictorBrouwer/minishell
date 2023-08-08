@@ -38,6 +38,7 @@ int	join_tokens(t_token *top)
 				node->content = shell_strjoin(node->content, node->next->content);
 				if (!node->content)
 					return (ERROR);
+				node->token_id = WORD;
 				free(node->next->content);
 				free(node->next);
 				node->next = temp;
