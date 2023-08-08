@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <unistd.h>
 
-static void	execute_compound_command(t_shell *shell, t_command *curr);
+static int	execute_compound_command(t_shell *shell, t_command *curr);
 
 void	pipe_line(t_shell *shell)
 {
@@ -12,13 +12,14 @@ void	pipe_line(t_shell *shell)
 	curr = shell->command_node;
 	while (curr->next)
 	{
-		execute_compound_command(shell, curr);
+		if (execute_compound_command(shell, curr) == 1)
+			return ;
 		curr = curr->next;
 	}
 	check_hd_curr_cmd(shell, curr);
 	pid = fork();
 	if (pid == -1)
-		exit_and_print_error("fork fail", 1);
+		return (print_error_and_set_status("fork fail", 1));
 	if (pid == 0)
 		execute_last_child(curr, shell);
 	if (shell->read_fd != STDIN_FILENO)
@@ -29,17 +30,17 @@ void	pipe_line(t_shell *shell)
 	return ;
 }
 
-static void	execute_compound_command(t_shell *shell, t_command *curr)
+static int	execute_compound_command(t_shell *shell, t_command *curr)
 {
 	int			pipefd[2];
 	pid_t		pid;
 
 	check_hd_curr_cmd(shell, curr);
 	if (pipe(pipefd) == -1)
-		exit_and_print_error("pipe fail", 1);
+		return (print_error_and_set_status("pipe fail", 1), 1);
 	pid = fork();
 	if (pid == -1)
-		exit_and_print_error("fork fail", 1);
+		return (print_error_and_set_status("fork fail", 1), 1);
 	if (pid == 0)
 		execute_child(curr, shell, pipefd);
 	if (shell->read_fd != STDIN_FILENO)
@@ -47,6 +48,7 @@ static void	execute_compound_command(t_shell *shell, t_command *curr)
 	shell->read_fd = dup(pipefd[READ]);
 	close(pipefd[READ]);
 	close(pipefd[WRITE]);
+	return (0);
 }
 
 void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
