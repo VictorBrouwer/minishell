@@ -127,7 +127,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 int			get_num_args(t_token *current);
 
 //	EXPANSION.C
-int		expander(t_token *top, t_shell *shell);
+int			expander(t_token *head, t_shell *shell);
 
 //	EXPANSION_UTILS.C
 char		*expand_double_quotes(t_token *token, t_env_list *env);
