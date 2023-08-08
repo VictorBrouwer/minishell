@@ -64,7 +64,6 @@ t_token	*remove_white_space(t_token *top)
 	t_token	*temp;
 
 	node = top;
-	temp = NULL;
 	while (node && node->next)
 	{
 		if (node->next->token_id == WHITE_SPACE)
