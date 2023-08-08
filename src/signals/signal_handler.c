@@ -1,8 +1,8 @@
 #include	"libft.h"
 #include	"shell.h"
 
-void	interactive_handler(int sig);
-void	non_interactive_handler(int sig);
+static void	interactive_handler(int sig);
+static void	non_interactive_handler(int sig);
 
 /* Ctrl-C = SIGINT -> displays a new prompt on a new line. */
 /* Ctrl-D = EOF -> exits the shell. */
@@ -33,12 +33,12 @@ void	init_signals(int interactive)
 	}
 }
 
-void	interactive_handler(int sig)
+static void	interactive_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		rl_replace_line("", 0);
 		ft_putstr_fd_prot("\n", STDOUT_FILENO, 0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -46,7 +46,7 @@ void	interactive_handler(int sig)
 		(void)sig;
 }
 
-void	non_interactive_handler(int sig)
+static void	non_interactive_handler(int sig)
 {
 	(void)sig;
 	ft_putstr_fd_prot("\n", STDOUT_FILENO, 0);
