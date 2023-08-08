@@ -37,19 +37,19 @@ static char	*get_path(char **cmd, char *cwd, t_env_list *env)
 	char	*path;
 
 	if (!cmd[1] || ft_strlen(cmd[1]) == 0)
-    	path = ft_strdup(get_env_var("HOME", env));
+		path = ft_strdup(get_env_var("HOME", env));
 	else if (ft_strncmp(cmd[1], ".", 2) == 0)
-    	path = ft_strdup(get_env_var("PWD", env));
-	else if (ft_strncmp(cmd[1],"~", 2) == 0)
-    	path = ft_strdup(get_env_var("HOME", env));
+		path = ft_strdup(get_env_var("PWD", env));
+	else if (ft_strncmp(cmd[1], "~", 2) == 0)
+		path = ft_strdup(get_env_var("HOME", env));
 	else if (cmd[1][0] == '/')
 		path = ft_strdup(cmd[1]);
 	else if (ft_strncmp(cmd[1], "-", 2) == 0)
-    	path = ft_strdup(get_env_var("OLDPWD", env));
+		path = ft_strdup(get_env_var("OLDPWD", env));
 	else if (ft_strncmp(cmd[1], "..", 3) == 0 && ft_strncmp(cwd, "/", 2))
 		path = find_path_up(cwd);
 	else if (ft_strncmp(cmd[1], "~/", 2) == 0)
-    	path = ft_strjoin(get_env_var("HOME", env), cmd[1] + 1);
+		path = ft_strjoin(get_env_var("HOME", env), cmd[1] + 1);
 	else
 		path = add_postfix(cwd, cmd[1]);
 	if (!path)

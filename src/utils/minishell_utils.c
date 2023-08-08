@@ -1,6 +1,18 @@
 #include	"shell.h"
 #include	"libft.h"
 
+void	clean_shell(t_shell *shell)
+{
+	if (shell->command_node)
+		clean_commands(&shell->command_node);
+	free_env_list(&shell->env_list);
+	if (shell->input)
+		free(shell->input);
+	close(shell->read_fd);
+	close(shell->write_fd);
+	free(shell);
+}
+
 bool	strings_equal(const char *s1, const char *s2)
 {
 	while (*s1 || *s2)

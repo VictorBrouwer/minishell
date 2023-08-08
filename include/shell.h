@@ -91,7 +91,7 @@ t_token		**tokenize(char *s);
 void		print_tokens(t_token *top);
 
 //	TOKENIZER_UTILS.C
-int			join_tokens(t_token *top);
+int			join_tokens(t_token *n);
 t_token		*remove_white_space(t_token *top);
 
 //	TOKEN_LIST_FUNCTIONS.C
@@ -127,7 +127,7 @@ void		add_redir(t_redir *redir, t_command *comm);
 int			get_num_args(t_token *current);
 
 //	EXPANSION.C
-int		expander(t_token *top, t_shell *shell);
+int			expander(t_token *head, t_shell *shell);
 
 //	EXPANSION_UTILS.C
 char		*expand_double_quotes(t_token *token, t_env_list *env);
@@ -217,7 +217,7 @@ void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 
 //	SIGNAL_HANDLER.C
-void		init_signals(void);
+void		init_signals(int interactive);
 void		signal_handler(int sig);
 
 #endif

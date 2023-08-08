@@ -5,31 +5,29 @@ static int	replace(t_token *token, t_env_list *env);
 static int	replace_status_token(t_token *token);
 
 //TODO: exit/return status moet nog gedaan worden
-int	expander(t_token *top, t_shell *shell)
+int	expander(t_token *head, t_shell *shell)
 {
-	t_token	*curr;
+	t_token	*c;
 
-	curr = top;
-	if (curr->token_id == ENV_VAR && replace(curr, shell->env_list) != 0)
+	c = head;
+	if (c->token_id == ENV_VAR && replace(c, shell->env_list) != 0)
 		return (1);
-	else if ((curr->token_id == D_QUOTE || curr->token_id == WORD) \
-										&& check_dollar_sign(curr))
+	else if ((c->token_id == D_QUOTE || c->token_id == WORD) \
+		&& check_dollar_sign(c))
 	{
-		curr->content = expand_double_quotes(curr, shell->env_list);
-		if (!curr->content)
+		c->content = expand_double_quotes(c, shell->env_list);
+		if (!c->content)
 			return (1);
 	}
-	while (curr->next)
+	while (c->next)
 	{
-		if (curr->next->token_id == ENV_VAR && curr->token_id != HEREDOC \
-							&& replace(curr->next, shell->env_list) != 0)
+		if (c->next->token_id == ENV_VAR && c->token_id != HEREDOC \
+			&& replace(c->next, shell->env_list) != 0)
 			return (1);
-		else if ((curr->next->token_id == D_QUOTE || \
-					curr->next->token_id == WORD) \
-		&& check_dollar_sign(curr->next) && curr->token_id != HEREDOC)
-			curr->next->content = expand_double_quotes(curr->next, \
-			shell->env_list);
-		curr = curr->next;
+		else if ((c->next->token_id == D_QUOTE || c->next->token_id == WORD) \
+				&& check_dollar_sign(c->next) && c->token_id != HEREDOC)
+			c->next->content = expand_double_quotes(c->next, shell->env_list);
+		c = c->next;
 	}
 	return (0);
 }
