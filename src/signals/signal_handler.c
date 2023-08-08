@@ -15,7 +15,7 @@ void	init_signals(int interactive)
 	/* tcgetattr(STDIN_FILENO, &t); */
 	/* t.c_lflag &= ~(ECHOCTL); */
 	/* tcsetattr(STDIN_FILENO, TCSAFLUSH, &t); */
-	rl_catch_signals = 0;
+	rl_catch_signals = 1;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	if (interactive)
@@ -43,11 +43,13 @@ static void	interactive_handler(int sig)
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
-		(void)sig;
+		;
 }
 
 static void	non_interactive_handler(int sig)
 {
-	(void)sig;
-	ft_putstr_fd_prot("\n", STDOUT_FILENO, 0);
+	if (sig == SIGQUIT)
+		ft_putstr_fd_prot("Quit: 3\n", STDOUT_FILENO, 0);
+	else if (sig == SIGINT)
+		ft_putstr_fd_prot("\n", STDOUT_FILENO, 0);
 }
