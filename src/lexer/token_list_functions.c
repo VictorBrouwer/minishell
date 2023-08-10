@@ -1,6 +1,31 @@
 #include "shell.h"
 #include "libft.h"
 
+int	create_tok_list(char *str, t_token ***tok_list, t_shell *sh)
+{
+	size_t	start;
+	size_t	end;
+	t_token	*tok;
+
+	start = 0;
+	while (str[start])
+	{
+		end = find_next_tok(str, start);
+		if (start == end)
+			break ;
+		tok = create_tok(start, end, str, sh);
+		if (!tok)
+			return (1); // vershil tussen malloc en syntax error?
+		add_token_back(*tok_list, tok);
+		start = end;
+		// while(str[start] && str[start] == ' ')
+		// 	start++;
+	}
+	if (start == 0)
+		return (1);
+	return (0);
+}
+
 void	add_token_back(t_token **token_list, t_token *token)
 {
 	t_token	*last_token;
@@ -30,48 +55,33 @@ t_token	*ft_new_token(char *content)
 	new_token->next = NULL;
 	return (new_token);
 }
-// typedef int						(*t_token_id_table)(unsigned char);
-// static const t_token_id_table	g_token_id_table[] = {
-// [TOKEN] = 0,
-// [PIPE] = 1,
-// [GREAT] = 2,
-// [APPEND] = 3,
-// [LESS] = 4,
-// [HEREDOC] = 5,
-// [S_QUOTE] = 6,
-// [D_QUOTE] = 7,
-// [ENV_VAR] = 8,
-// [WHITE_SPACE] = 9,
-// [WORD] = 10
-// };
 
 int	get_token_id(char *content)
 {
-	const char		meta_chars[] = TOKEN_DELIMITER_SET;
-	const size_t	num_chars = sizeof(meta_chars) - 1;
-	size_t			i;
-	int				index;
-	int				jumptable[256] = {0};
-
-	i = 0;
-	while (i < num_chars)
+	if (content[0] == '>' || content[0] == '<')
 	{
-		jumptable[(unsigned char)meta_chars[i]] = i + 1;
-		i++;
+		if (content[1] != '\0')
+		{
+			if (content[1] == '>')
+				return (3);
+			return (5);
+		}
+		if (content[0] == '>')
+			return (2);
+		return (4);
 	}
-	if ((content[0] == '>' || content[0] == '<') && content[1] != '\0')
-	{
-		if (content[1] == '>')
-			return (APPEND);
-		return (HEREDOC);
-	}
-	if (content[0] == '-' || content[0] == 'A' || content[0] == 'H')
-		return (WORD);
-	index = jumptable[(unsigned char)content[0]];
-	if (index > 0)
-		return (index - 1);
+	else if (content[0] == '|')
+		return (1);
+	else if (content[0] == '\'')
+		return (6);
+	else if (content[0] == '\"')
+		return (7);
+	else if (content[0] == '$')
+		return (8);
+	else if (content[0] == ' ')
+		return (9);
 	else
-		return (WORD);
+		return (10);
 }
 
 size_t	list_token_size(t_token *t_list)

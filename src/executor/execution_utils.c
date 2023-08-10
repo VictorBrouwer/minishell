@@ -1,6 +1,8 @@
 #include "shell.h"
 #include "libft.h"
 
+static char	*get_total_command(char **sep_paths, char *end_part_command);
+
 int	redirect_std_in(int fd)
 {
 	if (fd != STDIN_FILENO)
@@ -15,21 +17,12 @@ int	redirect_std_out(int fd)
 	return (0);
 }
 
-void	close_open_fds(t_shell *shell)
-{
-	if (shell->write_fd != STDOUT_FILENO)
-		close(shell->write_fd);
-	if (shell->read_fd != STDIN_FILENO)
-		close(shell->read_fd);
-}
-
 char	*get_command_path(t_shell *shell, char *command)
 {
 	char	*path;
 	char	**sep_paths;
 	char	*end_part_command;
 	char	*total_command;
-	int		i;
 
 	if (access(command, X_OK & F_OK) == 0 || ft_strlen(command) == 0)
 		return (command);
@@ -44,16 +37,27 @@ char	*get_command_path(t_shell *shell, char *command)
 	end_part_command = ft_strjoin("/", command);
 	if (!end_part_command)
 		return (ft_free_split(sep_paths), command);
+	total_command = get_total_command(sep_paths, end_part_command);
+	if (!total_command)
+		return (free(end_part_command), ft_free_split(sep_paths), command);
+	return (ft_free_split(sep_paths), free(end_part_command), total_command);
+}
+
+static char	*get_total_command(char **sep_paths, char *end_part_command)
+{
+	size_t	i;
+	char	*total_command;
+
 	i = 0;
 	while (sep_paths[i] != NULL)
 	{
 		total_command = ft_strjoin(sep_paths[i], end_part_command);
 		if (!total_command)
-			return (ft_free_split(sep_paths), free(end_part_command), command);
+			return (NULL);
 		if (access(total_command, X_OK & F_OK) == 0)
-			return (ft_free_split(sep_paths), free(end_part_command), total_command);
+			return (total_command);
 		free(total_command);
 		i++;
 	}
-	return (free(end_part_command), ft_free_split(sep_paths), command);
+	return (NULL);
 }

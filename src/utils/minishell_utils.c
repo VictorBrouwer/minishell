@@ -32,21 +32,17 @@ int	ft_isspace(int c)
 	return (0);
 }
 
-void	update_status(pid_t pid)
-{
-	int		status;
-
-	status = 0;
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-		g_status = 128 + status;
-}
-
 bool	check_dollar_sign(t_token *token)
 {
 	if (ft_strnstr(token->content, "$", ft_strlen(token->content)) != 0)
 		return (true);
 	return (false);
+}
+
+void	close_open_fds(t_shell *shell)
+{
+	if (shell->write_fd != STDOUT_FILENO)
+		close(shell->write_fd);
+	if (shell->read_fd != STDIN_FILENO)
+		close(shell->read_fd);
 }
