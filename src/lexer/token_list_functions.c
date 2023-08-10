@@ -28,21 +28,35 @@ t_token	*ft_new_token(char *content)
 	new_token->content = content;
 	new_token->token_id = get_token_id(content);
 	new_token->next = NULL;
-	// printf("token %s has token_id = %d\n", content, new_token->token_id);
 	return (new_token);
 }
+// typedef int						(*t_token_id_table)(unsigned char);
+// static const t_token_id_table	g_token_id_table[] = {
+// [TOKEN] = 0,
+// [PIPE] = 1,
+// [GREAT] = 2,
+// [APPEND] = 3,
+// [LESS] = 4,
+// [HEREDOC] = 5,
+// [S_QUOTE] = 6,
+// [D_QUOTE] = 7,
+// [ENV_VAR] = 8,
+// [WHITE_SPACE] = 9,
+// [WORD] = 10
+// };
 
-int get_token_id(char *content)
+int	get_token_id(char *content)
 {
-	const char meta_chars[] = TOKEN_DELIMITER_SET;
-	const size_t num_chars = sizeof(meta_chars) - 1;
-	size_t i = 0;
-	int	index;
-	int jumpTable[256] = {0};
+	const char		meta_chars[] = TOKEN_DELIMITER_SET;
+	const size_t	num_chars = sizeof(meta_chars) - 1;
+	size_t			i;
+	int				index;
+	int				jumptable[256] = {0};
 
+	i = 0;
 	while (i < num_chars)
 	{
-		jumpTable[(unsigned char)meta_chars[i]] = i + 1;
+		jumptable[(unsigned char)meta_chars[i]] = i + 1;
 		i++;
 	}
 	if ((content[0] == '>' || content[0] == '<') && content[1] != '\0')
@@ -53,11 +67,11 @@ int get_token_id(char *content)
 	}
 	if (content[0] == '-' || content[0] == 'A' || content[0] == 'H')
 		return (WORD);
-	index = jumpTable[(unsigned char)content[0]];
+	index = jumptable[(unsigned char)content[0]];
 	if (index > 0)
-		return index - 1;
+		return (index - 1);
 	else
-		return WORD;
+		return (WORD);
 }
 
 size_t	list_token_size(t_token *t_list)
@@ -74,15 +88,3 @@ size_t	list_token_size(t_token *t_list)
 	}
 	return (ret);
 }
-
-
-// this function returns the next token and skips whitespace while doing so
-// t_token *get_next_token(t_token *current_token)
-// {
-// 	if (current_token == NULL)
-// 		return (NULL);
-// 	if (current_token->next->token_id == WHITE_SPACE && current_token->next->next)
-// 		return (current_token->next->next);
-// 	else
-// 		return (current_token->next);
-// }
