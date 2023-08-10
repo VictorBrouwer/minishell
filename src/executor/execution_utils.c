@@ -5,15 +5,27 @@ static char	*get_total_command(char **sep_paths, char *end_part_command);
 
 int	redirect_std_in(int fd)
 {
+	int	ret_val;
+
 	if (fd != STDIN_FILENO)
-		return (dup2(fd, STDIN_FILENO));
+	{
+		ret_val = dup2(fd, STDIN_FILENO);
+		close(fd);
+		return(ret_val);
+	}
 	return (0);
 }
 
 int	redirect_std_out(int fd)
 {
+	int	ret_val;
+
 	if (fd != STDOUT_FILENO)
-		return (dup2(fd, STDOUT_FILENO));
+	{
+		ret_val = dup2(fd, STDOUT_FILENO);
+		close(fd);
+		return(ret_val);
+	}
 	return (0);
 }
 
