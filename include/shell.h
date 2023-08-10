@@ -87,12 +87,13 @@ int			shell_loop(t_shell *shell);
 void		clean_shell(t_shell *shell);
 
 //	TOKENIZER.C
-t_token		**tokenize(char *s);
+t_token		**tokenize(t_shell *shell);
 void		print_tokens(t_token *top);
 
 //	TOKENIZER_UTILS.C
 int			join_tokens(t_token *n);
 t_token		*remove_white_space(t_token *top);
+int			check_quotes_tok(t_token *curr);
 
 //	TOKEN_LIST_FUNCTIONS.C
 void		add_token_back(t_token **token_list, t_token *token);

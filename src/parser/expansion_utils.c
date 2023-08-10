@@ -33,7 +33,7 @@ char	*expand_double_quotes(t_token *token, t_env_list *env)
 }
 
 static char	*get_part(const char *str, size_t *start, \
-						size_t *end, t_env_list *env)
+					  size_t *end, t_env_list *env)
 {
 	char	*part;
 

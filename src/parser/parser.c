@@ -10,7 +10,7 @@ t_command	*parser(t_shell *shell)
 	t_token		**token_list;
 	t_command	*command_list;
 
-	token_list = tokenize(shell->input);
+	token_list = tokenize(shell);
 	if (token_list == NULL)
 		return (NULL);
 	if (analyze_tokens(token_list) == ERROR)
