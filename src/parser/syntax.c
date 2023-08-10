@@ -1,8 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-typedef bool						(*t_syntx_jumpt_table) (t_token *prev, \
-															t_token *curr);
+typedef bool	(*t_syntx_jumpt_table) (t_token *prev, t_token *curr);
 
 static const t_syntx_jumpt_table	g_syntax_func[] = {
 [TOKEN] = NULL,

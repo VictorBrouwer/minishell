@@ -3,7 +3,6 @@
 
 static int	handle_quotes(t_token *node);
 static char	*shell_strjoin(char *s1, char *s2);
-static int	check_quotes_tok(t_token *curr);
 
 int	join_tokens(t_token *n)
 {
@@ -65,7 +64,6 @@ t_token	*remove_white_space(t_token *top)
 	t_token	*temp;
 
 	node = top;
-	temp = NULL;
 	while (node && node->next)
 	{
 		if (node->next->token_id == WHITE_SPACE)
@@ -106,7 +104,7 @@ char	*shell_strjoin(char *s1, char *s2)
 	return (res);
 }
 
-static int	check_quotes_tok(t_token *curr)
+int	check_quotes_tok(t_token *curr)
 {
 	size_t	i;
 
