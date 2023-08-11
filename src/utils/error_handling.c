@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
+
 void	exit_and_print_err_cmd(char *err_type, int status, char *cmd)
 {
 	ft_putstr_fd_prot("nutshell: ", 2, 0);
