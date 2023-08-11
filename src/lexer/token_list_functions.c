@@ -15,11 +15,9 @@ int	create_tok_list(char *str, t_token ***tok_list, t_shell *sh)
 			break ;
 		tok = create_tok(start, end, str, sh);
 		if (!tok)
-			return (1); // vershil tussen malloc en syntax error?
+			return (1);
 		add_token_back(*tok_list, tok);
 		start = end;
-		// while(str[start] && str[start] == ' ')
-		// 	start++;
 	}
 	if (start == 0)
 		return (1);

@@ -4,10 +4,6 @@
 static void	interactive_handler(int sig);
 static void	non_interactive_handler(int sig);
 
-/* Ctrl-C = SIGINT -> displays a new prompt on a new line. */
-/* Ctrl-D = EOF -> exits the shell. */
-/* Ctrl-\ = SIGQUIT -> does nothing. */
-
 void	init_signals(int interactive)
 {
 	struct sigaction	sa;

@@ -97,35 +97,3 @@ void	free_env_list(t_env_list **env)
 	}
 	env = NULL;
 }
-
-void	free_env_node(t_env_list *node)
-{
-	if (node != NULL)
-	{
-		if (node->content != NULL)
-			free(node->content);
-		if (node->name != NULL)
-			free(node->name);
-		free(node);
-	}
-}
-
-// void f(void)
-// {
-// 	system("leaks a.out");
-// }
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	// atexit(f);
-// 	t_env_list *env;
-// 	(void) argc;
-// 	(void) argv;
-
-// 	env = init_env_lst(envp);
-// 	print_env_list(env);
-// 	free_env_list(&env);
-// 	if (!env)
-// 		printf("\nEnv free: Success!\n");
-// 	return (0);
-// }

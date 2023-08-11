@@ -4,7 +4,6 @@
 static int	replace(t_token *token, t_env_list *env);
 static int	replace_status_token(t_token *token);
 
-//TODO: exit/return status moet nog gedaan worden
 int	expander(t_token *head, t_shell *shell)
 {
 	t_token	*c;
@@ -32,7 +31,6 @@ int	expander(t_token *head, t_shell *shell)
 	return (0);
 }
 
-// TODO:exit/return statis moet nog gedaan worden
 static int	replace(t_token *token, t_env_list *env)
 {
 	char	*replacement;

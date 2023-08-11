@@ -14,9 +14,9 @@
 # include <sys/wait.h>
 # include <stddef.h>
 
-# define TOKEN_DELIMITERS " |><\'\"$\\"
-# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
-# define SPECIAL_DELIMITERS "<>"
+# define TOK_DELIMS " |><\'\"$\\"
+# define TOK_DELIM_SET "-|>A<H\'\"$ W"
+# define SPEC_DELIMS "<>"
 
 # define SUCCESS 0
 # define ERROR -1
@@ -88,7 +88,7 @@ int			shell_loop(t_shell *shell);
 //	TOKENIZER.C
 t_token		**tokenize(t_shell *shell);
 t_token		*create_tok(size_t start, size_t end, char *str, t_shell *sh);
-size_t		find_next_tok(const char *s, size_t start);
+size_t		find_next_tok(const char *s, size_t beg);
 void		print_tokens(t_token *top);
 
 //	TOKENIZER_UTILS.C
