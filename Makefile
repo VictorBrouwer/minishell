@@ -3,16 +3,14 @@ export C_INCLUDE_PATH = $(HOME)/.brew/Cellar/criterion/2.4.1_2/include
 # export LIBRARY_PATH = $(HOME)/homebrew/lib
 # export C_INCLUDE_PATH = $(HOME)/homebrew/Cellar/criterion/2.4.1_2/include
 
-
-NAME		:= minishell
-UNIT_TEST	:= test.out
-
+NAME		:=	minishell
+UNIT_TEST	:=	test.out
 
 #=================== DIRECTORIES ===================#
 BUILD_DIR	:=	build
-OBJ_DIR     :=  ./obj
-SRC_DIR     :=  ./src
-INC_DIR     :=  ./include ./libft/include
+OBJ_DIR		:=	./obj
+SRC_DIR		:=	./src
+INC_DIR 	:=	./include ./libft/include
 LIBFT_DIR	:=	./libft
 TEST_DIR	:=	./tests
 
@@ -42,9 +40,9 @@ INCLUDE					:= $(addprefix -I,$(INC_DIR))
 MAIN					:=	src/main.c
 
 SRC						:=  shell/minishell.c \
-						  	lexer/tokenizer.c \
+							lexer/tokenizer.c \
 							lexer/token_list_functions.c \
-						  	lexer/tokenizer_utils.c \
+							lexer/tokenizer_utils.c \
 							lexer/find_tokens.c \
 							parser/parser.c \
 							parser/syntax.c \
@@ -78,23 +76,19 @@ SRC						:=  shell/minishell.c \
 							utils/error_handling.c \
 							signals/signal_handler.c \
 
-
 ODIR					:=	$(sort $(dir $(SRC:%=$(OBJ_DIR)/%)))
 SRC     				:=	$(SRC:%=$(SRC_DIR)/%)
 
 MAIN_OBJ				:=	$(MAIN:src/%.c=$(OBJ_DIR)/%.o)
 OBJS					:=	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-LIBFT					:= $(LIBFT_DIR)/libft.a
+LIBFT					:=	$(LIBFT_DIR)/libft.a
 
 #===============================================#
 #=================== RECIPES ===================#
 #===============================================#
 
-# echo:
-# 	@echo
-
-all: $(ODIR) $(NAME)
+all: $(LIBFT) $(ODIR) $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -117,6 +111,10 @@ fsan:
 
 resan: fclean fsan
 
+$(LIBFT):
+	git submodule update --init --recursive
+	@$(MAKE) -C $(LIBFT_DIR)
+
 $(ODIR):
 	mkdir -p $@
 
@@ -128,10 +126,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 $(NAME): $(OBJS) $(MAIN_OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $(NAME)
-
-$(LIBFT):
-	git submodule update --init --recursive
-	@$(MAKE) -C $(LIBFT_DIR)
 
 .PHONY: all, clean, fclean, re, fsan, resan, debug, rebug
 .DEFAULT_GOAL := all
