@@ -112,7 +112,7 @@ fsan:
 resan: fclean fsan
 
 $(LIBFT):
-	git submodule update --init --recursive
+	git submodule update --init --recursive --remote
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(ODIR):
