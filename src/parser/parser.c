@@ -20,7 +20,6 @@ t_command	*parser(t_shell *shell)
 	command_list = create_commands(token_list, shell);
 	if (command_list == NULL)
 		return (NULL);
-	// print_commands(command_list);
 	return (command_list);
 }
 

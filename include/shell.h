@@ -84,10 +84,11 @@ extern u_int16_t	g_status;
 //	SHELL.C
 t_shell		*initiate_shell(char **envp);
 int			shell_loop(t_shell *shell);
-void		clean_shell(t_shell *shell);
 
 //	TOKENIZER.C
 t_token		**tokenize(t_shell *shell);
+t_token		*create_tok(size_t start, size_t end, char *str, t_shell *sh);
+size_t		find_next_tok(const char *s, size_t start);
 void		print_tokens(t_token *top);
 
 //	TOKENIZER_UTILS.C
@@ -96,6 +97,7 @@ t_token		*remove_white_space(t_token *top);
 int			check_quotes_tok(t_token *curr);
 
 //	TOKEN_LIST_FUNCTIONS.C
+int			create_tok_list(char *str, t_token ***tok_list, t_shell *sh);
 void		add_token_back(t_token **token_list, t_token *token);
 t_token		*ft_new_token(char *content);
 int			get_token_id(char *content);
@@ -147,7 +149,7 @@ void		free_tokens_and_useless_strings(t_token **token_list);
 void		check_hd_curr_cmd(t_shell *shell, t_command *curr);
 
 //	EXECUTOR.C
-int			executor(t_shell *shell);
+void		executor(t_shell *shell);
 void		simple_command(t_shell *shell);
 void		pipe_line(t_shell *shell);
 
@@ -158,7 +160,6 @@ void		execute_last_child(t_command *curr, t_shell *shell);
 //	EXECUTION_UTILS.C
 int			redirect_std_in(int fd);
 int			redirect_std_out(int fd);
-void		close_open_fds(t_shell *shell);
 char		*find_path(char **envp);
 char		*get_command_path(t_shell *shell, char *command);
 
@@ -206,16 +207,18 @@ char		*split_var_content(char *var_str);
 int			replace_env_var_cont(char *name, char *cont, t_env_list **env);
 
 //	SHELL_UTILS.C
+void		clean_shell(t_shell *shell);
 bool		strings_equal(const char *s1, const char *s2);
 int			ft_isspace(int c);
-void		update_status(pid_t pid);
 bool		check_dollar_sign(t_token *token);
+void		close_open_fds(t_shell *shell);
 
 //	ERROR_HANDLING.C
 void		exit_and_print_error_command(char *error_type, \
 									int status, char *command);
 void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
+void		update_status(pid_t pid);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(int interactive);

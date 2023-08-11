@@ -53,9 +53,7 @@ void	add_redir(t_redir *redir, t_command *comm)
 		return ;
 	}
 	while (last_redir->next != NULL)
-	{
 		last_redir = last_redir->next;
-	}
 	last_redir->next = redir;
 	return ;
 }

@@ -1,6 +1,31 @@
 #include "shell.h"
 #include "libft.h"
 
+int	create_tok_list(char *str, t_token ***tok_list, t_shell *sh)
+{
+	size_t	start;
+	size_t	end;
+	t_token	*tok;
+
+	start = 0;
+	while (str[start])
+	{
+		end = find_next_tok(str, start);
+		if (start == end)
+			break ;
+		tok = create_tok(start, end, str, sh);
+		if (!tok)
+			return (1); // vershil tussen malloc en syntax error?
+		add_token_back(*tok_list, tok);
+		start = end;
+		// while(str[start] && str[start] == ' ')
+		// 	start++;
+	}
+	if (start == 0)
+		return (1);
+	return (0);
+}
+
 void	add_token_back(t_token **token_list, t_token *token)
 {
 	t_token	*last_token;
@@ -28,36 +53,35 @@ t_token	*ft_new_token(char *content)
 	new_token->content = content;
 	new_token->token_id = get_token_id(content);
 	new_token->next = NULL;
-	// printf("token %s has token_id = %d\n", content, new_token->token_id);
 	return (new_token);
 }
 
-int get_token_id(char *content)
+int	get_token_id(char *content)
 {
-	const char meta_chars[] = TOKEN_DELIMITER_SET;
-	const size_t num_chars = sizeof(meta_chars) - 1;
-	size_t i = 0;
-	int	index;
-	int jumpTable[256] = {0};
-
-	while (i < num_chars)
+	if (content[0] == '>' || content[0] == '<')
 	{
-		jumpTable[(unsigned char)meta_chars[i]] = i + 1;
-		i++;
+		if (content[1] != '\0')
+		{
+			if (content[1] == '>')
+				return (3);
+			return (5);
+		}
+		if (content[0] == '>')
+			return (2);
+		return (4);
 	}
-	if ((content[0] == '>' || content[0] == '<') && content[1] != '\0')
-	{
-		if (content[1] == '>')
-			return (APPEND);
-		return (HEREDOC);
-	}
-	if (content[0] == '-' || content[0] == 'A' || content[0] == 'H')
-		return (WORD);
-	index = jumpTable[(unsigned char)content[0]];
-	if (index > 0)
-		return index - 1;
+	else if (content[0] == '|')
+		return (1);
+	else if (content[0] == '\'')
+		return (6);
+	else if (content[0] == '\"')
+		return (7);
+	else if (content[0] == '$')
+		return (8);
+	else if (content[0] == ' ')
+		return (9);
 	else
-		return WORD;
+		return (10);
 }
 
 size_t	list_token_size(t_token *t_list)
@@ -74,15 +98,3 @@ size_t	list_token_size(t_token *t_list)
 	}
 	return (ret);
 }
-
-
-// this function returns the next token and skips whitespace while doing so
-// t_token *get_next_token(t_token *current_token)
-// {
-// 	if (current_token == NULL)
-// 		return (NULL);
-// 	if (current_token->next->token_id == WHITE_SPACE && current_token->next->next)
-// 		return (current_token->next->next);
-// 	else
-// 		return (current_token->next);
-// }
