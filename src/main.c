@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:18:31 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 10:20:32 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 #include <unistd.h>
@@ -11,7 +23,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	if (argc > 1)
-		return (printf("Program does not take arguments.\n"), 0);
+		return (ft_putstr_fd_prot("Program does not take arguments.\n", \
+												STDOUT_FILENO, 0));
 	shell = initiate_shell(envp);
 	if (!shell)
 		return (write(STDERR_FILENO, "malloc fail\n", 12), 1);
