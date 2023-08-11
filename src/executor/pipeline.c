@@ -12,7 +12,6 @@
 
 #include "shell.h"
 #include "libft.h"
-#include <unistd.h>
 
 static int	execute_compound_command(t_shell *shell, t_command *curr);
 

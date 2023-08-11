@@ -62,10 +62,3 @@ char	*find_path_up(char *path)
 	new_path = ft_substr(path, 0, path_len);
 	return (new_path);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argc;
-// 	printf("%i\n", ft_stris_x(argv[1], ft_isalpha));
-// 	return (0);
-// }

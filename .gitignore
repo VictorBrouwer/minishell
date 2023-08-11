@@ -54,3 +54,5 @@ dkms.conf
 .cache/
 compile_commands.json
 # .idx
+_commands.json
+.vscode

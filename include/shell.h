@@ -14,9 +14,9 @@
 # include <sys/wait.h>
 # include <stddef.h>
 
-# define TOKEN_DELIMITERS " |><\'\"$\\"
-# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
-# define SPEC_DELIMITERS "<>"
+# define TOK_DELIMS " |><\'\"$\\"
+# define TOK_DELIM_SET "-|>A<H\'\"$ W"
+# define SPEC_DELIMS "<>"
 
 # define SUCCESS 0
 # define ERROR -1
@@ -88,7 +88,7 @@ int			shell_loop(t_shell *shell);
 //	TOKENIZER.C
 t_token		**tokenize(t_shell *shell);
 t_token		*create_tok(size_t start, size_t end, char *str, t_shell *sh);
-size_t		find_next_tok(const char *s, size_t start);
+size_t		find_next_tok(const char *s, size_t beg);
 void		print_tokens(t_token *top);
 
 //	TOKENIZER_UTILS.C
@@ -214,8 +214,7 @@ bool		check_dollar_sign(t_token *token);
 void		close_open_fds(t_shell *shell);
 
 //	ERROR_HANDLING.C
-void		exit_and_print_error_command(char *error_type, \
-									int status, char *command);
+void		exit_and_print_err_cmd(char *err_type, int status, char *cmd);
 void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 void		update_status(pid_t pid);

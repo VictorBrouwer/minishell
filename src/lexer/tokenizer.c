@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:45 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:16:46 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:04:54 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,15 @@ t_token	**tokenize(t_shell *shell)
 	if (status == 1)
 		return (free(trimmed), clean_tokens(tok_list), NULL);
 	if (status == 2)
-		return (free(trimmed), clean_tokens(tok_list), \
-				print_error_and_set_status("syntax error", 258), NULL);
+	{
+		print_error_and_set_status("syntax error", 258);
+		return (free(trimmed), clean_tokens(tok_list), NULL);
+	}
 	if (join_tokens(*tok_list) == ERROR)
-		return (free(trimmed), clean_tokens(tok_list), \
-				print_error_and_set_status("syntax error", 258), NULL);
+	{
+		print_error_and_set_status("syntax error", 258);
+		return (free(trimmed), clean_tokens(tok_list), NULL);
+	}
 	*tok_list = remove_white_space(*tok_list);
 	return (free(trimmed), tok_list);
 }

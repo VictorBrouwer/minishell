@@ -24,11 +24,3 @@ int	builtin_pwd(t_env_list *env)
 		return (1);
 	return (0);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argc;
-// 	(void) argv;
-// 	ft_pwd();
-// 	return (0);
-// }

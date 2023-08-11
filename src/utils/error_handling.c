@@ -13,13 +13,13 @@
 #include "shell.h"
 #include "libft.h"
 
-void	exit_and_print_error_command(char *error_type, \
-							int status, char *command)
+
+void	exit_and_print_err_cmd(char *err_type, int status, char *cmd)
 {
 	ft_putstr_fd_prot("nutshell: ", 2, 0);
-	ft_putstr_fd_prot(command, 2, 0);
+	ft_putstr_fd_prot(cmd, 2, 0);
 	ft_putstr_fd_prot(": ", 2, 0);
-	ft_putstr_fd_prot(error_type, 2, 1);
+	ft_putstr_fd_prot(err_type, 2, 1);
 	exit(status);
 }
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 10:15:42 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:15:43 by vbrouwer         ###   ########.fr       */
+/*   Created: 2023/08/11 11:13:36 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 11:13:37 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,19 @@ char	*get_env_var(char *name, t_env_list *env)
 	return (NULL);
 }
 
-int	print_env_list(t_env_list *env, int export)
+size_t	env_len(t_env_list *env)
 {
+	size_t	count;
+
+	if (!env)
+		return (0);
+	count = 0;
 	while (env)
 	{
-		if (export)
-		{
-			if (ft_putstr_fd_prot("declare -x ", STDOUT_FILENO, 0) == -1)
-				return (-1);
-		}
-		if (ft_putstr_fd_prot(env->name, STDOUT_FILENO, 0) == -1)
-			return (-1);
-		if (ft_putstr_fd_prot("=", STDOUT_FILENO, 0) == -1)
-			return (-1);
-		if (ft_putstr_fd_prot(env->content, STDOUT_FILENO, 0) == -1)
-			return (-1);
-		if (ft_putstr_fd_prot("\n", STDOUT_FILENO, 0) == -1)
-			return (-1);
+		count++;
 		env = env->next;
 	}
-	return (0);
+	return (count);
 }
 
 char	*split_var_name(char *var_str)

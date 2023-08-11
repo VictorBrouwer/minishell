@@ -12,13 +12,11 @@
 
 #include "libft.h"
 #include "shell.h"
-#include <sys/errno.h>
 
 static int	skip_flags(char ***args);
 static int	print_args(char **args, int flag);
 static int	check_flag(char *arg);
 
-/*TODO: echo "test"test"test"  vs echo dit is een test */
 int	builtin_echo(char **args)
 {
 	int		flag;
@@ -84,11 +82,3 @@ static int	check_flag(char *arg)
 	}
 	return (1);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argc;
-// 	argv++;
-// 	ft_echo(argv);
-// 	return (0);
-// }
