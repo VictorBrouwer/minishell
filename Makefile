@@ -47,6 +47,7 @@ SRC						:=  shell/minishell.c \
 						  	lexer/tokenizer.c \
 							lexer/token_list_functions.c \
 						  	lexer/tokenizer_utils.c \
+						  	lexer/find_next_token.c \
 							parser/parser.c \
 							parser/syntax.c \
 							parser/syntax_jt_funcs.c \
@@ -74,6 +75,7 @@ SRC						:=  shell/minishell.c \
 							builtins/unset.c \
 							env/env_list_funcs.c \
 							env/env_utils.c \
+							env/env_clean_utils.c \
 							utils/minishell_utils.c \
 							utils/error_handling.c \
 							signals/signal_handler.c \

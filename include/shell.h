@@ -16,7 +16,7 @@
 
 # define TOKEN_DELIMITERS " |><\'\"$\\"
 # define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
-# define SPECIAL_DELIMITERS "<>"
+# define SPEC_DELIMITERS "<>"
 
 # define SUCCESS 0
 # define ERROR -1

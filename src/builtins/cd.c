@@ -20,7 +20,8 @@ int	builtin_cd(char **cmd, t_env_list *env)
 		return (free(cwd), 1);
 	oldpwd = ft_strdup(cwd);
 	if (chdir(path) != 0)
-		return (print_error_and_set_status("No such file or directory", 1), free(path), free(cwd), 1);
+		return (print_error_and_set_status("No such file or directory", 1), \
+									free(path), free(cwd), 1);
 	free(cwd);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
