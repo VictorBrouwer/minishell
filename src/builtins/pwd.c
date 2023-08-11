@@ -9,14 +9,6 @@ int	builtin_pwd(t_env_list *env)
 	if (!pwd)
 		return (1);
 	if (ft_putstr_fd_prot(pwd, STDOUT_FILENO, 1) == -1)
-		return (1); // write error
+		return (1);
 	return (0);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argc;
-// 	(void) argv;
-// 	ft_pwd();
-// 	return (0);
-// }

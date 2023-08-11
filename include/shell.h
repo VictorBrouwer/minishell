@@ -214,8 +214,7 @@ bool		check_dollar_sign(t_token *token);
 void		close_open_fds(t_shell *shell);
 
 //	ERROR_HANDLING.C
-void		exit_and_print_error_command(char *error_type, \
-									int status, char *command);
+void		exit_and_print_err_cmd(char *err_type, int status, char *cmd);
 void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 void		update_status(pid_t pid);

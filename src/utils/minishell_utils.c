@@ -1,5 +1,5 @@
-#include	"shell.h"
-#include	"libft.h"
+#include "shell.h"
+#include "libft.h"
 
 void	clean_shell(t_shell *shell)
 {

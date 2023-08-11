@@ -1,5 +1,5 @@
-#include	"libft.h"
-#include	"shell.h"
+#include "libft.h"
+#include "shell.h"
 
 static void	interactive_handler(int sig);
 static void	non_interactive_handler(int sig);
@@ -12,9 +12,6 @@ void	init_signals(int interactive)
 {
 	struct sigaction	sa;
 
-	/* tcgetattr(STDIN_FILENO, &t); */
-	/* t.c_lflag &= ~(ECHOCTL); */
-	/* tcsetattr(STDIN_FILENO, TCSAFLUSH, &t); */
 	rl_catch_signals = 1;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
@@ -29,7 +26,6 @@ void	init_signals(int interactive)
 		sa.sa_handler = &non_interactive_handler;
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
-		
 	}
 }
 
