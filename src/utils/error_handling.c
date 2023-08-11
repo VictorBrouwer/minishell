@@ -1,7 +1,8 @@
-#include	"shell.h"
-#include	"libft.h"
+#include "shell.h"
+#include "libft.h"
 
-void	exit_and_print_error_command(char *error_type, int status, char *command)
+void	exit_and_print_error_command(char *error_type, \
+							int status, char *command)
 {
 	ft_putstr_fd_prot("nutshell: ", 2, 0);
 	ft_putstr_fd_prot(command, 2, 0);

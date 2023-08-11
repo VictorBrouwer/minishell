@@ -11,7 +11,7 @@ int	redirect_std_in(int fd)
 	{
 		ret_val = dup2(fd, STDIN_FILENO);
 		close(fd);
-		return(ret_val);
+		return (ret_val);
 	}
 	return (0);
 }
@@ -24,7 +24,7 @@ int	redirect_std_out(int fd)
 	{
 		ret_val = dup2(fd, STDOUT_FILENO);
 		close(fd);
-		return(ret_val);
+		return (ret_val);
 	}
 	return (0);
 }
