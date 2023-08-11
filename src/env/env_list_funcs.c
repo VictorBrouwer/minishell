@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:15:33 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 11:12:37 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:21:00 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,17 @@ void	env_lstadd_back(t_env_list **lst, t_env_list *new)
 	lstptr->next = new;
 }
 
-void	free_env_node(t_env_list *node)
+void	free_env_list(t_env_list **env)
 {
-	if (node != NULL)
+	t_env_list	*tmp;
+
+	if (!env)
+		return ;
+	while (*env)
 	{
-		if (node->content != NULL)
-			free(node->content);
-		if (node->name != NULL)
-			free(node->name);
-		free(node);
+		tmp = (*env)->next;
+		free_env_node(*env);
+		*env = tmp;
 	}
+	env = NULL;
 }
