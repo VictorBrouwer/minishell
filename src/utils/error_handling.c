@@ -6,13 +6,12 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:18:19 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:18:20 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:17:14 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
-
 
 void	exit_and_print_err_cmd(char *err_type, int status, char *cmd)
 {
