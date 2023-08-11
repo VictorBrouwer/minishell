@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 11:25:50 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -120,7 +132,7 @@ bool		check_env_var(t_token *prev, t_token *curr);
 t_command	*create_commands(t_token **top, t_shell *shell);
 
 //	COMMAND_FILL_UTILS.C
-int 		fill_command(t_command *command, t_token *current);
+int			fill_command(t_command *command, t_token *current);
 
 //	COMMAND_UTILS.C
 void		add_comm_back(t_command **command_list, t_command *command);
