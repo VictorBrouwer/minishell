@@ -51,7 +51,7 @@ static void	exit_numeric_args_required(char *arg, t_shell *shell)
 		status = 1;
 	else if (ft_putstr_fd_prot(arg, STDERR_FILENO, 0) == -1)
 		status = 1;
-	else if (ft_putstr_fd_prot(": numeric argument required\n", STDERR_FILENO, 0) == -1)
+	else if (ft_putstr_fd_prot(": numeric argument required\n", 2, 0) == -1)
 		status = 1;
 	clean_shell(shell);
 	rl_clear_history();
