@@ -15,15 +15,15 @@
 
 int	create_tok_list(char *str, t_token ***tok_list, t_shell *sh)
 {
-	size_t	start;
-	size_t	end;
-	t_token	*tok;
+	long long	start;
+	long long	end;
+	t_token		*tok;
 
 	start = 0;
 	while (str[start])
 	{
 		end = find_next_tok(str, start);
-		if (start == end)
+		if (start == end || end == -1)
 			break ;
 		tok = create_tok(start, end, str, sh);
 		if (!tok)
@@ -33,6 +33,8 @@ int	create_tok_list(char *str, t_token ***tok_list, t_shell *sh)
 	}
 	if (start == 0)
 		return (1);
+	else if (end == -1)
+		return (2);
 	return (0);
 }
 

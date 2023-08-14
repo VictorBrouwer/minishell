@@ -28,7 +28,7 @@ t_token	**tokenize(t_shell *shell)
 	status = create_tok_list(trimmed, &tok_list, shell);
 	if (status == 1)
 		return (free(trimmed), clean_tokens(tok_list), NULL);
-	if (status == 2)
+	else if (status == 2)
 	{
 		print_error_and_set_status("syntax error", 258);
 		return (free(trimmed), clean_tokens(tok_list), NULL);
@@ -42,7 +42,7 @@ t_token	**tokenize(t_shell *shell)
 	return (free(trimmed), tok_list);
 }
 
-t_token	*create_tok(size_t start, size_t end, char *str, t_shell *sh)
+t_token	*create_tok(long long start, long long end, char *str, t_shell *sh)
 {
 	t_token	*tok;
 	char	*tok_string;

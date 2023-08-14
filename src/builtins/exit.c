@@ -45,11 +45,11 @@ static void	exit_with_status(char *arg, t_shell *shell)
 	status = 0;
 	if (ft_putstr_fd_prot("exit", STDOUT_FILENO, 1) == -1)
 		status = 1;
+	if (status != 1)
+		status = ft_atoi(arg);
 	clean_shell(shell);
 	rl_clear_history();
-	if (status == 1)
-		exit (1);
-	exit(ft_atoi(arg));
+	exit(status);
 }
 
 static void	exit_numeric_args_required(char *arg, t_shell *shell)

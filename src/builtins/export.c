@@ -30,8 +30,11 @@ int	builtin_export(char **args, t_env_list **env)
 	while (args[i])
 	{
 		name = split_var_name(args[i]);
-		if (!name)
+		if (!name || !ft_isalpha(name[0]))
+		{
+			ft_putstr_fd_prot("nutshell: export: not a valid identifier\n", STDERR_FILENO, 0);
 			i++;
+		}
 		else
 		{
 			if (add_env_var_node(args[i], name, env) == 1)
