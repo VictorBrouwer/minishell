@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:14:34 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:14:35 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:11:37 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	builtin_echo(char **args)
 	char	**tmp;
 
 	if (!args)
-		return (ERROR);
+		return (1);
 	tmp = args + 1;
 	flag = skip_flags(&tmp);
 	if (print_args(tmp, flag) == 1)

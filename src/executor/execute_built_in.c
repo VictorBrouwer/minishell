@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:15:52 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:15:53 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:16:33 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	handle_built_in(t_shell *shell, t_command *curr)
 {
 	handle_redirs_curr_cmd(shell, curr);
 	if (redirect_std_in(shell->read_fd) == -1)
-		return (ERROR);
+		return (1);
 	if (redirect_std_out(shell->write_fd) == -1)
-		return (ERROR);
+		return (1);
 	return (execute_built_in(shell, curr));
 }
 

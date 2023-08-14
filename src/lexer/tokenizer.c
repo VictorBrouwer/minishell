@@ -6,12 +6,14 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:45 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 14:51:04 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:07:17 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
+
+static int	check_last_tok(t_token **token_list);
 
 t_token	**tokenize(t_shell *shell)
 {
@@ -42,7 +44,7 @@ t_token	**tokenize(t_shell *shell)
 	return (free(trimmed), tok_list);
 }
 
-t_token	*create_tok(long long start, long long end, char *str, t_shell *sh)
+t_token	*create_tok(long long start, long long end, char *str)
 {
 	t_token	*tok;
 	char	*tok_string;
@@ -53,19 +55,39 @@ t_token	*create_tok(long long start, long long end, char *str, t_shell *sh)
 	tok = ft_new_token(tok_string);
 	if (!tok)
 		return (free(tok_string), NULL);
-	if (tok->token_id == ENV_VAR || tok->token_id == D_QUOTE)
+	return (tok);
+}
+
+int	expand_tok(t_token *tok, t_token **token_list, t_shell *sh)
+{
+	if ((tok->token_id == ENV_VAR || tok->token_id == D_QUOTE) && \
+								check_last_tok(token_list) == 0)
 	{
 		if (tok->token_id == D_QUOTE)
 		{
 			if (check_quotes_tok(tok) == ERROR)
-				return (free(tok), free(tok_string), NULL);
+				return (free(tok), free(tok->content), 1);
 			if (remove_enclosing_quotes(tok) == ERROR)
-				return (free(tok), free(tok_string), NULL);
+				return (free(tok), free(tok->content), 1);
 		}
 		tok->content = expand_double_quotes(tok, sh->env_list);
 		if (!tok->content)
-			return (free(tok), free(tok_string), NULL);
+			return (free(tok), free(tok->content), 1);
 		tok->token_id = WORD;
 	}
-	return (tok);
+	return (0);
+}
+
+static int	check_last_tok(t_token **token_list)
+{
+	t_token	*last_token;
+
+	if (!*token_list)
+		return (0);
+	last_token = *token_list;
+	while (last_token->next != NULL)
+		last_token = last_token->next;
+	if (last_token->token_id == HEREDOC)
+		return (1);
+	return (0);
 }
