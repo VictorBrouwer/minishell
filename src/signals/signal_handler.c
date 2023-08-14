@@ -20,7 +20,7 @@ void	init_signals(int interactive)
 {
 	struct sigaction	sa;
 
-	rl_catch_signals = 1;
+	rl_catch_signals = 0;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	if (interactive)

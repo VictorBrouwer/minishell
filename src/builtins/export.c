@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "shell.h"
 
+static int	bla(char *name, char *arg, t_env_list **env);
 static int	add_env_var_node(char *arg, char *name, t_env_list **env);
 
 int	builtin_export(char **args, t_env_list **env)
@@ -30,18 +31,31 @@ int	builtin_export(char **args, t_env_list **env)
 	while (args[i])
 	{
 		name = split_var_name(args[i]);
-		if (!name || !ft_isalpha(name[0]))
+		if (bla(name, args[i], env) == 1)
+			g_status = 1;
+		i++;
+	}
+	return (g_status);
+}
+
+static int	bla(char *name, char *arg, t_env_list **env)
+{
+	int	i;
+
+	if (!name)
+		return (1);
+	i = 0;
+	while (name[i])
+	{
+		if (!ft_isalpha(name[i]) && name[i] != '_')
 		{
 			ft_putstr_fd_prot("nutshell: export: not a valid identifier\n", STDERR_FILENO, 0);
-			i++;
+			return (1);
 		}
-		else
-		{
-			if (add_env_var_node(args[i], name, env) == 1)
-				return (1);
-			i++;
-		}
+		i++;
 	}
+	if (add_env_var_node(arg, name, env) == 1)
+		return (1);
 	return (0);
 }
 
