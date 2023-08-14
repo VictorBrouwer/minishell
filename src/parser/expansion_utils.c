@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:17:37 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:17:38 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:58:07 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static char	*get_part(const char *str, size_t *start, \
 	}
 	else
 	{
-		while (str[*end] && (ft_isalpha(str[*end]) || str[*end] == '?'))
+		while (str[*end] && (ft_isalpha(str[*end]) || str[*end] == '?' || \
+													str[*end] == '_'))
 			(*end)++;
 		part = expand_part(str, *start, *end, env);
 		if (!part && g_status == 1)

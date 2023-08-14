@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:36 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:16:37 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:05:53 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int	create_tok_list(char *str, t_token ***tok_list, t_shell *sh)
 		end = find_next_tok(str, start);
 		if (start == end || end == -1)
 			break ;
-		tok = create_tok(start, end, str, sh);
+		tok = create_tok(start, end, str);
 		if (!tok)
+			return (1);
+		if (expand_tok(tok, *tok_list, sh) == 1)
 			return (1);
 		add_token_back(*tok_list, tok);
 		start = end;

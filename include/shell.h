@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 11:37:06 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:05:41 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int			shell_loop(t_shell *shell);
 
 //	TOKENIZER.C
 t_token		**tokenize(t_shell *shell);
-t_token		*create_tok(long long start, long long end, char *str, t_shell *sh);
+t_token		*create_tok(long long start, long long end, char *str);
+int			expand_tok(t_token *tok, t_token **token_list, t_shell *sh);
 void		print_tokens(t_token *top);
 
 //	FIND_TOKENS.C

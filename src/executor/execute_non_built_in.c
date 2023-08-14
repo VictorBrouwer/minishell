@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:15:57 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:15:58 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:14:12 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	execute_non_built_in(t_shell *shell, t_command *curr)
 
 	command_with_path = get_command_path(shell, curr->args[0]);
 	if (!command_with_path)
-		exit(ERROR);
+		exit(1);
 	handle_redirs_curr_cmd(shell, curr);
 	if (redirect_std_in(shell->read_fd) == -1)
 		exit (1);
