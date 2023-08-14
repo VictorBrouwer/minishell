@@ -90,8 +90,8 @@ enum e_token_id
 	WORD
 };
 
-//		GLOBAL VARIABLE
-extern u_int16_t	g_status;
+//	GLOBAL VARIABLE
+extern unsigned int	g_status;
 
 //	SHELL.C
 t_shell		*initiate_shell(char **envp);
@@ -99,9 +99,11 @@ int			shell_loop(t_shell *shell);
 
 //	TOKENIZER.C
 t_token		**tokenize(t_shell *shell);
-t_token		*create_tok(size_t start, size_t end, char *str, t_shell *sh);
-size_t		find_next_tok(const char *s, size_t beg);
+t_token		*create_tok(long long start, long long end, char *str, t_shell *sh);
 void		print_tokens(t_token *top);
+
+//	FIND_TOKENS.C
+long long	find_next_tok(const char *s, long long beg);
 
 //	TOKENIZER_UTILS.C
 int			join_tokens(t_token *n);
