@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:23 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:16:24 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:33:30 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	pipe_line(t_shell *shell)
 			return ;
 		curr = curr->next;
 	}
-	check_hd_curr_cmd(shell, curr);
 	pid = fork();
 	if (pid == -1)
 		return (print_error_and_set_status("fork fail", 1));
@@ -46,7 +45,6 @@ static int	execute_compound_command(t_shell *shell, t_command *curr)
 	int			pipefd[2];
 	pid_t		pid;
 
-	check_hd_curr_cmd(shell, curr);
 	if (pipe(pipefd) == -1)
 		return (print_error_and_set_status("pipe fail", 1), 1);
 	pid = fork();

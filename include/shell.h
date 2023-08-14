@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 11:25:50 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:37:06 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,6 @@ void		clean_commands(t_command **command_node);
 void		clean_redirs(t_redir *redir_node);
 void		free_tokens_and_useless_strings(t_token **token_list);
 
-//	HEREDOC.C
-void		check_hd_curr_cmd(t_shell *shell, t_command *curr);
-
 //	EXECUTOR.C
 void		executor(t_shell *shell);
 void		simple_command(t_shell *shell);
@@ -182,6 +179,7 @@ void		handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
 bool		redir_outfile(t_redir *curr, t_shell *shell);
 bool		append_outfile(t_redir *curr, t_shell *shell);
 bool		redir_infile(t_redir *curr, t_shell *shell);
+bool		handle_hd(t_redir *curr, t_shell *shell);
 
 //	EXECUTE_BUILT_IN.C
 bool		check_built_in(t_command *curr);
