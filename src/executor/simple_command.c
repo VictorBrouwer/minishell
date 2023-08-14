@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:28 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:16:29 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:33:40 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	simple_command(t_shell *shell)
 	int	temp_std_in;
 	int	temp_std_out;
 
-	check_hd_curr_cmd(shell, shell->command_node);
 	if (!(shell->command_node->args[0]))
 	{
 		temp_std_in = dup(STDIN_FILENO);
