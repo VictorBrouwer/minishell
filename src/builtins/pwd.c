@@ -13,14 +13,14 @@
 #include "libft.h"
 #include "shell.h"
 
-int	builtin_pwd(t_env_list *env)
+int	builtin_pwd(void)
 {
-	char	*pwd;
+	char	*cwd;
 
-	pwd = get_env_var("PWD", env);
-	if (!pwd)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 		return (1);
-	if (ft_putstr_fd_prot(pwd, STDOUT_FILENO, 1) == -1)
-		return (1);
-	return (0);
+	if (ft_putstr_fd_prot(cwd, STDOUT_FILENO, 1) == -1)
+		return (free(cwd), 1);
+	return (free(cwd), 0);
 }

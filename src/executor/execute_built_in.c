@@ -47,7 +47,7 @@ bool	execute_built_in(t_shell *shell, t_command *curr)
 	if (ft_strncmp(curr->args[0], "echo", 5) == 0)
 		return (builtin_echo(curr->args));
 	else if (ft_strncmp(curr->args[0], "pwd", 4) == 0)
-		return (builtin_pwd(shell->env_list));
+		return (builtin_pwd());
 	else if (ft_strncmp(curr->args[0], "cd", 3) == 0)
 		return (builtin_cd(curr->args, shell->env_list));
 	else if (ft_strncmp(curr->args[0], "env", 4) == 0)

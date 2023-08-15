@@ -192,7 +192,7 @@ void		execute_non_built_in(t_shell *shell, t_command *curr);
 
 //	Builtins
 int			builtin_echo(char **args);
-int			builtin_pwd(t_env_list *env);
+int			builtin_pwd(void);
 int			builtin_cd(char **cmd, t_env_list *env);
 int			builtin_exit(char **args, t_shell *shell);
 int			builtin_env(t_env_list *env);
