@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:17:49 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:17:50 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:51:44 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ t_command	*parser(t_shell *shell)
 		return (NULL);
 	if (analyze_tokens(token_list) == ERROR)
 		return (print_error_and_set_status("syntax error", 258), NULL);
-	if (expander(*token_list, shell) == 1)
-		return (NULL);
 	command_list = create_commands(token_list, shell);
 	if (command_list == NULL)
 		return (NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 10:14:58 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 16:14:56 by vbrouwer         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   export.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/11 10:14:58 by vbrouwer      #+#    #+#                 */
+/*   Updated: 2023/08/15 14:06:38 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	add_env_var_node(char *arg, char *name, t_env_list **env)
 	{
 		new_var_node = new_env_var_node(name, content);
 		if (!new_var_node)
-			return (1);
+			return (0);
 		env_lstadd_back(env, new_var_node);
 	}
 	return (0);
