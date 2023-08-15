@@ -13,7 +13,7 @@
 #include "libft.h"
 #include "shell.h"
 
-static int	bla(char *name, char *arg, t_env_list **env);
+static int	create_var(char *name, char *arg, t_env_list **env);
 static int	add_env_var_node(char *arg, char *name, t_env_list **env);
 
 int	builtin_export(char **args, t_env_list **env)
@@ -31,14 +31,21 @@ int	builtin_export(char **args, t_env_list **env)
 	while (args[i])
 	{
 		name = split_var_name(args[i]);
-		if (bla(name, args[i], env) == 1)
-			g_status = 1;
+		if (name || args[i][0] == '=')
+		{
+			if (create_var(name, args[i], env) == 1)
+			{
+				if (args[i][0] != '=')
+					free(name);
+				g_status = 1;
+			}
+		}
 		i++;
 	}
 	return (g_status);
 }
 
-static int	bla(char *name, char *arg, t_env_list **env)
+static int	create_var(char *name, char *arg, t_env_list **env)
 {
 	int	i;
 
@@ -49,7 +56,9 @@ static int	bla(char *name, char *arg, t_env_list **env)
 	{
 		if (!ft_isalpha(name[i]) && name[i] != '_')
 		{
-			ft_putstr_fd_prot("nutshell: export: not a valid identifier\n", STDERR_FILENO, 0);
+			ft_putstr_fd_prot("nutshell: export: ", STDERR_FILENO, 0);
+			ft_putstr_fd_prot(&name[i], STDERR_FILENO, 0);
+			ft_putstr_fd_prot(": not a valid identifier\n", STDERR_FILENO, 0);
 			return (1);
 		}
 		i++;

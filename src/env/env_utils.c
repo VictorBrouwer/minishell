@@ -54,11 +54,12 @@ char	*split_var_name(char *var_str)
 		i++;
 	if (i == 0)
 	{
-		ft_putstr_fd_prot("'=' is not a valid identifier.\n", STDERR_FILENO, 0);
+		ft_putstr_fd_prot("nutshell: export: ", STDERR_FILENO, 0);
+		ft_putstr_fd_prot("'=': not a valid identifier\n", STDERR_FILENO, 0);
 		return (NULL);
 	}
-	if (i == varlen)
-		return (NULL);
+	/* if (i == varlen) */
+	/* 	return (NULL); */
 	name = ft_substr(var_str, 0, i);
 	if (!name)
 		return (NULL);
