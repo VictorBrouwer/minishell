@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:14:58 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 16:14:56 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:46:17 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,14 @@ int	builtin_export(char **args, t_env_list **env)
 	while (args[i])
 	{
 		name = split_var_name(args[i]);
-		if (bla(name, args[i], env) == 1)
-			g_status = 1;
+		if (name)
+		{
+			if (bla(name, args[i], env) == 1)
+			{
+				free(name);
+				g_status = 1;
+			}
+		}
 		i++;
 	}
 	return (g_status);
@@ -49,7 +55,8 @@ static int	bla(char *name, char *arg, t_env_list **env)
 	{
 		if (!ft_isalpha(name[i]) && name[i] != '_')
 		{
-			ft_putstr_fd_prot("nutshell: export: not a valid identifier\n", STDERR_FILENO, 0);
+			ft_putstr_fd_prot("nutshell: export: not a valid identifier\n", \
+												STDERR_FILENO, 0);
 			return (1);
 		}
 		i++;
@@ -77,7 +84,7 @@ static int	add_env_var_node(char *arg, char *name, t_env_list **env)
 	{
 		new_var_node = new_env_var_node(name, content);
 		if (!new_var_node)
-			return (1);
+			return (0);
 		env_lstadd_back(env, new_var_node);
 	}
 	return (0);

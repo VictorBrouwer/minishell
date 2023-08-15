@@ -44,14 +44,13 @@ SRC						:=  shell/minishell.c \
 							lexer/token_list_functions.c \
 							lexer/tokenizer_utils.c \
 							lexer/find_tokens.c \
+							lexer/expansion_utils.c \
 							parser/parser.c \
 							parser/syntax.c \
 							parser/syntax_jt_funcs.c \
 							parser/commands.c \
 							parser/command_utils.c \
 							parser/clean_functions.c \
-							parser/expansion.c \
-							parser/expansion_utils.c \
 							parser/command_fill_utils.c \
 							executor/executor.c \
 							executor/execution_utils.c \
