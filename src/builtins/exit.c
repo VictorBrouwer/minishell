@@ -28,7 +28,8 @@ int	builtin_exit(char **args, t_shell *shell)
 			return (1);
 		}
 		else if (ft_stris_x(args[1], ft_isdigit) || \
-			(args[1][0] == '-' && ft_stris_x(args[1] + 1, ft_isdigit)))
+		((args[1][0] == '-' || args[1][0] == '+') \
+		&& ft_stris_x(args[1] + 1, ft_isdigit)))
 			exit_with_status(args[1], shell);
 		else
 			exit_numeric_args_required(args[1], shell);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 10:17:49 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/15 11:51:44 by vbrouwer         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/11 10:17:49 by vbrouwer      #+#    #+#                 */
+/*   Updated: 2023/08/15 16:08:04 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_command	*parser(t_shell *shell)
 	t_command	*command_list;
 
 	token_list = tokenize(shell);
-	if (token_list == NULL)
+	if (!token_list)
 		return (NULL);
 	if (analyze_tokens(token_list) == ERROR)
 		return (print_error_and_set_status("syntax error", 258), NULL);

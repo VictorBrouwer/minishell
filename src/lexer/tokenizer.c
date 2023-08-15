@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 10:16:45 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 16:07:17 by vbrouwer         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   tokenizer.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/11 10:16:45 by vbrouwer      #+#    #+#                 */
+/*   Updated: 2023/08/15 16:24:13 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	expand_tok(t_token *tok, t_token **token_list, t_shell *sh)
 		}
 		tok->content = expand_double_quotes(tok, sh->env_list);
 		if (!tok->content)
-			return (free(tok), free(tok->content), 1);
+			return (free(tok), 1);
 		tok->token_id = WORD;
 	}
 	return (0);

@@ -84,6 +84,7 @@ bool	handle_hd(t_redir *curr, t_shell *shell)
 	char	*line;
 	int		pipefd[2];
 
+	init_signals(2);
 	if (pipe(pipefd) == -1)
 		return (print_error_and_set_status("pipe fail", 1), ERROR);
 	line = readline("> ");
@@ -100,5 +101,6 @@ bool	handle_hd(t_redir *curr, t_shell *shell)
 	if (shell->read_fd != STDIN_FILENO)
 		close(shell->read_fd);
 	shell->read_fd = pipefd[READ];
+	init_signals(1);
 	return (SUCCESS);
 }

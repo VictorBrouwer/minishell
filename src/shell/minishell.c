@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 10:18:06 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 10:18:07 by vbrouwer         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/11 10:18:06 by vbrouwer      #+#    #+#                 */
+/*   Updated: 2023/08/15 15:54:34 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,9 @@ static int	execute_line(t_shell *shell)
 	add_history(shell->input);
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
-		return (1);
+		return (0);
 	init_signals(0);
 	executor(shell);
-	init_signals(1);
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
 	clean_commands(&shell->command_node);

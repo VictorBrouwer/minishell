@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expansion_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 10:17:37 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 14:58:07 by vbrouwer         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   expansion_utils.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/11 10:17:37 by vbrouwer      #+#    #+#                 */
+/*   Updated: 2023/08/15 16:38:15 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,9 @@ static char	*expand_part(const char *str, size_t start, \
 	{
 		tmp = get_env_var(var, env);
 		if (!tmp)
-			expanded_var = ft_strdup("");
+			expanded_var = NULL;
 		else
 			expanded_var = ft_strdup(tmp);
 	}
-	if (!expanded_var)
-		return (free(var), NULL);
 	return (free(var), expanded_var);
 }
