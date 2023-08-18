@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:18:26 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 11:52:32 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:47:33 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	clean_shell(t_shell *shell)
 	free_env_list(&shell->env_list);
 	if (shell->input)
 		free(shell->input);
-		// mis ook nog temios struct freeen
 	close(shell->read_fd);
 	close(shell->write_fd);
 	free(shell);
