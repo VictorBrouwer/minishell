@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:23 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 14:19:18 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:43:09 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	pipe_line(t_shell *shell)
 			return ;
 		curr = curr->next;
 	}
-	if (handle_redirs_curr_cmd(shell, curr) == 1)
+	if (check_hd_curr_cmd(shell->command_node) == 1)
 		return (set_status(1));
 	pid = fork();
 	if (pid == -1)
@@ -47,8 +47,8 @@ static int	execute_compound_command(t_shell *shell, t_command *curr)
 	int			pipefd[2];
 	pid_t		pid;
 
-	if (handle_redirs_curr_cmd(shell, curr) == 1)
-		return (set_status(1), 0);
+	if (check_hd_curr_cmd(shell->command_node) == 1)
+		return (set_status(1), 1);
 	if (pipe(pipefd) == -1)
 		return (print_error_and_set_status("pipe fail", 1), 1);
 	pid = fork();
@@ -70,6 +70,8 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 	redirect_std_out(pipefd[WRITE]);
 	if (!(curr->args[0]))
 	{
+		if (handle_redirs_curr_cmd(shell, curr) == 1)
+			exit(1);
 		close_open_fds(shell);
 		exit(0);
 	}
