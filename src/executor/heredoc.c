@@ -52,8 +52,7 @@ static int	read_hd_lines(int pipefd, const char *hd_delim)
 
 static int	update_status_hd(int status, int fd)
 {
-	// fprintf(stderr, "test\n");
-	if (WIFSIGNALED(status) == true && WTERMSIG(status) == SIGINT)
+	if (WEXITSTATUS(status) == 1)
 	{
 		g_status = 1;
 		close(fd);
