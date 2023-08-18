@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:18:13 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 10:12:46 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:32:34 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_signals(int mode)
 {
 	struct sigaction	sa;
 
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	if (mode == 0)

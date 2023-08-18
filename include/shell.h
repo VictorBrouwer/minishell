@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/17 11:18:53 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:29:40 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <stddef.h>
+# include <termios.h>
 
 # define TOK_DELIMS " |><\'\"$\\"
 # define TOK_DELIM_SET "-|>A<H\'\"$ W"
@@ -73,6 +74,7 @@ typedef struct s_shell
 	int				write_fd;
 	char			**envp;
 	t_env_list		*env_list;
+	struct termios	saved_term;
 }	t_shell;
 
 enum e_token_id

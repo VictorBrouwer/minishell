@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:18:06 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 10:00:59 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:30:47 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ t_shell	*initiate_shell(char **envp)
 		return (NULL);
 	if (!isatty(STDIN_FILENO))
 		rl_outstream = stdin;
+	tcgetattr(STDIN_FILENO, &shell->saved_term);
+	shell->saved_term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->saved_term);
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
