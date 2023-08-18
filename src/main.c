@@ -12,7 +12,6 @@
 
 #include "shell.h"
 #include "libft.h"
-#include <unistd.h>
 
 unsigned int	g_status;
 
@@ -30,5 +29,5 @@ int	main(int argc, char **argv, char **envp)
 	shell_loop(shell);
 	if (ft_putstr_fd_prot("exit\n", STDOUT_FILENO, 0) == -1)
 		g_status = 1;
-	return (clean_shell(shell), rl_clear_history(), g_status);
+	return (rl_clear_history(), clean_shell(shell), g_status);
 }

@@ -24,7 +24,6 @@ void	init_signals(int mode)
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
-	/* sa.sa_flags = SA_RESTART; */
 	if (mode == 0)
 		sa.sa_handler = &non_interactive_handler;
 	else if (mode == 1)
