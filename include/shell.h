@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 13:03:55 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:34:13 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_redir
 {
 	int				redir_type;
 	char			*file_name;
+	int				hd_fd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -182,7 +183,11 @@ int			handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
 bool		redir_outfile(t_redir *curr, t_shell *shell);
 bool		append_outfile(t_redir *curr, t_shell *shell);
 bool		redir_infile(t_redir *curr, t_shell *shell);
-bool		handle_hd(t_redir *curr, t_shell *shell);
+bool		handle_hd_2(t_redir *curr, t_shell *shell);
+
+//	HEREDOC.C
+int			check_hd_curr_cmd(t_command *curr);
+bool		handle_hd(t_redir *curr);
 
 //	EXECUTE_BUILT_IN.C
 bool		check_built_in(t_command *curr);
