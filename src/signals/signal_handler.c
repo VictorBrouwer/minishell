@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:18:13 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/15 17:10:18 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:12:46 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	init_signals(int mode)
 	else if (mode == 2)
 	{
 		sa.sa_handler = &heredoc_handler;
-		// sigaction(SIGINT, &sa, NULL);
-		signal(SIGINT, SIG_DFL);
 		sigaction(SIGQUIT, &sa, NULL);
+		sigaction(SIGINT, &sa, NULL);
+		// signal(SIGINT, SIGQUIT);
 	}
 }
 
@@ -72,6 +72,7 @@ static void	heredoc_handler(int sig)
 	if (sig == SIGINT)
 	{
 		(void)sig;
+		exit(1);
 	}
 	else if (sig == SIGQUIT)
 		(void)sig;

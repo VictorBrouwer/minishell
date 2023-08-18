@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 16:05:41 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:18:53 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ char		*find_path(char **envp);
 char		*get_command_path(t_shell *shell, char *command);
 
 //	HANDLE_REDIR.C
-void		handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
+int			handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
 bool		redir_outfile(t_redir *curr, t_shell *shell);
 bool		append_outfile(t_redir *curr, t_shell *shell);
 bool		redir_infile(t_redir *curr, t_shell *shell);
@@ -231,6 +231,7 @@ void		exit_and_print_err_cmd(char *err_type, int status, char *cmd);
 void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 void		update_status(pid_t pid);
+void		set_status(int status);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(int interactive);

@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/15 17:09:24 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:30:40 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static const t_redir_jumpt_table	g_redir_func[] = {
 [HEREDOC] = &handle_hd,
 };
 
-void	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
+int	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
 {
 	t_redir	*redir;
 
 	if (!curr)
-		return ;
+		return (0);
 	if (!curr->redir)
-		return ;
+		return (0);
 	redir = curr->redir;
 	while (redir)
 	{
@@ -38,11 +38,11 @@ void	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
 				redir->redir_type <= HEREDOC)
 		{
 			if ((g_redir_func[redir->redir_type])(redir, shell))
-				return ;
+				return (1);
 		}
 		redir = redir->next;
 	}
-	return ;
+	return (0);
 }
 
 bool	redir_outfile(t_redir *curr, t_shell *shell)
@@ -51,7 +51,7 @@ bool	redir_outfile(t_redir *curr, t_shell *shell)
 		close(shell->write_fd);
 	shell->write_fd = open(curr->file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (shell->write_fd == -1)
-		return (perror(curr->file_name), ERROR);
+		return (perror(curr->file_name), 1);
 	return (SUCCESS);
 }
 
@@ -62,7 +62,7 @@ bool	append_outfile(t_redir *curr, t_shell *shell)
 	shell->write_fd = open(curr->file_name, O_WRONLY | O_APPEND | \
 													O_CREAT, 0644);
 	if (shell->write_fd == -1)
-		return (perror(curr->file_name), ERROR);
+		return (perror(curr->file_name), 1);
 	return (SUCCESS);
 }
 
@@ -74,33 +74,33 @@ bool	redir_infile(t_redir *curr, t_shell *shell)
 	if (shell->read_fd == -1)
 	{
 		g_status = 1;
-		return (perror(curr->file_name), ERROR);
+		return (perror(curr->file_name), 1);
 	}
 	return (SUCCESS);
 }
 
-bool	handle_hd(t_redir *curr, t_shell *shell)
-{
-	char	*line;
-	int		pipefd[2];
+// bool	handle_hd(t_redir *curr, t_shell *shell)
+// {
+// 	char	*line;
+// 	int		pipefd[2];
 
-	init_signals(2);
-	if (pipe(pipefd) == -1)
-		return (print_error_and_set_status("pipe fail", 1), ERROR);
-	line = readline("> ");
-	while (line && !(strings_equal(line, curr->file_name)))
-	{
-		write(pipefd[WRITE], line, ft_strlen(line));
-		write(pipefd[WRITE], "\n", 1);
-		free(line);
-		line = readline("> ");
-	}
-	if (line)
-		free(line);
-	close(pipefd[WRITE]);
-	if (shell->read_fd != STDIN_FILENO)
-		close(shell->read_fd);
-	shell->read_fd = pipefd[READ];
-	init_signals(1);
-	return (SUCCESS);
-}
+// 	init_signals(2);
+// 	if (pipe(pipefd) == -1)
+// 		return (print_error_and_set_status("pipe fail", 1), ERROR);
+// 	line = readline("> ");
+// 	while (line && !(strings_equal(line, curr->file_name)))
+// 	{
+// 		write(pipefd[WRITE], line, ft_strlen(line));
+// 		write(pipefd[WRITE], "\n", 1);
+// 		free(line);
+// 		line = readline("> ");
+// 	}
+// 	if (line)
+// 		free(line);
+// 	close(pipefd[WRITE]);
+// 	if (shell->read_fd != STDIN_FILENO)
+// 		close(shell->read_fd);
+// 	shell->read_fd = pipefd[READ];
+// 	init_signals(1);
+// 	return (SUCCESS);
+// }

@@ -57,6 +57,7 @@ SRC						:=  shell/minishell.c \
 							executor/execute_built_in.c \
 							executor/execute_non_built_in.c \
 							executor/handle_redir.c \
+							executor/heredoc.c \
 							executor/simple_command.c \
 							executor/pipeline.c \
 							builtins/builtin_utils.c \

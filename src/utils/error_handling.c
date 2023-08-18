@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:18:19 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 11:17:14 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:18:32 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ void	update_status(pid_t pid)
 		g_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		g_status = 128 + status;
+}
+
+void	set_status(int status)
+{
+	g_status = status;
 }

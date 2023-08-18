@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/08/11 10:18:06 by vbrouwer      #+#    #+#                 */
-/*   Updated: 2023/08/15 15:54:34 by mhaan         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:18:06 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/18 10:00:59 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_shell	*initiate_shell(char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (NULL);
+	if (!isatty(STDIN_FILENO))
+		rl_outstream = stdin;
 	shell->envp = envp;
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
