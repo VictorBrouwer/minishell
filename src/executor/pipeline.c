@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:23 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/17 11:21:11 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:19:18 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	execute_last_child(t_command *curr, t_shell *shell)
 	shell->write_fd = STDOUT_FILENO;
 	if (!(curr->args[0]))
 	{
+		if (handle_redirs_curr_cmd(shell, curr) == 1)
+			exit(1);
 		close_open_fds(shell);
 		exit(0);
 	}
