@@ -4,12 +4,35 @@
 static int	read_hd_lines(int pipefd, const char *hd_delim);
 static int	update_status_hd(int status, int fd);
 
-bool	handle_hd(t_redir *curr, t_shell *shell)
+int	check_hd_curr_cmd(t_command *curr)
+{
+	t_redir	*redir;
+
+	if (!curr)
+		return (0);
+	if (!curr->redir)
+		return (0);
+	redir = curr->redir;
+	while (redir)
+	{
+		if (redir->redir_type == HEREDOC)
+		{
+			if (handle_hd(redir))
+				return (1);
+		}
+		redir = redir->next;
+	}
+	return (0);
+}
+
+bool	handle_hd(t_redir *curr)
 {
 	int		pipefd[2];
 	pid_t	pid;
 	int		status;
 
+	if (curr->hd_fd != 0)
+		close(curr->hd_fd);
 	if (pipe(pipefd) == -1)
 		return (print_error_and_set_status("pipe fail", 1), ERROR);
 	init_signals(3);
@@ -26,9 +49,7 @@ bool	handle_hd(t_redir *curr, t_shell *shell)
 	init_signals(1);
 	if (update_status_hd(status, pipefd[READ]) == 1)
 		return (1);
-	if (shell->read_fd != STDIN_FILENO)
-		close(shell->read_fd);
-	shell->read_fd = pipefd[READ];
+	curr->hd_fd = pipefd[READ];
 	return (SUCCESS);
 }
 

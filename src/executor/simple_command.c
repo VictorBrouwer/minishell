@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:28 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 14:19:00 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:36:34 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	simple_command(t_shell *shell)
 	int	temp_std_in;
 	int	temp_std_out;
 
+	check_hd_curr_cmd(shell->command_node);
 	if (!(shell->command_node->args[0]))
 	{
 		g_status = handle_redirs_curr_cmd(shell, shell->command_node);
@@ -44,8 +45,6 @@ static void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 {
 	pid_t	pid;
 
-	if (handle_redirs_curr_cmd(shell, curr) == 1)
-		return (set_status(1));
 	pid = fork();
 	if (pid == -1)
 		return (print_error_and_set_status("fork fail", 1));

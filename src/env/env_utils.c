@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:13:36 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/14 14:43:15 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:56:16 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ char	*split_var_name(char *var_str)
 		ft_putstr_fd_prot("'=': not a valid identifier\n", STDERR_FILENO, 0);
 		return (NULL);
 	}
-	/* if (i == varlen) */
-	/* 	return (NULL); */
 	name = ft_substr(var_str, 0, i);
 	if (!name)
 		return (NULL);
