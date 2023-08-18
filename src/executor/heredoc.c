@@ -12,7 +12,6 @@ bool	handle_hd(t_redir *curr, t_shell *shell)
 
 	if (pipe(pipefd) == -1)
 		return (print_error_and_set_status("pipe fail", 1), ERROR);
-	init_signals(3);
 	pid = fork();
 	if (pid == -1)
 		return (print_error_and_set_status("fork fail", 1), ERROR);
@@ -58,6 +57,5 @@ static int	update_status_hd(int status, int fd)
 		close(fd);
 		return (1);
 	}
-	close(fd);
 	return (0);
 }

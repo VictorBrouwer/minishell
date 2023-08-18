@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   execute_non_built_in.c                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/08/11 10:15:57 by vbrouwer      #+#    #+#                 */
-/*   Updated: 2023/08/15 16:48:59 by mhaan         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   execute_non_built_in.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:15:57 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/18 14:19:37 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	execute_non_built_in(t_shell *shell, t_command *curr)
 		exit(1);
 	if (ft_strlen(command_with_path) == 0)
 		exit(0);
-	handle_redirs_curr_cmd(shell, curr);
 	if (redirect_std_in(shell->read_fd) == -1)
 		exit (1);
 	if (redirect_std_out(shell->write_fd) == -1)

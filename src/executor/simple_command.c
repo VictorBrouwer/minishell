@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:28 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 09:53:55 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:19:00 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 
 static void	execute_child_without_pipe(t_shell *shell, t_command *curr);
-static void	execute_non_built_in_simple_comm(t_shell *shell, t_command *curr);
 
 void	simple_command(t_shell *shell)
 {
@@ -45,30 +44,13 @@ static void	execute_child_without_pipe(t_shell *shell, t_command *curr)
 {
 	pid_t	pid;
 
+	if (handle_redirs_curr_cmd(shell, curr) == 1)
+		return (set_status(1));
 	pid = fork();
 	if (pid == -1)
 		return (print_error_and_set_status("fork fail", 1));
 	if (pid == 0)
-		execute_non_built_in_simple_comm(shell, curr);
+		execute_non_built_in(shell, curr);
 	else
 		update_status(pid);
-}
-
-static void	execute_non_built_in_simple_comm(t_shell *shell, t_command *curr)
-{
-	char	*command_with_path;
-
-	command_with_path = get_command_path(shell, curr->args[0]);
-	if (!command_with_path)
-		exit(1);
-	if (ft_strlen(command_with_path) == 0)
-		exit(0);
-	if (handle_redirs_curr_cmd(shell, curr) == 1)
-		exit(1);
-	if (redirect_std_in(shell->read_fd) == -1)
-		exit (1);
-	if (redirect_std_out(shell->write_fd) == -1)
-		exit (1);
-	if (execve(command_with_path, curr->args, shell->envp) == -1)
-		exit_and_print_err_cmd("command not found", 127, command_with_path);
 }
