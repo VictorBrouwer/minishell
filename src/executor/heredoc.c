@@ -47,6 +47,7 @@ bool	handle_hd(t_redir *curr)
 	close(pipefd[WRITE]);
 	waitpid(pid, &status, 0);
 	init_signals(1);
+	rl_catch_signals = 0;
 	if (update_status_hd(status, pipefd[READ]) == 1)
 		return (1);
 	curr->hd_fd = pipefd[READ];

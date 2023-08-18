@@ -42,12 +42,11 @@ int	shell_loop(t_shell *shell)
 {
 	while (true)
 	{
+		rl_catch_signals = 0;
 		init_signals(1);
 		shell->input = readline("nutshell:₿ ");
 		if (shell->input == NULL)
-		{
 			break ;
-		}
 		if (ft_strncmp(shell->input, "", 1))
 		{
 			if (!ft_strncmp(shell->input, "exit", 5))
@@ -64,6 +63,7 @@ int	shell_loop(t_shell *shell)
 
 static int	execute_line(t_shell *shell)
 {
+	rl_catch_signals = 1;
 	add_history(shell->input);
 	shell->command_node = parser(shell);
 	if (shell->command_node == NULL)
