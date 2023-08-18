@@ -22,6 +22,7 @@ bool	handle_hd(t_redir *curr, t_shell *shell)
 	}
 	close(pipefd[WRITE]);
 	waitpid(pid, &status, 0);
+	init_signals(1);
 	if (update_status_hd(status, pipefd[READ]) == 1)
 		return (1);
 	if (shell->read_fd != STDIN_FILENO)

@@ -46,10 +46,8 @@ int	shell_loop(t_shell *shell)
 		shell->input = readline("nutshell:₿ ");
 		if (shell->input == NULL)
 		{
-			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay();
-			break ;
+			write(STDOUT_FILENO, "exit\n", 5);
+			exit(0);
 		}
 		if (ft_strncmp(shell->input, "", 1))
 		{
@@ -62,6 +60,8 @@ int	shell_loop(t_shell *shell)
 		free(shell->input);
 		shell->input = NULL;
 	}
+	if (ft_putstr_fd_prot("exit\n", STDOUT_FILENO, 0) == -1)
+		g_status = 1;
 	return (g_status);
 }
 
