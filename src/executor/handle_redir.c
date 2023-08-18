@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 12:15:59 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:39:48 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,35 +47,44 @@ int	handle_redirs_curr_cmd(t_shell *shell, t_command *curr)
 
 bool	redir_outfile(t_redir *curr, t_shell *shell)
 {
+	int	temp_fd;
+
 	if (shell->write_fd != STDOUT_FILENO)
 		close(shell->write_fd);
-	shell->write_fd = open(curr->file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (shell->write_fd == -1)
+	temp_fd = open(curr->file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (temp_fd == -1)
 		return (perror(curr->file_name), 1);
+	shell->write_fd = temp_fd;
 	return (SUCCESS);
 }
 
 bool	append_outfile(t_redir *curr, t_shell *shell)
 {
+	int	temp_fd;
+
 	if (shell->write_fd != STDOUT_FILENO)
 		close(shell->write_fd);
-	shell->write_fd = open(curr->file_name, O_WRONLY | O_APPEND | \
+	temp_fd = open(curr->file_name, O_WRONLY | O_APPEND | \
 													O_CREAT, 0644);
-	if (shell->write_fd == -1)
+	if (temp_fd == -1)
 		return (perror(curr->file_name), 1);
+	shell->write_fd = temp_fd;
 	return (SUCCESS);
 }
 
 bool	redir_infile(t_redir *curr, t_shell *shell)
 {
+	int	temp_fd;
+
 	if (shell->read_fd != STDIN_FILENO)
 		close(shell->read_fd);
-	shell->read_fd = open(curr->file_name, O_RDONLY);
-	if (shell->read_fd == -1)
+	temp_fd = open(curr->file_name, O_RDONLY);
+	if (temp_fd == -1)
 	{
 		g_status = 1;
 		return (perror(curr->file_name), 1);
 	}
+	shell->read_fd = temp_fd;
 	return (SUCCESS);
 }
 
