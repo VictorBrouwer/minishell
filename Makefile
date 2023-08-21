@@ -126,8 +126,5 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(NAME): $(OBJS) $(MAIN_OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $(NAME)
 
-#mem:
-#    $(HOME)/memdetect/memdetect.sh . $(GCC_FLAGS) $(1)
-
 .PHONY: all, clean, fclean, re, fsan, resan, debug, rebug
 .DEFAULT_GOAL := all
