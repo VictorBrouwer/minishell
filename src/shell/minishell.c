@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:18:06 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 10:30:47 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:20:56 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ static int	execute_line(t_shell *shell)
 	shell->read_fd = STDIN_FILENO;
 	shell->write_fd = STDOUT_FILENO;
 	clean_commands(&shell->command_node);
+	shell->command_count = 0;
 	return (0);
 }

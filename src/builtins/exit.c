@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:14:57 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/11 11:14:58 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:25:10 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int	builtin_exit(char **args, t_shell *shell)
 	{
 		if (args[2])
 		{
+			if (ft_stris_x(args[2], ft_isdigit) || \
+			((args[2][0] == '-' || args[2][0] == '+') \
+			&& ft_stris_x(args[2] + 1, ft_isdigit)))
+				exit_numeric_args_required(args[2], shell);
 			ft_putstr_fd_prot("exit: too many arguments\n", STDERR_FILENO, 0);
 			return (1);
 		}
