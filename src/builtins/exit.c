@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:14:57 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/21 11:25:10 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:37:22 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ static void	exit_numeric_args_required(char *arg, t_shell *shell)
 	if (ft_putstr_fd_prot("exit", STDOUT_FILENO, 1) == -1)
 		status = 1;
 	else if (ft_putstr_fd_prot("nutshell: exit: ", STDERR_FILENO, 0) == -1)
-		status = 1;
-	else if (ft_putstr_fd_prot(arg, STDERR_FILENO, 0) == -1)
 		status = 1;
 	else if (ft_putstr_fd_prot(": numeric argument required\n", 2, 0) == -1)
 		status = 1;
