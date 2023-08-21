@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 16:34:13 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:30:08 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ int			expander(t_token *head, t_shell *shell);
 
 //	EXPANSION_UTILS.C
 char		*expand_double_quotes(t_token *token, t_env_list *env);
-/* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C
 t_command	*parser(t_shell *shell);
