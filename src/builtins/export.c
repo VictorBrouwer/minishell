@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   export.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/08/11 10:14:58 by vbrouwer      #+#    #+#                 */
-/*   Updated: 2023/08/15 14:06:38 by mhaan         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:14:58 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/21 11:03:37 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	create_var(char *name, char *arg, t_env_list **env)
 	i = 0;
 	while (name[i])
 	{
-		if (!ft_isalpha(name[i]) && name[i] != '_')
+		if ((!ft_isalnum(name[i]) && name[i] != '_') || ft_isdigit(name[0]))
 		{
 			ft_putstr_fd_prot("nutshell: export: ", STDERR_FILENO, 0);
 			ft_putstr_fd_prot(&name[i], STDERR_FILENO, 0);

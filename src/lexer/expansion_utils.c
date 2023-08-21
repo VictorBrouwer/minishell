@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   expansion_utils.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/08/11 10:17:37 by vbrouwer      #+#    #+#                 */
-/*   Updated: 2023/08/15 16:38:15 by mhaan         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:17:37 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/21 11:06:00 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_part(const char *str, size_t *start, \
 	}
 	else
 	{
-		while (str[*end] && (ft_isalpha(str[*end]) || str[*end] == '?' || \
+		while (str[*end] && (ft_isalnum(str[*end]) || str[*end] == '?' || \
 													str[*end] == '_'))
 			(*end)++;
 		part = expand_part(str, *start, *end, env);
