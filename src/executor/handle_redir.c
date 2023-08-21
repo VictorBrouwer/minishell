@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:16:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/08/18 16:17:18 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/08/21 10:22:48 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,26 +93,4 @@ bool	handle_hd_2(t_redir *curr, t_shell *shell)
 	if (curr->hd_fd != 0)
 		shell->read_fd = curr->hd_fd;
 	return (SUCCESS);
-	// char	*line;
-	// int		pipefd[2];
-
-	// init_signals(2);
-	// if (pipe(pipefd) == -1)
-	// 	return (print_error_and_set_status("pipe fail", 1), ERROR);
-	// line = readline("> ");
-	// while (line && !(strings_equal(line, curr->file_name)))
-	// {
-	// 	write(pipefd[WRITE], line, ft_strlen(line));
-	// 	write(pipefd[WRITE], "\n", 1);
-	// 	free(line);
-	// 	line = readline("> ");
-	// }
-	// if (line)
-	// 	free(line);
-	// close(pipefd[WRITE]);
-	// if (shell->read_fd != STDIN_FILENO)
-	// 	close(shell->read_fd);
-	// shell->read_fd = pipefd[READ];
-	// init_signals(1);
-	// return (SUCCESS);
 }
