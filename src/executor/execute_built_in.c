@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_built_in.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:15:52 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/21 10:23:21 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 
@@ -22,11 +34,12 @@ bool	check_built_in(t_command *curr)
 
 int	handle_built_in(t_shell *shell, t_command *curr)
 {
-	handle_redirs_curr_cmd(shell, curr);
+	if (handle_redirs_curr_cmd(shell, curr) == 1)
+		exit(1);
 	if (redirect_std_in(shell->read_fd) == -1)
-		return (ERROR);
+		return (1);
 	if (redirect_std_out(shell->write_fd) == -1)
-		return (ERROR);
+		return (1);
 	return (execute_built_in(shell, curr));
 }
 
@@ -35,7 +48,7 @@ bool	execute_built_in(t_shell *shell, t_command *curr)
 	if (ft_strncmp(curr->args[0], "echo", 5) == 0)
 		return (builtin_echo(curr->args));
 	else if (ft_strncmp(curr->args[0], "pwd", 4) == 0)
-		return (builtin_pwd(shell->env_list));
+		return (builtin_pwd());
 	else if (ft_strncmp(curr->args[0], "cd", 3) == 0)
 		return (builtin_cd(curr->args, shell->env_list));
 	else if (ft_strncmp(curr->args[0], "env", 4) == 0)

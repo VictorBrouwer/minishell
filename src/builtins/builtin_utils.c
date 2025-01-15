@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:14:15 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 10:14:18 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "shell.h"
 
@@ -50,10 +62,3 @@ char	*find_path_up(char *path)
 	new_path = ft_substr(path, 0, path_len);
 	return (new_path);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argc;
-// 	printf("%i\n", ft_stris_x(argv[1], ft_isalpha));
-// 	return (0);
-// }

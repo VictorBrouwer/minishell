@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:16:23 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/21 10:17:30 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
-#include <unistd.h>
 
 static int	execute_compound_command(t_shell *shell, t_command *curr);
 
@@ -16,7 +27,8 @@ void	pipe_line(t_shell *shell)
 			return ;
 		curr = curr->next;
 	}
-	check_hd_curr_cmd(shell, curr);
+	if (check_hd_curr_cmd(curr) == 1)
+		return (set_status(1));
 	pid = fork();
 	if (pid == -1)
 		return (print_error_and_set_status("fork fail", 1));
@@ -35,7 +47,8 @@ static int	execute_compound_command(t_shell *shell, t_command *curr)
 	int			pipefd[2];
 	pid_t		pid;
 
-	check_hd_curr_cmd(shell, curr);
+	if (check_hd_curr_cmd(curr) == 1)
+		return (set_status(1), 1);
 	if (pipe(pipefd) == -1)
 		return (print_error_and_set_status("pipe fail", 1), 1);
 	pid = fork();
@@ -57,7 +70,8 @@ void	execute_child(t_command *curr, t_shell *shell, int pipefd[])
 	redirect_std_out(pipefd[WRITE]);
 	if (!(curr->args[0]))
 	{
-		handle_redirs_curr_cmd(shell, curr);
+		if (handle_redirs_curr_cmd(shell, curr) == 1)
+			exit(1);
 		close_open_fds(shell);
 		exit(0);
 	}
@@ -71,7 +85,8 @@ void	execute_last_child(t_command *curr, t_shell *shell)
 	shell->write_fd = STDOUT_FILENO;
 	if (!(curr->args[0]))
 	{
-		handle_redirs_curr_cmd(shell, curr);
+		if (handle_redirs_curr_cmd(shell, curr) == 1)
+			exit(1);
 		close_open_fds(shell);
 		exit(0);
 	}

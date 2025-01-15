@@ -1,19 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:14:34 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/14 15:11:37 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "shell.h"
-#include <sys/errno.h>
 
 static int	skip_flags(char ***args);
 static int	print_args(char **args, int flag);
 static int	check_flag(char *arg);
 
-/*TODO: echo "test"test"test"  vs echo dit is een test */
 int	builtin_echo(char **args)
 {
 	int		flag;
 	char	**tmp;
 
 	if (!args)
-		return (ERROR);
+		return (1);
 	tmp = args + 1;
 	flag = skip_flags(&tmp);
 	if (print_args(tmp, flag) == 1)
@@ -72,11 +82,3 @@ static int	check_flag(char *arg)
 	}
 	return (1);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argc;
-// 	argv++;
-// 	ft_echo(argv);
-// 	return (0);
-// }

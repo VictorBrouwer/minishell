@@ -1,22 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:18:31 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 10:20:32 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
-#include <unistd.h>
 
-u_int16_t	g_status;
+unsigned int	g_status;
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		status;
 	t_shell	*shell;
 
 	(void)argv;
 	if (argc > 1)
-		return (printf("Program does not take arguments.\n"), 0);
+		return (ft_putstr_fd_prot("Program does not take arguments.\n", \
+							STDOUT_FILENO, 0), 1);
 	shell = initiate_shell(envp);
 	if (!shell)
 		return (write(STDERR_FILENO, "malloc fail\n", 12), 1);
-	status = shell_loop(shell);
+	shell_loop(shell);
 	if (ft_putstr_fd_prot("exit\n", STDOUT_FILENO, 0) == -1)
-		status = 1;
-	return (clean_shell(shell), rl_clear_history(), status);
+		g_status = 1;
+	return (rl_clear_history(), clean_shell(shell), g_status);
 }

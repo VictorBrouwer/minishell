@@ -1,22 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:15:06 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 10:15:07 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "shell.h"
 
-int	builtin_pwd(t_env_list *env)
+int	builtin_pwd(void)
 {
-	char	*pwd;
+	char	*cwd;
 
-	pwd = get_env_var("PWD", env);
-	if (!pwd)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 		return (1);
-	if (ft_putstr_fd_prot(pwd, STDOUT_FILENO, 1) == -1)
-		return (1); // write error
-	return (0);
+	if (ft_putstr_fd_prot(cwd, STDOUT_FILENO, 1) == -1)
+		return (free(cwd), 1);
+	return (free(cwd), 0);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argc;
-// 	(void) argv;
-// 	ft_pwd();
-// 	return (0);
-// }

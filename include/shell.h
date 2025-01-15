@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 11:25:26 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/21 11:30:08 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -13,10 +25,11 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <stddef.h>
+# include <termios.h>
 
-# define TOKEN_DELIMITERS " |><\'\"$\\"
-# define TOKEN_DELIMITER_SET "-|>A<H\'\"$ W"
-# define SPECIAL_DELIMITERS "<>"
+# define TOK_DELIMS " |><\'\"$\\"
+# define TOK_DELIM_SET "-|>A<H\'\"$ W"
+# define SPEC_DELIMS "<>"
 
 # define SUCCESS 0
 # define ERROR -1
@@ -35,6 +48,7 @@ typedef struct s_redir
 {
 	int				redir_type;
 	char			*file_name;
+	int				hd_fd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -61,6 +75,7 @@ typedef struct s_shell
 	int				write_fd;
 	char			**envp;
 	t_env_list		*env_list;
+	struct termios	saved_term;
 }	t_shell;
 
 enum e_token_id
@@ -78,8 +93,8 @@ enum e_token_id
 	WORD
 };
 
-//		GLOBAL VARIABLE
-extern u_int16_t	g_status;
+//	GLOBAL VARIABLE
+extern unsigned int	g_status;
 
 //	SHELL.C
 t_shell		*initiate_shell(char **envp);
@@ -87,9 +102,12 @@ int			shell_loop(t_shell *shell);
 
 //	TOKENIZER.C
 t_token		**tokenize(t_shell *shell);
-t_token		*create_tok(size_t start, size_t end, char *str, t_shell *sh);
-size_t		find_next_tok(const char *s, size_t start);
+t_token		*create_tok(long long start, long long end, char *str);
+int			expand_tok(t_token *tok, t_token **token_list, t_shell *sh);
 void		print_tokens(t_token *top);
+
+//	FIND_TOKENS.C
+long long	find_next_tok(const char *s, long long beg);
 
 //	TOKENIZER_UTILS.C
 int			join_tokens(t_token *n);
@@ -120,7 +138,7 @@ bool		check_env_var(t_token *prev, t_token *curr);
 t_command	*create_commands(t_token **top, t_shell *shell);
 
 //	COMMAND_FILL_UTILS.C
-int 		fill_command(t_command *command, t_token *current);
+int			fill_command(t_command *command, t_token *current);
 
 //	COMMAND_UTILS.C
 void		add_comm_back(t_command **command_list, t_command *command);
@@ -134,7 +152,6 @@ int			expander(t_token *head, t_shell *shell);
 
 //	EXPANSION_UTILS.C
 char		*expand_double_quotes(t_token *token, t_env_list *env);
-/* void		replace(t_token *token, t_env_list *env); */
 
 //	PARSER.C
 t_command	*parser(t_shell *shell);
@@ -144,9 +161,6 @@ void		clean_tokens(t_token **token_list);
 void		clean_commands(t_command **command_node);
 void		clean_redirs(t_redir *redir_node);
 void		free_tokens_and_useless_strings(t_token **token_list);
-
-//	HEREDOC.C
-void		check_hd_curr_cmd(t_shell *shell, t_command *curr);
 
 //	EXECUTOR.C
 void		executor(t_shell *shell);
@@ -164,10 +178,15 @@ char		*find_path(char **envp);
 char		*get_command_path(t_shell *shell, char *command);
 
 //	HANDLE_REDIR.C
-void		handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
+int			handle_redirs_curr_cmd(t_shell *shell, t_command *curr);
 bool		redir_outfile(t_redir *curr, t_shell *shell);
 bool		append_outfile(t_redir *curr, t_shell *shell);
 bool		redir_infile(t_redir *curr, t_shell *shell);
+bool		handle_hd_2(t_redir *curr, t_shell *shell);
+
+//	HEREDOC.C
+int			check_hd_curr_cmd(t_command *curr);
+bool		handle_hd(t_redir *curr);
 
 //	EXECUTE_BUILT_IN.C
 bool		check_built_in(t_command *curr);
@@ -179,7 +198,7 @@ void		execute_non_built_in(t_shell *shell, t_command *curr);
 
 //	Builtins
 int			builtin_echo(char **args);
-int			builtin_pwd(t_env_list *env);
+int			builtin_pwd(void);
 int			builtin_cd(char **cmd, t_env_list *env);
 int			builtin_exit(char **args, t_shell *shell);
 int			builtin_env(t_env_list *env);
@@ -214,11 +233,11 @@ bool		check_dollar_sign(t_token *token);
 void		close_open_fds(t_shell *shell);
 
 //	ERROR_HANDLING.C
-void		exit_and_print_error_command(char *error_type, \
-									int status, char *command);
+void		exit_and_print_err_cmd(char *err_type, int status, char *cmd);
 void		exit_and_print_error(char *error_type, int status);
 void		print_error_and_set_status(char *error_type, int status);
 void		update_status(pid_t pid);
+void		set_status(int status);
 
 //	SIGNAL_HANDLER.C
 void		init_signals(int interactive);

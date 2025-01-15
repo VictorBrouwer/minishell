@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:14:58 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/21 11:03:37 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "shell.h"
 
+static int	create_var(char *name, char *arg, t_env_list **env);
 static int	add_env_var_node(char *arg, char *name, t_env_list **env);
 
 int	builtin_export(char **args, t_env_list **env)
@@ -18,15 +31,40 @@ int	builtin_export(char **args, t_env_list **env)
 	while (args[i])
 	{
 		name = split_var_name(args[i]);
-		if (!name)
-			i++;
-		else
+		if (name || args[i][0] == '=')
 		{
-			if (add_env_var_node(args[i], name, env) == 1)
-				return (1);
-			i++;
+			if (create_var(name, args[i], env) == 1)
+			{
+				if (args[i][0] != '=')
+					free(name);
+				g_status = 1;
+			}
 		}
+		i++;
 	}
+	return (g_status);
+}
+
+static int	create_var(char *name, char *arg, t_env_list **env)
+{
+	int	i;
+
+	if (!name)
+		return (1);
+	i = 0;
+	while (name[i])
+	{
+		if ((!ft_isalnum(name[i]) && name[i] != '_') || ft_isdigit(name[0]))
+		{
+			ft_putstr_fd_prot("nutshell: export: ", STDERR_FILENO, 0);
+			ft_putstr_fd_prot(&name[i], STDERR_FILENO, 0);
+			ft_putstr_fd_prot(": not a valid identifier\n", STDERR_FILENO, 0);
+			return (1);
+		}
+		i++;
+	}
+	if (add_env_var_node(arg, name, env) == 1)
+		return (1);
 	return (0);
 }
 
@@ -48,7 +86,7 @@ static int	add_env_var_node(char *arg, char *name, t_env_list **env)
 	{
 		new_var_node = new_env_var_node(name, content);
 		if (!new_var_node)
-			return (1);
+			return (0);
 		env_lstadd_back(env, new_var_node);
 	}
 	return (0);

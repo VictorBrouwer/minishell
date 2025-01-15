@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:15:11 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 10:15:12 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "shell.h"
 
@@ -9,8 +21,10 @@ int	builtin_unset(t_command *curr, t_env_list **env)
 {
 	int			i;
 
-	if (!curr->args[1] || !env || !*env)
+	if (!env || !*env)
 		return (1);
+	if (!curr->args[1])
+		return (0);
 	i = 1;
 	while (curr->args[i])
 	{

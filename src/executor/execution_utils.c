@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:16:04 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/11 10:16:05 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 
@@ -11,7 +23,7 @@ int	redirect_std_in(int fd)
 	{
 		ret_val = dup2(fd, STDIN_FILENO);
 		close(fd);
-		return(ret_val);
+		return (ret_val);
 	}
 	return (0);
 }
@@ -24,7 +36,7 @@ int	redirect_std_out(int fd)
 	{
 		ret_val = dup2(fd, STDOUT_FILENO);
 		close(fd);
-		return(ret_val);
+		return (ret_val);
 	}
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 10:17:37 by vbrouwer          #+#    #+#             */
+/*   Updated: 2023/08/21 11:06:00 by vbrouwer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 
@@ -47,7 +59,8 @@ static char	*get_part(const char *str, size_t *start, \
 	}
 	else
 	{
-		while (str[*end] && (ft_isalpha(str[*end]) || str[*end] == '?'))
+		while (str[*end] && (ft_isalnum(str[*end]) || str[*end] == '?' || \
+													str[*end] == '_'))
 			(*end)++;
 		part = expand_part(str, *start, *end, env);
 		if (!part && g_status == 1)
@@ -90,11 +103,9 @@ static char	*expand_part(const char *str, size_t start, \
 	{
 		tmp = get_env_var(var, env);
 		if (!tmp)
-			expanded_var = ft_strdup("");
+			expanded_var = NULL;
 		else
 			expanded_var = ft_strdup(tmp);
 	}
-	if (!expanded_var)
-		return (free(var), NULL);
 	return (free(var), expanded_var);
 }

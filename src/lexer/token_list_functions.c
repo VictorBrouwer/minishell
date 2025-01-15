@@ -1,26 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   token_list_functions.c                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbrouwer <vbrouwer@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/11 10:16:36 by vbrouwer      #+#    #+#                 */
+/*   Updated: 2023/08/15 16:27:45 by mhaan         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 
 int	create_tok_list(char *str, t_token ***tok_list, t_shell *sh)
 {
-	size_t	start;
-	size_t	end;
-	t_token	*tok;
+	long long	start;
+	long long	end;
+	t_token		*tok;
 
 	start = 0;
 	while (str[start])
 	{
 		end = find_next_tok(str, start);
-		if (start == end)
+		if (start == end || end == -1)
 			break ;
-		tok = create_tok(start, end, str, sh);
+		tok = create_tok(start, end, str);
 		if (!tok)
-			return (1); // vershil tussen malloc en syntax error?
+			return (1);
+		if (expand_tok(tok, *tok_list, sh) == 1)
+			return (1);
 		add_token_back(*tok_list, tok);
 		start = end;
-		// while(str[start] && str[start] == ' ')
-		// 	start++;
 	}
+	if (end == -1)
+		return (2);
 	if (start == 0)
 		return (1);
 	return (0);
